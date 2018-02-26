@@ -1,0 +1,22 @@
+.plug-list{
+  width:30px!important;
+}
+.plug-cubecontent{
+  height: auto;
+  padding:13px;
+}
+
+.plug-list-cubecontent-block{
+  margin:5px;
+}
+
+.plug-list-cubecontent-block > .plug-image{
+  background: url('https://i.imgur.com/URBMtzO.png');
+  background-repeat: no-repeat; 
+  height:32px;
+  width:32px;
+  margin-top:6px;
+  margin-left:5px;
+}
+
+
