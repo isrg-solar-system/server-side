@@ -37,3 +37,12 @@
     background-color: #292b2c!important;
     color: #fff!important;
 }
+
+.pagination{
+    position: relative;
+    top: 150px;
+}
+.page-item > .page-link{
+    background: #292929 !important;
+    color:white;
+}

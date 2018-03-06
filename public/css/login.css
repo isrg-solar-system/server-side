@@ -1,0 +1,19 @@
+.container-login{
+  position: relative;
+  top:50%;
+  width:400px!important;
+  height:320px!important;
+  min-height:320px!important;
+  margin-top:-160px!important;
+}
+#topbar>#topheader{
+  width:100%;
+}
+
+
+form{
+  width:100%;
+}
+.form-group{
+  width:100%;
+}

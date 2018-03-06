@@ -1,0 +1,109 @@
+.voltage-image{
+    background:url('https://i.imgur.com/zaLoRxJ.png');
+    background-repeat: no-repeat;
+    background-size: 43px 43px;
+    height:43px;
+    width:43px;
+    margin-top:8px;
+    margin-left:4px;
+}
+
+.current-image{
+    background:url('https://i.imgur.com/YKaZrO1.png');
+    background-repeat: no-repeat;
+    background-size: 43px 43px;
+    height:43px;
+    width:43px;
+    margin-top:8px;
+    margin-left:4px;
+}
+
+.power-image{
+    background:url('https://i.imgur.com/DClJJST.png');
+    background-repeat: no-repeat;
+    background-size: 43px 43px;
+    height:43px;
+    width:43px;
+    margin-top:8px;
+    margin-left:4px;
+}
+
+.time-image{
+    background:url('https://i.imgur.com/9Z8zeOA.png');
+    background-repeat: no-repeat;
+    background-size: 43px 43px;
+    height:43px;
+    width:43px;
+    margin-top:8px;
+    margin-left:4px;
+}
+
+
+
+.first-line-block-content > .blockvalue{
+    margin:0px;
+    padding:0px;
+    font-size: 26px;
+    text-align: right;
+}
+
+.first-line-block-content > .blockvalue > span{
+    font-size: 10px;
+}
+
+.second-line{
+    min-height:64px;
+}
+
+.inner-box{
+    margin-left:-8px;
+    width:912px;
+    background-color:#202020;
+}
+
+.second-line-block{
+    min-height:82px;
+    border-left:2px solid;
+}
+.second-line-value{
+    font-size:32px;
+}
+.second-line-words{
+    color: #D9D9D9;
+}
+
+.sun-power-icon{
+    background:url('https://i.imgur.com/fy8LsH9.png');
+}
+.temperature-icon{
+    background:url('https://i.imgur.com/u4KcCIK.png');
+}
+.wind-power-icon{
+    background:url('https://i.imgur.com/SB7U0iD.png');
+}
+.wind-speed-icon{
+    background:url('https://i.imgur.com/976X6i5.png');
+}
+
+.third-line-block > .third-line-block-content > .col-md-4{
+    background-size: 48px 48px;
+    height: 48px;
+    width:  48px;
+    background-repeat: no-repeat;
+}
+
+.third-line-words{
+    font-size:32px;
+    line-height:24px;
+}
+.third-line-words > span{
+    font-size:16px;
+}
+.third-line-words > span:last-child{
+    margin-left: 52x;
+}
+
+.four-line > .col-md-6 {
+    margin-top:18px;
+
+}
