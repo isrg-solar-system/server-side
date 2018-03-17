@@ -10,10 +10,14 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/{blade}', function ($blade) {
-    return view('front.'.$blade);
-});
+Route::get('/', 'HomeController@index')->name('home');
+//Route::get('/{blade}', function ($blade) {
+//    return view('front.'.$blade);
+//});
+
+Route::get('/api/data', 'DataApiController@input')->name('InputData');
+
+
 //
 Auth::routes();
 //

@@ -17,7 +17,12 @@
 <script>
     export default {
         mounted() {
-            console.log('Component mounted.')
+            Echo.channel('receive')
+                .listen('.inputdata', (data) => {
+                    console.log(data);
+               });
+            console.log('listen on inputdata');
+
         }
     }
 </script>
