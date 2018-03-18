@@ -17,11 +17,11 @@
 <script>
     export default {
         mounted() {
-            Echo.channel('receive')
-                .listen('.inputdata', (data) => {
-                    console.log(data);
-               });
-            console.log('listen on inputdata');
+            window.Echo.channel('receive')
+                .listen('.xdxd', (e) => {
+                    console.log('Got event...');
+                    console.log(e);
+                });
 
         }
     }

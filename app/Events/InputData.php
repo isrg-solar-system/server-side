@@ -21,7 +21,7 @@ class InputData implements ShouldBroadcast
      * @return void
      */
     public $data;
-    public $broadcastQueue = 'broadcastQueue';
+//    public $broadcastQueue = 'broadcastQueue';
 
     public function __construct($data)
     {
@@ -51,6 +51,6 @@ class InputData implements ShouldBroadcast
     }
 
     public function broadcastAs() {
-        return 'inputdata';
+        return 'xdxd';
     }
 }
