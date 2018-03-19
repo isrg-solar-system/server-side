@@ -13,6 +13,6 @@ class FrontController extends Controller
     }
 
     public function inverter(){
-
+        return view('front.inverter');
     }
 }
