@@ -15,4 +15,8 @@ class FrontController extends Controller
     public function inverter(){
         return view('front.inverter');
     }
+
+    public function log(){
+        return view('front.log');
+    }
 }

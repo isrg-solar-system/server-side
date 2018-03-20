@@ -57,9 +57,9 @@
         </nav>
     </div>
 
-
+    <div id="app">
         @yield('content')
-
+    </div>
 
 </div>
 {{--<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>--}}
@@ -67,9 +67,9 @@
 {{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>--}}
 
 
-<script src="{{ asset('js/front.js') }}"></script>
-@yield('include-javascript')
 
+@yield('include-javascript')
+<script src="{{ asset('js/front.js') }}"></script>
 </body>
 
 </html>

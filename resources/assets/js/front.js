@@ -25,6 +25,8 @@ Vue.component('frontindexfirst', require('./components/front/index/firstComponen
 Vue.component('frontindexchart', require('./components/front/index/chartComponent.vue'));
 Vue.component('frontindexcam', require('./components/front/index/camComponent.vue'));
 
+Vue.component('frontlog', require('./components/front/log/logComponent.vue'));
+
 const app = new Vue({
     el: '#app'
 });
