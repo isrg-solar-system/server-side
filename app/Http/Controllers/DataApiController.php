@@ -19,12 +19,12 @@ class DataApiController extends Controller
     }
 
     public function getServer(){
-
+        $database = true;
+        $diskspace = (int)  floor(disk_total_space("/")/1024/1024/1024);
+        $diskfree = (int)  floor(disk_free_space("/")/1024/1024/1024);
+        $cpuused = $this->get_server_cpu_usage();
+        $memoryused = $this->get_server_memory_usage();
     }
-
-
-
-
 
     protected function get_server_memory_usage(){
         $free = shell_exec('free');
