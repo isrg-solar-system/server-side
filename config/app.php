@@ -137,7 +137,6 @@ return [
     */
 
     'providers' => [
-
         /*
          * Laravel Framework Service Providers...
          */
@@ -164,6 +163,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+
+        TrayLabs\InfluxDB\Providers\ServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -191,6 +192,7 @@ return [
     */
 
     'aliases' => [
+
 
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
@@ -225,6 +227,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        'InfluxDB' => TrayLabs\InfluxDB\Facades\InfluxDB::class,
+
 
     ],
 
