@@ -21,6 +21,7 @@ Route::get('/log', 'FrontController@log')->name('FrontLog');
 Route::post('/api/data', 'DataApiController@input')->name('InputData');
 
 
+Route::get('/api/server/data', 'DataApiController@getServer')->name('getServerData');
 //
 Auth::routes();
 //

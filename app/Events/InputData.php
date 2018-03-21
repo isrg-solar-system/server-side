@@ -26,10 +26,7 @@ class InputData implements ShouldBroadcast
     public function __construct($data)
     {
         //
-        $this->data = array(
-            'data'=> $data
-        );
-        echo $data;
+        $this->data = $data;
     }
 
 
