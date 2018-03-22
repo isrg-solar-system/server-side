@@ -1,0 +1,244 @@
+body{
+  height:98%;
+  
+}
+#container{
+  position: relative;
+  top:50%;
+  transform:translateY(-50%);
+  min-height: 700px;
+  height: 700px;
+}
+.vertical-center{
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.weather-box{
+  height:100%;
+  background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
+  -webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+  overflow:hidden;
+  
+}
+.fe_container{
+  margin-top:60px !important;
+   margin-left:40px !important;
+}
+.fe_daily{
+display:none!important;
+}
+
+
+.second-row-box {
+  margin-top:20px;
+  background:white;
+  height:90px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.first-line {
+  padding:0px;
+  background:#fff;
+  height:150px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+
+.second-box{
+  margin-left: 1.3rem;
+background-image: linear-gradient(to top, #d5dee7 0%, #ffafbd 0%, #c9ffbf 100%);
+  background-size: 132px auto;
+}
+
+.third-row-box{
+  margin-top:20px;
+  background:blue;
+  height:78px;
+  -webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+}
+.third-row-box:first-child{
+  margin-top:0px;
+}
+
+.second-line-row-box{
+  margin-top:13px;
+  background:white;
+  height:100%;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+
+
+
+.second-line-third-box{
+  margin-top:20px;
+  background:white;
+  height:78px;
+  
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.member-box{
+  background-image: linear-gradient(60deg, #abecd6 0%, #fbed96 100%);
+}
+
+.member-icon{ 
+  height:64px;
+  width:64px;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:32px;
+  background:url('https://i.imgur.com/A5igXxK.png');
+  background-size: 64px auto;
+  background-repeat  : no-repeat;
+}
+.member-word {
+  text-align:center;
+}
+
+.website-box{
+  background-color: #DCD9D4; 
+background-image: linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%);
+}
+
+.website-word {
+  width:100%;
+  margin-top:26px;
+  margin-left:88px;
+  font-size:25px;
+}
+
+.website-icon{ 
+  float:left;
+  height:64px;
+  width:64px;
+  margin-top:12px;
+  background:url('https://i.imgur.com/Wht5uTm.png');
+  background-size: 64px auto;
+  background-repeat  : no-repeat;
+}
+
+.server-box{
+  padding:15px;
+  background-image: linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%);
+}
+
+.server-word {
+  width:100%;
+  margin-top:24px;
+  margin-left:76px;
+}
+
+.server-icon{ 
+  float:left;
+  height:64px;
+  width:64px;
+  margin-top:38px;
+  background:url('https://i.imgur.com/4IvDSua.png');
+  background-size: 64px auto;
+  background-repeat  : no-repeat;
+}
+
+.table-box{
+  background-image: linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%);
+}
+.table-word {
+  width:100%;
+  padding-top:19px;
+  margin-left:76px;
+  font-size:25px;
+}
+
+.table-icon{ 
+  float:left;
+  height:64px;
+  width:64px;
+  margin-top:8px;
+  background:url('https://i.imgur.com/IRwPWVL.png');
+  background-size: 64px auto;
+  background-repeat  : no-repeat;
+}
+
+.download-box{
+  background-image: linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%);
+}
+.download-word {
+  width:100%;
+  padding-top:19px;
+  margin-left:76px;
+  font-size:25px;
+}
+
+.download-icon{ 
+  float:left;
+  height:64px;
+  width:64px;
+  margin-top:8px;
+  background:url('https://i.imgur.com/dKjkTfr.png');
+  background-size: 64px auto;
+  background-repeat  : no-repeat;
+}
+
+
+
+.log-box{
+  background-image: linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%);
+}
+.log-word {
+  width:100%;
+  padding-top:19px;
+  margin-left:76px;
+  font-size:25px;
+}
+
+.log-icon{ 
+  float:left;
+  height:64px;
+  width:64px;
+  margin-top:8px;
+  background:url('https://i.imgur.com/31zFS6Y.png');
+  background-size: 64px auto;
+  background-repeat  : no-repeat;
+}
+
+.warm-box{
+  background-image: linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%);
+}
+.warm-word {
+  width:100%;
+  padding-top:22px;
+  margin-left:76px;
+  font-size:22px;
+}
+
+.warm-icon{ 
+  float:left;
+  height:64px;
+  width:64px;
+  margin-top:8px;
+  background:url('https://i.imgur.com/obgcpvN.png');
+  background-size: 64px auto;
+  background-repeat  : no-repeat;
+}
+
+
+.solar-background{
+  background:url('https://i.imgur.com/SejMF6C.png');
+  background-size:100% 100%;
+}
+.solar2-background{
+  background:url('https://i.imgur.com/KWdv5sk.png');
+}
+
