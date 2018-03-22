@@ -55716,7 +55716,7 @@ var render = function() {
   return _c("div", { staticClass: "server-word" }, [
     _vm._v("\n    DataBase Status:" + _vm._s(_vm.db_status)),
     _c("br"),
-    _vm._v("\n    Server Cpu:" + _vm._s(_vm.cpu_used)),
+    _vm._v("\n    Server Cpu:" + _vm._s(_vm.cpu_used) + "%"),
     _c("br"),
     _vm._v("\n    Server Memory:" + _vm._s(_vm.mem_used)),
     _c("br"),

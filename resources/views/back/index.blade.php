@@ -51,7 +51,7 @@
       </div>
       <div class="col-md-4">
         <div class="row ">
-          <div class="col-md-6 first-line member-box">
+          <div class="col-md-6 first-line member-box" onclick="location.href = ('{{route('MemberList')}}')">
             <div class="member-icon"></div>
             <div class="member-word">Member Manager</div>
           </div>
