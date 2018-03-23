@@ -14,7 +14,7 @@ class BackController extends Controller
         'Web Setting' => ['url'=>'MemberList','icon'=>'ti-settings'],
         'Member Manage' =>  ['url'=> 'MemberList','icon'=>'ti-user'],
         'Report View' =>  ['url'=>'MemberList','icon'=>'ti-bar-chart-alt'],
-        'Data Download' =>  ['url'=>'MemberList','icon'=>'ti-download'],
+        'Data Download' =>  ['url'=>'DownloadIndex','icon'=>'ti-download'],
         'System Log' =>  ['url'=>'LogList','icon'=>'ti-clipboard'],
         'Warning Setting' => ['url'=>'MemberList','icon'=>'ti-comment'],
     ];

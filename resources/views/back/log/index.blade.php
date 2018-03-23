@@ -12,12 +12,26 @@
             <div class="header">
                 <div class="row ">
                     <div class="col-md-3">
-                        <select class="form-control form-control-lg  border-input">
-                            <option>Level Select</option>
-                        </select>
+                        <div class="form-group">
+                            <label>Level</label>
+                            <select class="form-control form-control-lg  border-input">
+                                <option>Level Select</option>
+                            </select>
+                        </div>
+
                     </div>
                     <div class="col-md-3">
-                        <button type="button" class="btn btn-secondary">Search</button>
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="text" class="form-control border-input" placeholder="2017/1/1" value="">
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <label>　</label>
+                            <button type="submit" class="btn btn-secondary form-control border-input ">Search</button>
+                        </div>
+
                     </div>
                 </div>
 
