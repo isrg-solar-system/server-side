@@ -22,11 +22,15 @@ Route::post('/api/data', 'DataApiController@input')->name('InputData');
 
 Route::get('/api/server/data', 'DataApiController@getServer')->name('getServerData');
 
-Route::get('/back', 'BackController@index')->name('BackIndex');
 
-Route::get('/back/member', 'MemberController@index')->name('MemberList');
-Route::post('/back/member', 'MemberController@add')->name('MemberAdd');
 
+
+Route::get('/back', 'Back\BackController@index')->name('BackIndex');
+
+Route::get('/back/member', 'Back\MemberController@index')->name('MemberList');
+Route::get('/back/member/add', 'Back\MemberController@add')->name('MemberAdd');
+
+Route::get('/back/log', 'Back\LogController@index')->name('LogList');
 
 //
 Auth::routes();

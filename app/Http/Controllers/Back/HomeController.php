@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Back;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class BackController extends Controller
+class HomeController extends BackController
 {
     //
     public function index(){
