@@ -16,7 +16,7 @@ class BackController extends Controller
         'Report View' =>  ['url'=>'MemberList','icon'=>'ti-bar-chart-alt'],
         'Data Download' =>  ['url'=>'DownloadIndex','icon'=>'ti-download'],
         'System Log' =>  ['url'=>'LogList','icon'=>'ti-clipboard'],
-        'Warning Setting' => ['url'=>'MemberList','icon'=>'ti-comment'],
+        'Warning Setting' => ['url'=>'WarningIndex','icon'=>'ti-comment'],
     ];
 
     public $title = "";

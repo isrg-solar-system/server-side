@@ -7,10 +7,6 @@
 
 require('./bootstrap');
 
-
-window.Vue = require('vue');
-
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -25,7 +21,18 @@ const app = new Vue({
     el: '#app',
     components: {
         'weather': VueWeatherWidget,
-    }
+    },
+    mounted(){
+        // this.$layer.iframe({
+        //     content: {
+        //         content: VueWeatherWidget, //传递的组件对象
+        //         parent: this,//当前的vue对象
+        //         data:[]//props
+        //     },
+        //     area:['800px','600px'],
+        //     title: 'title'
+        // });
+    },
 });
 
 

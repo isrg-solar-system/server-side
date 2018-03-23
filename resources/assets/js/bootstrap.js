@@ -43,6 +43,11 @@ if (token) {
  * allows your team to easily build robust real-time web applications.
  */
 
+window.Vue = require('vue');
+
+import layer from 'vue-layer'
+Vue.prototype.$layer = layer(Vue);
+
 import Echo from 'laravel-echo'
 window.io = require('socket.io-client');
 window.Echo = new Echo({
