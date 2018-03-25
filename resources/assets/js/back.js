@@ -17,6 +17,8 @@ require('./bootstrap');
 import VueWeatherWidget from 'vue-weather-widget';
 Vue.component('serverstatus', require('./components/back/index/ServerStatusComponent.vue'));
 
+Vue.component('showreport', require('./components/back/report/ShowReportComponent.vue'));
+
 const app = new Vue({
     el: '#app',
     components: {

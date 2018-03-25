@@ -37,6 +37,9 @@ Route::get('/back/log', 'Back\LogController@index')->name('LogList');
 Route::get('/back/warning', 'Back\WarningController@index')->name('WarningIndex');
 Route::post('/back/member/add', 'Back\MemberController@store')->name('MemberStore');
 
+Route::get('/back/report', 'Back\ReportController@index')->name('ReportIndex');
+
+
 //
 Auth::routes();
 //
