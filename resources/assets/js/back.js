@@ -19,15 +19,8 @@ import VueWeatherWidget from 'vue-weather-widget';
 Vue.component('serverstatus', require('./components/back/index/ServerStatusComponent.vue'));
 
 
-
-
-/*   report */
-
-require('chart.js');
-require('hchs-vue-charts');
-Vue.use(VueCharts);
-Vue.component('showreport', require('./components/back/report/ShowReportComponent.vue'));
-
+/* download */
+Vue.component('downloads', require('./components/back/download/downloadsComponent.vue'));
 
 const app = new Vue({
     el: '#app',

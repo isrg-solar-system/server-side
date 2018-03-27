@@ -34,7 +34,7 @@
 //        },
         methods: {
             fetchstatus(){
-                axios.get('api/server/data')
+                axios.get('/api/server/data')
                     .then(response => {
                         // JSON responses are automatically parsed.
                         this.db_status = response.data.db_status
