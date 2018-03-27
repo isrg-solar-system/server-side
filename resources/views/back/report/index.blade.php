@@ -110,6 +110,28 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-12 " style="margin-left: 10px;">
+                            <label for="widgetname">Chart Select</label>
+                            <div class="clearfix"></div>
+                            <div class=" form-group  col-md-3">
+                                <div class="pretty p-default p-round">
+                                    <input type="radio" name="data" />
+                                    <div class="state p-primary-o">
+                                        <label>Bar</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" form-group  col-md-3">
+                                <div class="pretty p-default p-round">
+                                    <input type="radio" name="data" />
+                                    <div class="state p-primary-o">
+                                        <label>Line</label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
                         <div class="col-md-8 " style="margin-left: 10px;">
                             <div class="form-group">
                                 <label>From</label>
