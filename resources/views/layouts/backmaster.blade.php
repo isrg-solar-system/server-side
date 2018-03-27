@@ -156,6 +156,6 @@
 
 <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
 <script src="{{ asset('js/back/paper-dashboard.js') }}"></script>
-<script src="{{asset('js/back.js')}}"></script>
+<script src="@yield('js',asset('js/back.js'))"></script>
 
 </html>

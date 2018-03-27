@@ -13,15 +13,7 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-/* index */
-import VueWeatherWidget from 'vue-weather-widget';
 
-Vue.component('serverstatus', require('./components/back/index/ServerStatusComponent.vue'));
-
-
-
-
-/*   report */
 
 require('chart.js');
 require('hchs-vue-charts');
@@ -31,9 +23,6 @@ Vue.component('showreport', require('./components/back/report/ShowReportComponen
 
 const app = new Vue({
     el: '#app',
-    components: {
-        'weather': VueWeatherWidget,
-    },
     mounted(){
         // this.$layer.iframe({
         //     content: {
