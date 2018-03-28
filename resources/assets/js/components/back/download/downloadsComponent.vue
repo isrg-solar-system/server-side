@@ -50,22 +50,22 @@
                         <ul>
                             <li>
                                 <div class="pretty p-icon p-round" style=" margin-bottom: 5px;">
-                                    <input type="radio" name="icon" v-model="userinput.filetype" value="pdf"/>
+                                    <input type="radio" name="icon" v-model="userinput.filetype" value="html"/>
                                     <div class="state p-success-o">
                                         <i class="icon mdi mdi-check"></i>
-                                        <label> PDF</label>
+                                        <label>HTML</label>
                                     </div>
                                 </div>
                             </li>
-                            <li>
-                                <div class="pretty p-icon p-round" style=" margin-bottom: 5px;">
-                                    <input type="radio" name="icon"  v-model="userinput.filetype" value="json" />
-                                    <div class="state p-success-o">
-                                        <i class="icon mdi mdi-check"></i>
-                                        <label>JSON</label>
-                                    </div>
-                                </div>
-                            </li>
+                            <!--<li>-->
+                                <!--<div class="pretty p-icon p-round" style=" margin-bottom: 5px;">-->
+                                    <!--<input type="radio" name="icon"  v-model="userinput.filetype" value="json" />-->
+                                    <!--<div class="state p-success-o">-->
+                                        <!--<i class="icon mdi mdi-check"></i>-->
+                                        <!--<label>JSON</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</li>-->
                             <li>
                                 <div class="pretty p-icon p-round" style=" margin-bottom: 5px;">
                                     <input type="radio" name="icon"  v-model="userinput.filetype" value="csv" />
@@ -86,19 +86,19 @@
                             </li>
                             <li>
                                 <div class="pretty p-icon p-round" style=" margin-bottom: 5px;">
-                                    <input type="radio" name="icon"  v-model="userinput.filetype" value="osd"/>
+                                    <input type="radio" name="icon"  v-model="userinput.filetype" value="xlsm"/>
                                     <div class="state p-success-o">
                                         <i class="icon mdi mdi-check"></i>
-                                        <label>OSD</label>
+                                        <label>XLSM</label>
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <div class="pretty p-icon p-round" style=" margin-bottom: 5px;">
-                                    <input type="radio" name="icon"  v-model="userinput.filetype" value="xml"/>
+                                    <input type="radio" name="icon"  v-model="userinput.filetype" value="XLS"/>
                                     <div class="state p-success-o">
                                         <i class="icon mdi mdi-check"></i>
-                                        <label>XML</label>
+                                        <label>XLS</label>
                                     </div>
                                 </div>
                             </li>
@@ -126,7 +126,7 @@
                     <div class="content" style="height:189px;">
                         <div class="form-group" style="margin-top:32px">
                             <button @click="postData" class="btn btn-primary btn-lg btn-block">Download</button>
-                            <div class="progress" style="margin-top: 25px;" v-if="downloadstatus.tatus">
+                            <div class="progress" style="margin-top: 25px;" v-if="downloadstatus.status">
                                 <div class="progress-bar bg-success" role="progressbar" v-bind:style="{ width: downloadstatus.progress+ '%' }":aria-valuenow=downloadstatus.progress aria-valuemin="0" aria-valuemax="100"></div>
                                 <span class="text-success"><small>{{downloadstatus.desc}}</small></span>
                             </div>
@@ -163,8 +163,9 @@
                 datas:'',
                 downloadstatus: {
                     status:false,
-                    progress:'',
+                    progress:0,
                     desc:'',
+                    timer:'',
                 },
 
             }
@@ -187,7 +188,6 @@
                     .then(response => {
                         // JSON responses are automatically parsed.
                         this.datas = response.data
-                        console.log(this.datas)
                     })
                     .catch(e => {
                         console.log(e)
@@ -201,7 +201,6 @@
                         this.datePicker.dateto = new Date(response.data.last)
                         this.datePicker.disabled.to = new Date(response.data.first)
                         this.datePicker.disabled.from = new Date(response.data.last)
-                        console.log(this.datePicker)
                     })
                     .catch(e => {
                         console.log(e)
@@ -214,20 +213,28 @@
                         datas: this.userinput.selectdata,
                         datefrom: this.datePicker.datefrom,
                         dateto: this.datePicker.dateto,
+                        filetype: this.userinput.filetype,
                     })
                     .then(response => {
-                        this.downloadstatus = true
+                        this.downloadstatus.status = true
+                        this.downloadstatus.timer = setInterval(this.checkdownload,500)
+                        this.downloadstatus.progress = 0
+                        this.downloadstatus.desc = ''
                     })
                     .catch(function (error) {
                         console.log(error)
                     });
             },
             checkdownload(){
-                axios.get('/api/download/status', {
-                    datas: this.userinput.selectdata,
-                    datefrom: this.datePicker.datefrom,
-                    dateto: this.datePicker.dateto,
-                })
+                axios.get('/api/download/status')
+                    .then(response => {
+                        this.downloadstatus.progress = response.data.val
+                        this.downloadstatus.desc = response.data.status
+                        if(response.data.vals = 100){
+                            location.href = '/back/download/get';
+                            clearInterval(this.downloadstatus.timer)
+                        }
+                    })
             }
         },
         beforeDestroy() {
