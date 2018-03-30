@@ -44,16 +44,19 @@ if (token) {
  */
 
 window.Vue = require('vue');
+import Notify from 'vue2-notify'
+Vue.use(Notify,{position:'bottom-right'})
 
-import layer from 'vue-layer'
-Vue.prototype.$layer = layer(Vue);
+import 'vue-beauty/package/style/vue-beauty.min.css'
+import vueBeauty from 'vue-beauty'
+Vue.use(vueBeauty)
 
-// import Echo from 'laravel-echo'
-// window.io = require('socket.io-client');
-// window.Echo = new Echo({
-//     broadcaster: 'socket.io',
-//     host: '127.0.0.1:6001'
-// });
+import Echo from 'laravel-echo'
+window.io = require('socket.io-client');
+window.Echo = new Echo({
+    broadcaster: 'socket.io',
+    host: '127.0.0.1:6001'
+});
 // window.Pusher = require('pusher-js');
 
 // window.Echo = new Echo({

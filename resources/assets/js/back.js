@@ -22,6 +22,9 @@ Vue.component('serverstatus', require('./components/back/index/ServerStatusCompo
 /* download */
 Vue.component('downloads', require('./components/back/download/downloadsComponent.vue'));
 
+/* warning */
+Vue.component('warning', require('./components/back/warning/indexComponent.vue'));
+
 const app = new Vue({
     el: '#app',
     components: {

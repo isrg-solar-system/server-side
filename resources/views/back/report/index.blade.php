@@ -8,7 +8,9 @@
 
 @section('content')
     <div id="app">
-        <showreport></showreport>
+
+            <showreport></showreport>
+
         <div class="header">
             <div class="row ">
                 <div class="col-md-12">

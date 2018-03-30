@@ -26,10 +26,20 @@ Route::get('/back/member/add', 'Back\MemberController@add')->name('MemberAdd');
 
 Route::get('/back/download', 'Back\DownloadController@index')->name('DownloadIndex');
 Route::get('/back/download/get', 'Back\DownloadController@getDownloadFile')->name('getDownloadFile');
+//post to make download data
+Route::post('/api/download/file', 'Back\DownloadController@makedownload')->name('DownloadmakeFile');
+Route::get('/api/download/status', 'Back\DownloadController@downloadstatus')->name('DownloStatus');
+
 
 Route::get('/back/log', 'Back\LogController@index')->name('LogList');
 
 Route::get('/back/warning', 'Back\WarningController@index')->name('WarningIndex');
+Route::get('/api/warning/lists', 'Back\WarningController@lists')->name('WarningLists');
+//warning setting
+Route::post('/api/warning/update', 'Back\WarningController@update')->name('WarningUpdate');
+Route::post('/api/warning/create', 'Back\WarningController@create')->name('WarningCreate');
+Route::post('/api/warning/delete', 'Back\WarningController@delete')->name('WarningDelete');
+
 Route::post('/back/member/add', 'Back\MemberController@store')->name('MemberStore');
 
 Route::get('/back/report', 'Back\ReportController@index')->name('ReportIndex');
@@ -42,9 +52,6 @@ Route::get('/api/server/data', 'DataApiController@getServer')->name('getServerDa
 Route::get('/api/db/measurement', 'DataApiController@getMeasurement')->name('getMeasurement');
 // show first data time and last data time (for select)
 Route::get('/api/db/datatime', 'DataApiController@getDataTime')->name('getDataTime');
-//post to make download data
-Route::post('/api/download/file', 'DataApiController@makedownload')->name('DownloadmakeFile');
-Route::get('/api/download/status', 'DataApiController@downloadstatus')->name('DownloStatus');
 
 //
 Auth::routes();

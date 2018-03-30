@@ -1,21 +1,18 @@
 <template>
-
-    <div style="height: 500px; width: 100%; border: 1px solid red; position: relative;">
-        <vue-draggable-resizable :w="300" :h="300" v-on:dragging="onDrag" v-on:resizing="onResize" :parent="true" :grid="[30,30]">
+    <div style="min-height: 700px; width: 99%; border: 1px solid red; position: relative;">
+        <vue-draggable-resizable v-for="report in reports" :key="report.id" :x="report.postion.x" :y="report.postion.y" :w="report.size.width" :h="report.size.height"  v-on:dragging="(x, y) => onDrag(report.id,x,y)" v-on:resizing="(x, y, width, height) => onResize(report.id,x, y, width, height)" :parent="true">
             <div class="card" style="width: 100%;height: 105%">
                 <div class="header">
-                    <h4 class="title">Team Members</h4>
+                    <h4 class="title">{{ report.title }}</h4>
                 </div>
-                <div class="content" v-bind:style="{ width: (width + 0) + 'px', height: (height-15) + 'px' }">
-                    <canvas id="mix3" count="2" :width="width " :height="height"></canvas>
-                    <chartjs-line target="mix3" :data="[70, 40, 55, 80, 55]" ></chartjs-line>
-                    <chartjs-bar target="mix3" :data="[20, 30, 20, 10, 5]" :labels="['A', 'B', 'C', 'D', 'E']"></chartjs-bar>
+                <div class="content" v-bind:style="{ width: report.size.width + 'px', height: (report.size.height-(report.size.height/10)) + 'px' }">
+                    <canvas :id="report.id" :count="report.data.length" width="0" height="0"></canvas>
+                    <chartjs-line v-for="da in report.data"  :target="report.id.toString()" :data="da.data" :datalabel="da.datalabel" ></chartjs-line>
                 </div>
             </div>
-
-
         </vue-draggable-resizable>
     </div>
+
 </template>
 
 <script>
@@ -26,22 +23,32 @@
     export default {
         data: function () {
             return {
+                reports:[
+                    {id:1,title:'test title',postion:{x:15,y:16},size:{width: 600,height: 600}, data:[{chart:'bar',data:[20,10,15,20],datalabel:"TestDataLabelBar"},{chart:'line',data:[85,20,11,17],datalabel:"TestDataLabelLine"}]},
+                    {id:2,title:'test title2',postion:{x:315,y:316},size:{width:500,height: 900}, data:[{chart:'bar',data:[20,29,27,22],datalabel:"TestDataLabelBar"},{chart:'line',data:[78,22,17,66],datalabel:"TestDataLabelLine"}]}
+                ],
                 width: 0,
                 height: 0,
-                x: 0,
-                y: 0
             }
         },
+        created(){
+
+        },
         methods: {
-            onResize: function (x, y, width, height) {
+            onResize(id,x, y, width, height) {
                 this.x = x
                 this.y = y
                 this.width = width
                 this.height = height
+//                console.log(this.reports.find(f => f.id === id))
+                this.reports.find(f => f.id === id).size = {width: width, height: height}
             },
-            onDrag: function (x, y) {
-                this.x = x
-                this.y = y
+            onDrag(id,x, y){
+//                let index = this.reports.map(function (img) { return img.id }).indexOf(id)
+//                this.reports[index].postion =  {x: x, y: y}
+                this.reports.find(f => f.id === id).postion = {x: x, y: y}
+
+                console.log(this.reports)
             }
         }
     }

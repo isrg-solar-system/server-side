@@ -20,6 +20,7 @@ Vue.use(VueVideoPlayer);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+Vue.component('ex', require('./components/ExampleComponent.vue'));
 
 Vue.component('frontindexfirst', require('./components/front/index/firstComponent.vue'));
 Vue.component('frontindexchart', require('./components/front/index/chartComponent.vue'));
