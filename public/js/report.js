@@ -87486,7 +87486,7 @@ Vue.component('vue-draggable-resizable', __WEBPACK_IMPORTED_MODULE_0_vue_draggab
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            reports: [{ id: 1, title: 'test title', postion: { x: 15, y: 16 }, size: { width: 600, height: 600 }, data: [{ data: [20, 10, 15, 20], datalabel: "TestDataLabelBar" }, { data: [85, 20, 11, 17], datalabel: "TestDataLabelLine" }] }, { id: 2, title: 'test title2', postion: { x: 315, y: 316 }, size: { width: 900, height: 300 }, data: [{ data: [20, 29, 27, 22], datalabel: "TestDataLabelBar" }, { data: [78, 22, 17, 66], datalabel: "TestDataLabelLine" }] }],
+            reports: [{ id: 1, title: 'test title', postion: { x: 15, y: 16 }, size: { width: 600, height: 600 }, charts: [{ datalabel: "TestDataLabelBar", chart: 'bar', name: 'humd', from: '2018/01/01', to: '2018/02/03', optine: 'avg', data: [87, 65, 95] }, { datalabel: "TestDataLabelline", chart: 'line', name: 'temp', from: '2018/01/01', to: '2018/02/03', optine: 'avg', data: [88, 99, 55] }] }],
             tmp: [],
             width: 0,
             height: 0,
@@ -87503,7 +87503,13 @@ Vue.component('vue-draggable-resizable', __WEBPACK_IMPORTED_MODULE_0_vue_draggab
         };
     },
     created: function created() {
-        this.tmp = this.reports;
+        //            this.tmp = this.reports
+        $.each(this.reports, function (key, report) {
+            $.each(report.charts, function (key, chart) {
+                this.data = [99, 88, 77, 66, 55, 44, 33, 22, 11];
+            });
+        });
+        console.log(this.reports);
     },
 
     methods: {
@@ -87547,6 +87553,9 @@ Vue.component('vue-draggable-resizable', __WEBPACK_IMPORTED_MODULE_0_vue_draggab
         },
         dele: function dele(id) {
             this.reports.splice(id, 1);
+        },
+        getChartData: function getChartData() {
+            return [88, 77, 99, 11];
         }
     }
 });
@@ -87702,13 +87711,13 @@ var render = function() {
                       _c("canvas", {
                         attrs: {
                           id: report.id,
-                          count: report.data.length,
+                          count: report.charts.length,
                           width: "0",
                           height: "0"
                         }
                       }),
                       _vm._v(" "),
-                      _vm._l(report.data, function(da, index) {
+                      _vm._l(report.charts, function(da, index) {
                         return _c("chartjs-line", {
                           key: index,
                           attrs: {

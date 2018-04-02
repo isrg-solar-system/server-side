@@ -68,7 +68,7 @@ class DownloadController extends BackController
             foreach ($request->datas as $data) {
                 $da[] = $data;
             }
-            $da[] = 'data';
+            $da[] = 'datetime';
             array_unshift($out,$da);
 
             $filename = substr(Carbon::now(),0,10) . substr(Crypt::encrypt(random_int(0,99)),15,8);

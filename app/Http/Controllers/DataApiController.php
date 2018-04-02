@@ -23,49 +23,42 @@ class DataApiController extends Controller
         $this->dispatch(new SaveDataToInflux($data));
     }
 
-    public function getServer(){
-        $db_status = true;
-        $diskspace = (int)  floor(disk_total_space("/")/1024/1024/1024);
-        $diskfree = (int)  floor(disk_free_space("/")/1024/1024/1024);
-        $cpuused = $this->get_server_cpu_usage();
-        $memoryused = $this->get_server_memory_usage();
+    public function getData(Request $request){
+        /*
+         *   datefrom = 2017-12-31 00:00:00.000
+         *   dateto   = 2018-12-31 00:00:00.000
+         */
 
-        $arr = [
-            'db_status'  => $db_status,
-            'disk'  => $diskspace,
-            'disk_used'   => $diskspace-$diskfree,
-            'cpu_used'    => $cpuused,
-            'mem_used' => $memoryused,
-        ];
+        $group = '';
+        switch ($request->group) {
+            case 'day':
+                $result = InfluxDB::query("select MEAN(value) from " . $request->dataname . " where time > '".$request->datefrom."' AND time < '". $request->dateto."' group by time(1d)");
+                $points = $result->getPoints();
+                return json_encode($points);
+                break;
+            case 'month':
+                $fyear = Carbon::createFromFormat('Y-m-d', $request->datefrom)->year;
+                $tyear = Carbon::createFromFormat('Y-m-d', $request->dateto)->year;
+                $fmonth = Carbon::createFromFormat('Y-m-d', $request->datefrom)->month;
+                $tmonth = Carbon::createFromFormat('Y-m-d', $request->dateto)->month;
+                $re = [];
+                for($i = $fyear; $i <= $tyear ;$i++){
+                   if($i == $fyear){
+                       for ($q = $fmonth; $q <= 12;$q++){
+                           $result = InfluxDB::query("select MEAN(value) from " . $i."-".$q. "-01 00:00:00.000  where time > '".$request->datefrom."' AND time < '". $request->dateto."' group by time(1d)");
+                           $points = $result->getPoints();
+                       }
+                   }
+                }
+                break;
+            case 'year':
+                $group = '1y';
+                break;
+        }
 
-        return json_encode($arr);
+
     }
 
-    protected function get_server_memory_usage(){
-        //linux
-//        $free = shell_exec('free');
-//        $free = (string)trim($free);
-//        $free_arr = explode("\n", $free);
-//        $mem = explode(" ", $free_arr[1]);
-//        $mem = array_filter($mem);
-//        $mem = array_merge($mem);
-//        $memory_usage = $mem[2]/$mem[1]*100;
-//        return $memory_usage;
-        exec('wmic memorychip get capacity', $totalMemory);
-        $total = (int) array_sum($totalMemory) / 1000;
-        exec('wmic OS get FreePhysicalMemory /Value 2>&1', $memory_used);
-        $memory_used = (int) substr($memory_used[2],19);
-        return  round( ($memory_used/$total),2 )*100 . "%";
-
-    }
-
-    protected function get_server_cpu_usage(){
-        //linux
-//        $load = sys_getloadavg();
-//        return $load[0];
-        exec('wmic cpu get LoadPercentage', $p);
-        return (int) $p[1];
-    }
 
     public function getMeasurement(){
         $result = InfluxDB::query('SHOW MEASUREMENTS');

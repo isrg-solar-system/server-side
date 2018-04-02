@@ -20,6 +20,7 @@ Route::get('/log', 'FrontController@log')->name('FrontLog');
 
 
 Route::get('/back', 'Back\HomeController@index')->name('BackIndex');
+Route::get('/api/server/data', 'Back\HomeController@getServer')->name('getServerData');
 
 Route::get('/back/member', 'Back\MemberController@index')->name('MemberList');
 Route::get('/back/member/add', 'Back\MemberController@add')->name('MemberAdd');
@@ -45,13 +46,13 @@ Route::post('/back/member/add', 'Back\MemberController@store')->name('MemberStor
 Route::get('/back/report', 'Back\ReportController@index')->name('ReportIndex');
 
 //input data this api
-Route::post('/api/data', 'DataApiController@input')->name('InputData');
+Route::post('/api/input/data', 'DataApiController@input')->name('InputData');
 
-Route::get('/api/server/data', 'DataApiController@getServer')->name('getServerData');
 // SHOW MEASUREMENTS
 Route::get('/api/db/measurement', 'DataApiController@getMeasurement')->name('getMeasurement');
 // show first data time and last data time (for select)
 Route::get('/api/db/datatime', 'DataApiController@getDataTime')->name('getDataTime');
+Route::post('/api/get/data', 'DataApiController@getData')->name('getData');
 
 //
 Auth::routes();

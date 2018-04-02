@@ -8,11 +8,7 @@
 
 @section('content')
     <div id="app">
-
             <showreport></showreport>
-
-
-
     </div>
 
 @endsection
