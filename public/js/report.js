@@ -34075,8 +34075,7 @@ return zhTw;
 /* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(168);
-module.exports = __webpack_require__(277);
+module.exports = __webpack_require__(168);
 
 
 /***/ }),
@@ -87343,6 +87342,142 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -87351,12 +87486,25 @@ Vue.component('vue-draggable-resizable', __WEBPACK_IMPORTED_MODULE_0_vue_draggab
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            reports: [{ id: 1, title: 'test title', postion: { x: 15, y: 16 }, size: { width: 600, height: 600 }, data: [{ chart: 'bar', data: [20, 10, 15, 20], datalabel: "TestDataLabelBar" }, { chart: 'line', data: [85, 20, 11, 17], datalabel: "TestDataLabelLine" }] }, { id: 2, title: 'test title2', postion: { x: 315, y: 316 }, size: { width: 500, height: 900 }, data: [{ chart: 'bar', data: [20, 29, 27, 22], datalabel: "TestDataLabelBar" }, { chart: 'line', data: [78, 22, 17, 66], datalabel: "TestDataLabelLine" }] }],
+            reports: [{ id: 1, title: 'test title', postion: { x: 15, y: 16 }, size: { width: 600, height: 600 }, data: [{ data: [20, 10, 15, 20], datalabel: "TestDataLabelBar" }, { data: [85, 20, 11, 17], datalabel: "TestDataLabelLine" }] }, { id: 2, title: 'test title2', postion: { x: 315, y: 316 }, size: { width: 900, height: 300 }, data: [{ data: [20, 29, 27, 22], datalabel: "TestDataLabelBar" }, { data: [78, 22, 17, 66], datalabel: "TestDataLabelLine" }] }],
+            tmp: [],
             width: 0,
-            height: 0
+            height: 0,
+            loading: false,
+            configable: false,
+            styleObject: {
+                height: '840px',
+                width: '99%',
+                //border: '1px solid gray',
+                border: 'none',
+                position: 'relative'
+            },
+            addclick: false
         };
     },
-    created: function created() {},
+    created: function created() {
+        this.tmp = this.reports;
+    },
 
     methods: {
         onResize: function onResize(id, x, y, width, height) {
@@ -87374,9 +87522,31 @@ Vue.component('vue-draggable-resizable', __WEBPACK_IMPORTED_MODULE_0_vue_draggab
             //                this.reports[index].postion =  {x: x, y: y}
             this.reports.find(function (f) {
                 return f.id === id;
-            }).postion = { x: x, y: y };
+            }).postion = { x: x, y: y
 
-            console.log(this.reports);
+                //                console.log(this.reports)
+            };
+        },
+        randkey: function randkey() {
+            return Math.floor(Math.random() * (100 - 1 + 1)) + 1;
+        },
+        setConfig: function setConfig() {
+            this.configable = true;
+            this.styleObject.border = '1px solid gray';
+            //                this.tmp = this.reports
+        },
+        saveConfig: function saveConfig() {
+            //                this.reports = this.tmp
+            //                console.log(this.reports)
+            this.configable = false;
+            this.styleObject.border = 'none';
+            //                this.tmp = false
+        },
+        add: function add() {
+            this.addclick = true;
+        },
+        dele: function dele(id) {
+            this.reports.splice(id, 1);
         }
     }
 });
@@ -87397,88 +87567,447 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      staticStyle: {
-        "min-height": "700px",
-        width: "99%",
-        border: "1px solid red",
-        position: "relative"
-      }
-    },
-    _vm._l(_vm.reports, function(report) {
-      return _c(
-        "vue-draggable-resizable",
+    [
+      _c(
+        "div",
         {
-          key: report.id,
-          attrs: {
-            x: report.postion.x,
-            y: report.postion.y,
-            w: report.size.width,
-            h: report.size.height,
-            parent: true
-          },
-          on: {
-            dragging: function(x, y) {
-              return _vm.onDrag(report.id, x, y)
-            },
-            resizing: function(x, y, width, height) {
-              return _vm.onResize(report.id, x, y, width, height)
-            }
-          }
+          staticClass: "row",
+          staticStyle: { width: "490px", "margin-bottom": "4px" }
         },
         [
           _c(
             "div",
+            { staticClass: "col-xs-1" },
+            [
+              _vm.loading
+                ? _c("v-spin", { attrs: { size: "large" } })
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-xs-1" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-sm btn-warning btn-icon",
+                on: { click: _vm.add }
+              },
+              [_c("i", { staticClass: "fa ti-plus" })]
+            )
+          ]),
+          _vm._v(" "),
+          _vm.configable == false
+            ? _c("div", { staticClass: "col-xs-1" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-sm btn-warning btn-icon",
+                    on: { click: _vm.setConfig }
+                  },
+                  [_c("i", { staticClass: "fa ti-pencil-alt" })]
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.configable == true
+            ? _c("div", { staticClass: "col-xs-1" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-sm btn-warning btn-icon",
+                    on: { click: _vm.saveConfig }
+                  },
+                  [_c("i", { staticClass: "fa ti-save-alt" })]
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _vm._m(1)
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "clearFix" }),
+      _vm._v(" "),
+      _c(
+        "div",
+        { style: _vm.styleObject },
+        _vm._l(_vm.reports, function(report, index) {
+          return _c(
+            "vue-draggable-resizable",
             {
-              staticClass: "card",
-              staticStyle: { width: "100%", height: "105%" }
+              key: report.id,
+              attrs: {
+                x: report.postion.x,
+                y: report.postion.y,
+                w: report.size.width,
+                h: report.size.height,
+                parent: true,
+                draggable: _vm.configable,
+                resizable: _vm.configable
+              },
+              on: {
+                dragging: function(x, y) {
+                  return _vm.onDrag(report.id, x, y)
+                },
+                resizing: function(x, y, width, height) {
+                  return _vm.onResize(report.id, x, y, width, height)
+                }
+              }
             },
             [
-              _c("div", { staticClass: "header" }, [
-                _c("h4", { staticClass: "title" }, [
-                  _vm._v(_vm._s(report.title))
-                ])
-              ]),
-              _vm._v(" "),
               _c(
                 "div",
                 {
-                  staticClass: "content",
-                  style: {
-                    width: report.size.width + "px",
-                    height: report.size.height - report.size.height / 10 + "px"
-                  }
+                  staticClass: "card",
+                  staticStyle: { width: "100%", height: "105%" }
                 },
                 [
-                  _c("canvas", {
-                    attrs: {
-                      id: report.id,
-                      count: report.data.length,
-                      width: "0",
-                      height: "0"
-                    }
-                  }),
+                  _c("div", { staticClass: "header row" }, [
+                    _c("h4", { staticClass: "title col-xs-9" }, [
+                      _vm._v(_vm._s(report.title))
+                    ]),
+                    _vm._v(" "),
+                    _vm.configable == true
+                      ? _c("div", { staticClass: "col-xs-3 text-right" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-warning btn-icon",
+                              on: {
+                                click: function($event) {
+                                  _vm.dele(index)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fa ti-trash" })]
+                          )
+                        ])
+                      : _vm._e()
+                  ]),
                   _vm._v(" "),
-                  _vm._l(report.data, function(da) {
-                    return _c("chartjs-line", {
-                      attrs: {
-                        target: report.id.toString(),
-                        data: da.data,
-                        datalabel: da.datalabel
+                  _c(
+                    "div",
+                    {
+                      staticClass: "content",
+                      style: {
+                        width: report.size.width + "px",
+                        height:
+                          report.size.height - report.size.height / 10 + "px"
                       }
-                    })
-                  })
-                ],
-                2
+                    },
+                    [
+                      _c("canvas", {
+                        attrs: {
+                          id: report.id,
+                          count: report.data.length,
+                          width: "0",
+                          height: "0"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm._l(report.data, function(da, index) {
+                        return _c("chartjs-line", {
+                          key: index,
+                          attrs: {
+                            target: report.id.toString(),
+                            data: da.data,
+                            datalabel: da.datalabel
+                          }
+                        })
+                      })
+                    ],
+                    2
+                  )
+                ]
               )
             ]
           )
+        })
+      ),
+      _vm._v(" "),
+      _c(
+        "v-modal",
+        {
+          attrs: {
+            title: "Add Widget",
+            visible: _vm.addclick,
+            "ok-text": "Submit",
+            "cancel-text": "Cancel"
+          }
+        },
+        [
+          _c("div", [
+            _c(
+              "div",
+              { staticStyle: { width: "480px", "padding-right": "15px" } },
+              [
+                _c("div", { staticClass: "content " }, [
+                  _c("form", [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-md-12" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c("label", { attrs: { for: "widgetname" } }, [
+                            _vm._v("Widget Name")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            staticClass: "form-control border-input",
+                            attrs: {
+                              type: "text",
+                              name: "widgetname",
+                              placeholder: "First Chart 1 ..."
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "col-md-12 ",
+                          staticStyle: { "margin-left": "10px" }
+                        },
+                        [
+                          _c("label", { attrs: { for: "widgetname" } }, [
+                            _vm._v("Data Select")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "clearfix" }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: " form-group  col-md-3" }, [
+                            _c(
+                              "div",
+                              { staticClass: "pretty p-default p-curve" },
+                              [
+                                _c("input", {
+                                  attrs: { type: "checkbox", name: "data" }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "state p-primary-o" },
+                                  [_c("label", [_vm._v("Primary")])]
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: " form-group  col-md-3" }, [
+                            _c(
+                              "div",
+                              { staticClass: "pretty p-default p-curve" },
+                              [
+                                _c("input", {
+                                  attrs: { type: "checkbox", name: "data" }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "state p-primary-o" },
+                                  [_c("label", [_vm._v("Primary")])]
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: " form-group  col-md-3" }, [
+                            _c(
+                              "div",
+                              { staticClass: "pretty p-default p-curve" },
+                              [
+                                _c("input", {
+                                  attrs: { type: "checkbox", name: "data" }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "state p-primary-o" },
+                                  [_c("label", [_vm._v("Primary")])]
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: " form-group  col-md-3" }, [
+                            _c(
+                              "div",
+                              { staticClass: "pretty p-default p-curve" },
+                              [
+                                _c("input", {
+                                  attrs: { type: "checkbox", name: "data" }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "state p-primary-o" },
+                                  [_c("label", [_vm._v("Primary")])]
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: " form-group  col-md-3" }, [
+                            _c(
+                              "div",
+                              { staticClass: "pretty p-default p-curve" },
+                              [
+                                _c("input", {
+                                  attrs: { type: "checkbox", name: "data" }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "state p-primary-o" },
+                                  [_c("label", [_vm._v("Primary")])]
+                                )
+                              ]
+                            )
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "col-md-12 ",
+                          staticStyle: { "margin-left": "10px" }
+                        },
+                        [
+                          _c("label", { attrs: { for: "widgetname" } }, [
+                            _vm._v("Data Option")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "clearfix" }),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "pretty p-default p-round" },
+                            [
+                              _c("input", {
+                                attrs: { type: "radio", name: "radio1" }
+                              }),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "state" }, [
+                                _c("label", [_vm._v("Real Time")])
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "pretty p-default p-round" },
+                            [
+                              _c("input", {
+                                attrs: { type: "radio", name: "radio1" }
+                              }),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "state" }, [
+                                _c("label", [_vm._v("Day")])
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "pretty p-default p-round" },
+                            [
+                              _c("input", {
+                                attrs: { type: "radio", name: "radio1" }
+                              }),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "state" }, [
+                                _c("label", [_vm._v("Month")])
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "pretty p-default p-round" },
+                            [
+                              _c("input", {
+                                attrs: { type: "radio", name: "radio1" }
+                              }),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "state" }, [
+                                _c("label", [_vm._v("Year")])
+                              ])
+                            ]
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "col-md-12",
+                          staticStyle: { "margin-left": "10px" }
+                        },
+                        [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [_vm._v("From")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control border-input",
+                              attrs: {
+                                type: "text",
+                                placeholder: "2017/1/1",
+                                value: ""
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [_vm._v("To")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control border-input",
+                              attrs: {
+                                type: "text",
+                                placeholder: "2017/1/1",
+                                value: ""
+                              }
+                            })
+                          ])
+                        ]
+                      )
+                    ])
+                  ])
+                ])
+              ]
+            )
+          ])
         ]
       )
-    })
+    ],
+    1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-xs-1" }, [
+      _c("button", { staticClass: "btn btn-sm btn-warning btn-icon" }, [
+        _c("i", { staticClass: "fa ti-import" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-xs-1" }, [
+      _c("button", { staticClass: "btn btn-sm btn-warning btn-icon" }, [
+        _c("i", { staticClass: "fa ti-printer" })
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -87487,12 +88016,6 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-2f2f4b9c", module.exports)
   }
 }
-
-/***/ }),
-/* 277 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
