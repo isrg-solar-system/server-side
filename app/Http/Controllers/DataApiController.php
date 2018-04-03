@@ -32,7 +32,7 @@ class DataApiController extends Controller
         $group = '';
         switch ($request->group) {
             case 'day':
-                $result = InfluxDB::query("select MEAN(value) from " . $request->dataname . " where time > '".$request->datefrom."' AND time < '". $request->dateto."' group by time(1d)");
+                $result = InfluxDB::query("select MEAN(value) from " . $request->dataname . " where time >= '".$request->datefrom."' AND time <= '". $request->dateto."' group by time(1d)");
                 $points = $result->getPoints();
                 return json_encode($points);
                 break;
@@ -42,14 +42,43 @@ class DataApiController extends Controller
                 $fmonth = Carbon::createFromFormat('Y-m-d', $request->datefrom)->month;
                 $tmonth = Carbon::createFromFormat('Y-m-d', $request->dateto)->month;
                 $re = [];
-                for($i = $fyear; $i <= $tyear ;$i++){
-                   if($i == $fyear){
-                       for ($q = $fmonth; $q <= 12;$q++){
-                           $result = InfluxDB::query("select MEAN(value) from " . $i."-".$q. "-01 00:00:00.000  where time > '".$request->datefrom."' AND time < '". $request->dateto."' group by time(1d)");
+                for($year = $fyear; $year <= $tyear ;$year++){
+                   if($year == $fyear){
+                       for ($month= $fmonth;$month <= 12;$month++){
+                           $carbon =  Carbon::create($year, $month, 1,0,0,0);
+                           $query = sprintf("select MEAN(value) from %s where time > %s AND time < %s",$request->dataname,"'".$carbon->toDateTimeString()."'","'".$carbon->endOfMonth()->toDateTimeString()."'");
+//                           var_dump($query);
+                           $result = InfluxDB::query($query);
                            $points = $result->getPoints();
+                           if(isset($points[0])){
+                               $re[] = $points[0];
+                           }
+                       }
+                   }elseif($year == $tyear){
+                       for ($month= 1;$month <= $tmonth;$month++){
+                           $carbon =  Carbon::create($year, $month, 1,0,0,0);
+                           $query = sprintf("select MEAN(value) from %s where time > %s AND time < %s",$request->dataname,"'".$carbon->toDateTimeString()."'","'".$carbon->endOfMonth()->toDateTimeString()."'");
+//                           var_dump($query);
+                           $result = InfluxDB::query($query);
+                           $points = $result->getPoints();
+                           if(isset($points[0])){
+                               $re[] = $points[0];
+                           }
+                       }
+                   }else{
+                       for ($month= 1;$month <= 12;$month++){
+                           $carbon =  Carbon::create($year, $month, 1,0,0,0);
+                           $query = sprintf("select MEAN(value) from %s where time > %s AND time < %s",$request->dataname,"'".$carbon->toDateTimeString()."'","'".$carbon->endOfMonth()->toDateTimeString()."'");
+//                           var_dump($query);
+                           $result = InfluxDB::query($query);
+                           $points = $result->getPoints();
+                           if(isset($points[0])){
+                               $re[] = $points[0];
+                           }
                        }
                    }
                 }
+                return json_encode($re);
                 break;
             case 'year':
                 $group = '1y';
