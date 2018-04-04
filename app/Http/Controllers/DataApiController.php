@@ -81,11 +81,23 @@ class DataApiController extends Controller
                 return json_encode($re);
                 break;
             case 'year':
-                $group = '1y';
+                $fyear = Carbon::createFromFormat('Y-m-d', $request->datefrom)->year;
+                $tyear = Carbon::createFromFormat('Y-m-d', $request->dateto)->year;
+                $re = [];
+                for($year = $fyear; $year <= $tyear ;$year++){
+                    $carbonform =  Carbon::create($year, 1, 1,0,0,0);
+                    $carbonto =  Carbon::create($year, 12, 31,23,59,59);
+                    $query = sprintf("select MEAN(value) from %s where time > %s AND time < %s",$request->dataname,"'".$carbonform->toDateTimeString()."'","'".$carbonto->endOfMonth()->toDateTimeString()."'");
+//                           var_dump($query);
+                    $result = InfluxDB::query($query);
+                    $points = $result->getPoints();
+                    if(isset($points[0])){
+                        $re[] = $points[0];
+                    }
+                }
+                return json_encode($re);
                 break;
         }
-
-
     }
 
 
