@@ -25,10 +25,10 @@ class DataApiController extends Controller
 
     public function getData(Request $request){
         /*
-         *   datefrom = 2017-12-31 00:00:00.000
-         *   dateto   = 2018-12-31 00:00:00.000
+         *   datefrom = 2017/12/31
+         *   dateto   = 2018/12/31
          */
-
+//        dd($request->all());
         $group = '';
         switch ($request->group) {
             case 'day':

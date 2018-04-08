@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 
 class BackController extends Controller
@@ -28,6 +29,7 @@ class BackController extends Controller
                 View::share('lists', $this->list);
                 View::share('title', $this->title);
 //            }
+            Auth::attempt(['email' => 'img21326@gmail.com', 'password' => 'password']); //測試用 自動登入
             return $next($request);
         });
     }

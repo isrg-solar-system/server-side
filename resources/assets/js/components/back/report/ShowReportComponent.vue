@@ -23,7 +23,7 @@
             </div>
         <div class="clearFix"></div>
         <div :style="styleObject">
-            <vue-draggable-resizable v-for="(report,index) in reports" :key="report.id" :x="report.postion.x" :y="report.postion.y" :w="report.size.width" :h="report.size.height"  v-on:dragging="(x, y) => onDrag(report.id,x,y)" v-on:resizing="(x, y, width, height) => onResize(report.id,x, y, width, height)" :parent="true" :draggable="configable" :resizable="configable">
+            <vue-draggable-resizable v-for="(report,index) in reports" :key="report.id" :x="report.x" :y="report.y" :w="report.width" :h="report.height"  v-on:dragging="(x, y) => onDrag(report.id,x,y)" v-on:resizing="(x, y, width, height) => onResize(report.id,x, y, width, height)" :parent="true" :draggable="configable" :resizable="configable">
                 <div class="card" style="width: 100%;height: 105%">
                     <div class="header row">
                         <h4 class="title col-xs-9">{{ report.title }}</h4>
@@ -31,12 +31,17 @@
                             <button class="btn btn-sm btn-warning btn-icon" @click="dele(index)"><i class="fa ti-trash"></i></button>
                         </div>
                     </div>
-                    <div class="content" v-bind:style="{ width: report.size.width + 'px', height: (report.size.height-(report.size.height/10)) + 'px' }">
-                        <canvas :id="report.id" :count="report.charts.length" width="0" height="0"></canvas>
-                        <chartjs-line v-for="(da,index) in report.charts" :target="report.id.toString()" :data="da.data" :datalabel="da.datalabel" :key="index"></chartjs-line>
+                    <div class="content" v-bind:style="{ width: report.width + 'px', height: (report.height) + 'px' }">
+                        <line-chart v-if="report.chart=='line'" :width='report.width-40+"px"' :height='(report.height-80)+"px"' :data="report.data" :colors="['#878787','#fffff']" :download="report.name+'.png'"></line-chart>
+                        <column-chart v-if="report.chart=='bar'" :width='report.width-40+"px"' :height='(report.height-80)+"px"' :data="report.data" :colors="['#878787','#fffff']" :download="report.name+'.png'"></column-chart>
+                        <area-chart v-if="report.chart=='area'" :width='report.width-40+"px"' :height='(report.height-80)+"px"' :data="report.data" :colors="['#878787','#fffff']" :download="report.name+'.png'"></area-chart>
+
                     </div>
                 </div>
             </vue-draggable-resizable>
+
+
+
         </div>
         <v-modal title="Add Widget"
                  :visible="addclick"
@@ -57,43 +62,11 @@
                                 <div class="col-md-12 " style="margin-left: 10px;">
                                     <label for="widgetname">Data Select</label>
                                     <div class="clearfix"></div>
-                                    <div class=" form-group  col-md-3">
+                                    <div class=" form-group  col-md-3  " v-for="data in measurement">
                                         <div class="pretty p-default p-curve">
-                                            <input type="checkbox" name="data" />
+                                            <input type="option" name="data" />
                                             <div class="state p-primary-o">
-                                                <label>Primary</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" form-group  col-md-3">
-                                        <div class="pretty p-default p-curve">
-                                            <input type="checkbox" name="data" />
-                                            <div class="state p-primary-o">
-                                                <label>Primary</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" form-group  col-md-3">
-                                        <div class="pretty p-default p-curve">
-                                            <input type="checkbox" name="data" />
-                                            <div class="state p-primary-o">
-                                                <label>Primary</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" form-group  col-md-3">
-                                        <div class="pretty p-default p-curve">
-                                            <input type="checkbox" name="data" />
-                                            <div class="state p-primary-o">
-                                                <label>Primary</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" form-group  col-md-3">
-                                        <div class="pretty p-default p-curve">
-                                            <input type="checkbox" name="data" />
-                                            <div class="state p-primary-o">
-                                                <label>Primary</label>
+                                                <label>{{data.name}}</label>
                                             </div>
                                         </div>
                                     </div>
@@ -159,10 +132,8 @@
     export default {
         data: function () {
             return {
-                reports:[
-                    {id:1,title:'test title',postion:{x:15,y:16},size:{width: 600,height: 600},charts:[{datalabel:"TestDataLabelBar",chart:'bar',name:'humd',from:'2018/01/01',to:'2018/02/03',optine:'avg',data:[87,65,95]},{datalabel:"TestDataLabelline",chart:'line',name:'temp',from:'2018/01/01',to:'2018/02/03',optine:'avg',data:[88,99,55]}]},
-                ],
-                tmp:[],
+                reports:[],
+                measurement:[],
                 width: 0,
                 height: 0,
                 loading:false,
@@ -179,12 +150,10 @@
         },
         created(){
 //            this.tmp = this.reports
-            $.each(this.reports, function(key, report) {
-                    $.each(report.charts, function(key, chart) {
-                        this.data = [99,88,77,66,55,44,33,22,11]
-                    });
-            });
-            console.log(this.reports)
+
+            this.getReports()
+            this.getMeasurement()
+
         },
         methods: {
             onResize(id,x, y, width, height) {
@@ -193,13 +162,14 @@
                 this.width = width
                 this.height = height
 //                console.log(this.reports.find(f => f.id === id))
-                this.reports.find(f => f.id === id).size = {width: width, height: height}
+                this.reports.find(f => f.id === id).width = width
+                this.reports.find(f => f.id === id).height = height
             },
             onDrag(id,x, y){
 //                let index = this.reports.map(function (img) { return img.id }).indexOf(id)
 //                this.reports[index].postion =  {x: x, y: y}
-                this.reports.find(f => f.id === id).postion = {x: x, y: y}
-
+                this.reports.find(f => f.id === id).x = x
+                this.reports.find(f => f.id === id).y = y
 //                console.log(this.reports)
             },
             randkey(){
@@ -212,10 +182,24 @@
             },
             saveConfig(){
 //                this.reports = this.tmp
-//                console.log(this.reports)
                 this.configable = false
                 this.styleObject.border =  'none'
-//                this.tmp = false
+                this.loading = true;
+
+                    axios.post('/api/report/update', {
+                        reports : this.reports
+                    }).then(response => {
+                       if(response.data.status == 1){
+                           this.$notification['success']({
+                               message: 'Success',
+                               description: 'Success to save the config in database'
+                           });
+                       }
+
+                        this.loading = false;
+                    });
+
+
             },
             add(){
                 this.addclick = true
@@ -223,8 +207,54 @@
             dele(id){
                 this.reports.splice(id, 1)
             },
+            getReports(){
+                this.loading = true;
+                const reportsurl = '/api/report/lists'
+                axios.get(reportsurl).then(response => {
+                    let reports = []
+                    $.each(response.data,function(key, data) {
+                        reports[key] =  data
+                        reports[key].data = {}
+                    })
+                    this.reports = reports
+                    console.log(this.reports)
+                    this.getChartData()
+                })
+            },
             getChartData(){
-                return [88,77,99,11]
+                $.each(this.reports, function(reportkey, report) {
+                    let group =  this.group
+                    let dateto= this.dateto
+                    let datefrom =  this.datefrom
+                    let name = this.name
+                    axios.post('/api/get/data', {
+                        group: group,
+                        dataname: name,
+                        dateto: dateto,
+                        datefrom:  datefrom,
+                    })
+                        .then(response => {
+                            let dtmp = {}
+                            $.each(response.data,function(key, data) {
+                                dtmp[data.time] =  data.mean
+                            })
+                            this.data = dtmp
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        });
+                });
+                this.loading = false;
+            },
+            getMeasurement(){
+                axios.get('/api/db/measurement')
+                    .then(response => {
+                        // JSON responses are automatically parsed.
+                        this.measurement = response.data
+                    })
+                    .catch(e => {
+                        console.log(e)
+                    })
             },
         }
     }

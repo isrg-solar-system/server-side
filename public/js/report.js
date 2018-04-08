@@ -1902,7 +1902,7 @@ function loadLocale(name) {
         try {
             oldLocale = globalLocale._abbr;
             var aliasedRequire = require;
-            __webpack_require__(252)("./" + name);
+            __webpack_require__(254)("./" + name);
             getSetGlobalLocale(oldLocale);
         } catch (e) {}
     }
@@ -4584,9 +4584,9 @@ return hooks;
 
 
 module.exports = __webpack_require__(16);
-module.exports.easing = __webpack_require__(226);
-module.exports.canvas = __webpack_require__(227);
-module.exports.options = __webpack_require__(228);
+module.exports.easing = __webpack_require__(228);
+module.exports.canvas = __webpack_require__(229);
+module.exports.options = __webpack_require__(230);
 
 
 /***/ }),
@@ -5075,10 +5075,10 @@ module.exports = Element;
 
 
 module.exports = {};
-module.exports.Arc = __webpack_require__(234);
-module.exports.Line = __webpack_require__(235);
-module.exports.Point = __webpack_require__(236);
-module.exports.Rectangle = __webpack_require__(237);
+module.exports.Arc = __webpack_require__(236);
+module.exports.Line = __webpack_require__(237);
+module.exports.Point = __webpack_require__(238);
+module.exports.Rectangle = __webpack_require__(239);
 
 
 /***/ }),
@@ -21105,8 +21105,8 @@ module.exports = function(obj, fn){
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var convert = __webpack_require__(230);
-var string = __webpack_require__(232);
+var convert = __webpack_require__(232);
+var string = __webpack_require__(234);
 
 var Color = function (obj) {
 	if (obj instanceof Color) {
@@ -21936,8 +21936,8 @@ module.exports = {
 
 
 var helpers = __webpack_require__(1);
-var basic = __webpack_require__(238);
-var dom = __webpack_require__(239);
+var basic = __webpack_require__(240);
+var dom = __webpack_require__(241);
 
 // @TODO Make possible to select another platform at build time.
 var implementation = dom._enabled ? dom : basic;
@@ -34080,8 +34080,13 @@ module.exports = __webpack_require__(168);
 
 /***/ }),
 /* 168 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_chartkick__ = __webpack_require__(224);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_chart_js__ = __webpack_require__(226);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_chart_js__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -34097,10 +34102,13 @@ __webpack_require__(169);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-__webpack_require__(224);
-__webpack_require__(271);
-Vue.use(VueCharts);
-Vue.component('showreport', __webpack_require__(272));
+// require('chart.js');
+// require('hchs-vue-charts');
+// Vue.use(VueCharts);
+
+
+Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_chartkick__["a" /* default */], { adapter: __WEBPACK_IMPORTED_MODULE_1_chart_js___default.a });
+Vue.component('showreport', __webpack_require__(273));
 
 var app = new Vue({
     el: '#app',
@@ -74556,17 +74564,2275 @@ Backoff.prototype.setJitter = function(jitter){
 
 /***/ }),
 /* 224 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chartkick__ = __webpack_require__(225);
+/*
+ * Vue Chartkick
+ * Create beautiful JavaScript charts with one line of Vue
+ * https://github.com/ankane/vue-chartkick
+ * v0.3.0
+ * MIT License
+ */
+
+
+
+var chartId = 1;
+
+var createComponent = function(Vue, tagName, chartType) {
+  var chartProps = [
+    "colors", "curve", "decimal", "discrete", "donut", "download", "label",
+    "legend", "library", "max", "messages", "min", "points", "prefix", "refresh",
+    "stacked", "suffix", "thousands", "title", "xtitle", "xtype", "ytitle"
+  ];
+  Vue.component(tagName, {
+    props: ["data", "id", "width", "height"].concat(chartProps),
+    render: function(createElement) {
+      return createElement(
+        "div",
+        {
+          attrs: {
+            id: this.chartId
+          },
+          style: this.chartStyle
+        },
+        ["Loading..."]
+      )
+    },
+    data: function() {
+      return {
+        chartId: null
+      }
+    },
+    computed: {
+      chartStyle: function() {
+        // hack to watch data and options
+        this.data;
+        this.chartOptions;
+
+        return {
+          height: this.height || "300px",
+          lineHeight: this.height || "300px",
+          width: this.width || "100%",
+          textAlign: "center",
+          color: "#999",
+          fontSize: "14px",
+          fontFamily: "'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif"
+        }
+      },
+      chartOptions: function() {
+        var this$1 = this;
+
+        var options = {};
+        var props = chartProps;
+        for (var i = 0; i < props.length; i++) {
+          var prop = props[i];
+          if (this$1[prop] !== undefined) {
+            options[prop] = this$1[prop];
+          }
+        }
+        return options
+      }
+    },
+    created: function() {
+      this.chartId = this.chartId || this.id || ("chart-" + chartId++);
+    },
+    mounted: function() {
+      this.chart = new chartType(this.chartId, this.data, this.chartOptions);
+    },
+    updated: function() {
+      this.chart.updateData(this.data, this.chartOptions);
+    }
+  });
+};
+
+var VueChartkick = {
+  version: "0.3.0",
+  install: function(Vue, options) {
+    if (options.adapter) {
+      __WEBPACK_IMPORTED_MODULE_0_chartkick__["a" /* default */].addAdapter(options.adapter);
+    }
+    createComponent(Vue, "line-chart", __WEBPACK_IMPORTED_MODULE_0_chartkick__["a" /* default */].LineChart);
+    createComponent(Vue, "pie-chart", __WEBPACK_IMPORTED_MODULE_0_chartkick__["a" /* default */].PieChart);
+    createComponent(Vue, "column-chart", __WEBPACK_IMPORTED_MODULE_0_chartkick__["a" /* default */].ColumnChart);
+    createComponent(Vue, "bar-chart", __WEBPACK_IMPORTED_MODULE_0_chartkick__["a" /* default */].BarChart);
+    createComponent(Vue, "area-chart", __WEBPACK_IMPORTED_MODULE_0_chartkick__["a" /* default */].AreaChart);
+    createComponent(Vue, "scatter-chart", __WEBPACK_IMPORTED_MODULE_0_chartkick__["a" /* default */].ScatterChart);
+    createComponent(Vue, "geo-chart", __WEBPACK_IMPORTED_MODULE_0_chartkick__["a" /* default */].GeoChart);
+    createComponent(Vue, "timeline", __WEBPACK_IMPORTED_MODULE_0_chartkick__["a" /* default */].Timeline);
+  },
+  addAdapter: function(library) {
+    __WEBPACK_IMPORTED_MODULE_0_chartkick__["a" /* default */].addAdapter(library);
+  }
+};
+
+// in browser
+if (typeof window !== "undefined" && window.Vue) {
+  window.Vue.use(VueChartkick);
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (VueChartkick);
+
+
+/***/ }),
+/* 225 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/*
+ * Chartkick.js
+ * Create beautiful charts with one line of JavaScript
+ * https://github.com/ankane/chartkick.js
+ * v2.3.5
+ * MIT License
+ */
+
+function isArray(variable) {
+  return Object.prototype.toString.call(variable) === "[object Array]";
+}
+
+function isFunction(variable) {
+  return variable instanceof Function;
+}
+
+function isPlainObject(variable) {
+  return !isFunction(variable) && variable instanceof Object;
+}
+
+// https://github.com/madrobby/zepto/blob/master/src/zepto.js
+function extend(target, source) {
+  var key;
+  for (key in source) {
+    if (isPlainObject(source[key]) || isArray(source[key])) {
+      if (isPlainObject(source[key]) && !isPlainObject(target[key])) {
+        target[key] = {};
+      }
+      if (isArray(source[key]) && !isArray(target[key])) {
+        target[key] = [];
+      }
+      extend(target[key], source[key]);
+    } else if (source[key] !== undefined) {
+      target[key] = source[key];
+    }
+  }
+}
+
+function merge(obj1, obj2) {
+  var target = {};
+  extend(target, obj1);
+  extend(target, obj2);
+  return target;
+}
+
+var DATE_PATTERN = /^(\d\d\d\d)(-)?(\d\d)(-)?(\d\d)$/i;
+
+// https://github.com/Do/iso8601.js
+var ISO8601_PATTERN = /(\d\d\d\d)(-)?(\d\d)(-)?(\d\d)(T)?(\d\d)(:)?(\d\d)?(:)?(\d\d)?([.,]\d+)?($|Z|([+-])(\d\d)(:)?(\d\d)?)/i;
+var DECIMAL_SEPARATOR = String(1.5).charAt(1);
+
+function parseISO8601(input) {
+  var day, hour, matches, milliseconds, minutes, month, offset, result, seconds, type, year;
+  type = Object.prototype.toString.call(input);
+  if (type === "[object Date]") {
+    return input;
+  }
+  if (type !== "[object String]") {
+    return;
+  }
+  matches = input.match(ISO8601_PATTERN);
+  if (matches) {
+    year = parseInt(matches[1], 10);
+    month = parseInt(matches[3], 10) - 1;
+    day = parseInt(matches[5], 10);
+    hour = parseInt(matches[7], 10);
+    minutes = matches[9] ? parseInt(matches[9], 10) : 0;
+    seconds = matches[11] ? parseInt(matches[11], 10) : 0;
+    milliseconds = matches[12] ? parseFloat(DECIMAL_SEPARATOR + matches[12].slice(1)) * 1000 : 0;
+    result = Date.UTC(year, month, day, hour, minutes, seconds, milliseconds);
+    if (matches[13] && matches[14]) {
+      offset = matches[15] * 60;
+      if (matches[17]) {
+        offset += parseInt(matches[17], 10);
+      }
+      offset *= matches[14] === "-" ? -1 : 1;
+      result -= offset * 60 * 1000;
+    }
+    return new Date(result);
+  }
+}
+// end iso8601.js
+
+function negativeValues(series) {
+  var i, j, data;
+  for (i = 0; i < series.length; i++) {
+    data = series[i].data;
+    for (j = 0; j < data.length; j++) {
+      if (data[j][1] < 0) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function toStr(n) {
+  return "" + n;
+}
+
+function toFloat(n) {
+  return parseFloat(n);
+}
+
+function toDate(n) {
+  var matches, year, month, day;
+  if (typeof n !== "object") {
+    if (typeof n === "number") {
+      n = new Date(n * 1000); // ms
+    } else {
+      n = toStr(n);
+      if ((matches = n.match(DATE_PATTERN))) {
+      year = parseInt(matches[1], 10);
+      month = parseInt(matches[3], 10) - 1;
+      day = parseInt(matches[5], 10);
+      return new Date(year, month, day);
+      } else { // str
+        // try our best to get the str into iso8601
+        // TODO be smarter about this
+        var str = n.replace(/ /, "T").replace(" ", "").replace("UTC", "Z");
+        n = parseISO8601(str) || new Date(n);
+      }
+    }
+  }
+  return n;
+}
+
+function toArr(n) {
+  if (!isArray(n)) {
+    var arr = [], i;
+    for (i in n) {
+      if (n.hasOwnProperty(i)) {
+        arr.push([i, n[i]]);
+      }
+    }
+    n = arr;
+  }
+  return n;
+}
+
+function jsOptionsFunc(defaultOptions, hideLegend, setTitle, setMin, setMax, setStacked, setXtitle, setYtitle) {
+  return function (chart, opts, chartOptions) {
+    var series = chart.data;
+    var options = merge({}, defaultOptions);
+    options = merge(options, chartOptions || {});
+
+    if (chart.hideLegend || "legend" in opts) {
+      hideLegend(options, opts.legend, chart.hideLegend);
+    }
+
+    if (opts.title) {
+      setTitle(options, opts.title);
+    }
+
+    // min
+    if ("min" in opts) {
+      setMin(options, opts.min);
+    } else if (!negativeValues(series)) {
+      setMin(options, 0);
+    }
+
+    // max
+    if (opts.max) {
+      setMax(options, opts.max);
+    }
+
+    if ("stacked" in opts) {
+      setStacked(options, opts.stacked);
+    }
+
+    if (opts.colors) {
+      options.colors = opts.colors;
+    }
+
+    if (opts.xtitle) {
+      setXtitle(options, opts.xtitle);
+    }
+
+    if (opts.ytitle) {
+      setYtitle(options, opts.ytitle);
+    }
+
+    // merge library last
+    options = merge(options, opts.library || {});
+
+    return options;
+  };
+}
+
+function sortByTime(a, b) {
+  return a[0].getTime() - b[0].getTime();
+}
+
+function sortByNumberSeries(a, b) {
+  return a[0] - b[0];
+}
+
+function sortByNumber(a, b) {
+  return a - b;
+}
+
+function isMinute(d) {
+  return d.getMilliseconds() === 0 && d.getSeconds() === 0;
+}
+
+function isHour(d) {
+  return isMinute(d) && d.getMinutes() === 0;
+}
+
+function isDay(d) {
+  return isHour(d) && d.getHours() === 0;
+}
+
+function isWeek(d, dayOfWeek) {
+  return isDay(d) && d.getDay() === dayOfWeek;
+}
+
+function isMonth(d) {
+  return isDay(d) && d.getDate() === 1;
+}
+
+function isYear(d) {
+  return isMonth(d) && d.getMonth() === 0;
+}
+
+function isDate(obj) {
+  return !isNaN(toDate(obj)) && toStr(obj).length >= 6;
+}
+
+function formatValue(pre, value, options) {
+  pre = pre || "";
+  if (options.prefix) {
+    if (value < 0) {
+      value = value * -1;
+      pre += "-";
+    }
+    pre += options.prefix;
+  }
+
+  if (options.thousands || options.decimal) {
+    value = toStr(value);
+    var parts = value.split(".");
+    value = parts[0];
+    if (options.thousands) {
+      value = value.replace(/\B(?=(\d{3})+(?!\d))/g, options.thousands);
+    }
+    if (parts.length > 1) {
+      value += (options.decimal || ".") + parts[1];
+    }
+  }
+
+  return pre + value + (options.suffix || "");
+}
+
+function allZeros(data) {
+  var i, j, d;
+  for (i = 0; i < data.length; i++) {
+    d = data[i].data;
+    for (j = 0; j < d.length; j++) {
+      if (d[j][1] != 0) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+var baseOptions = {
+  maintainAspectRatio: false,
+  animation: false,
+  tooltips: {
+    displayColors: false,
+    callbacks: {}
+  },
+  legend: {},
+  title: {fontSize: 20, fontColor: "#333"}
+};
+
+var defaultOptions = {
+  scales: {
+    yAxes: [
+      {
+        ticks: {
+          maxTicksLimit: 4
+        },
+        scaleLabel: {
+          fontSize: 16,
+          // fontStyle: "bold",
+          fontColor: "#333"
+        }
+      }
+    ],
+    xAxes: [
+      {
+        gridLines: {
+          drawOnChartArea: false
+        },
+        scaleLabel: {
+          fontSize: 16,
+          // fontStyle: "bold",
+          fontColor: "#333"
+        },
+        time: {},
+        ticks: {}
+      }
+    ]
+  }
+};
+
+// http://there4.io/2012/05/02/google-chart-color-list/
+var defaultColors = [
+  "#3366CC", "#DC3912", "#FF9900", "#109618", "#990099", "#3B3EAC", "#0099C6",
+  "#DD4477", "#66AA00", "#B82E2E", "#316395", "#994499", "#22AA99", "#AAAA11",
+  "#6633CC", "#E67300", "#8B0707", "#329262", "#5574A6", "#651067"
+];
+
+var hideLegend = function (options, legend, hideLegend) {
+  if (legend !== undefined) {
+    options.legend.display = !!legend;
+    if (legend && legend !== true) {
+      options.legend.position = legend;
+    }
+  } else if (hideLegend) {
+    options.legend.display = false;
+  }
+};
+
+var setTitle = function (options, title) {
+  options.title.display = true;
+  options.title.text = title;
+};
+
+var setMin = function (options, min) {
+  if (min !== null) {
+    options.scales.yAxes[0].ticks.min = toFloat(min);
+  }
+};
+
+var setMax = function (options, max) {
+  options.scales.yAxes[0].ticks.max = toFloat(max);
+};
+
+var setBarMin = function (options, min) {
+  if (min !== null) {
+    options.scales.xAxes[0].ticks.min = toFloat(min);
+  }
+};
+
+var setBarMax = function (options, max) {
+  options.scales.xAxes[0].ticks.max = toFloat(max);
+};
+
+var setStacked = function (options, stacked) {
+  options.scales.xAxes[0].stacked = !!stacked;
+  options.scales.yAxes[0].stacked = !!stacked;
+};
+
+var setXtitle = function (options, title) {
+  options.scales.xAxes[0].scaleLabel.display = true;
+  options.scales.xAxes[0].scaleLabel.labelString = title;
+};
+
+var setYtitle = function (options, title) {
+  options.scales.yAxes[0].scaleLabel.display = true;
+  options.scales.yAxes[0].scaleLabel.labelString = title;
+};
+
+// http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+var addOpacity = function(hex, opacity) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? "rgba(" + parseInt(result[1], 16) + ", " + parseInt(result[2], 16) + ", " + parseInt(result[3], 16) + ", " + opacity + ")" : hex;
+};
+
+var setLabelSize = function (chart, data, options) {
+  var maxLabelSize = Math.ceil(chart.element.offsetWidth / 4.0 / data.labels.length);
+  if (maxLabelSize > 25) {
+    maxLabelSize = 25;
+  }
+  options.scales.xAxes[0].ticks.callback = function (value) {
+    value = toStr(value);
+    if (value.length > maxLabelSize) {
+      return value.substring(0, maxLabelSize - 2) + "...";
+    } else {
+      return value;
+    }
+  };
+};
+
+var setFormatOptions = function(chart, options, chartType) {
+  var formatOptions = {
+    prefix: chart.options.prefix,
+    suffix: chart.options.suffix,
+    thousands: chart.options.thousands,
+    decimal: chart.options.decimal
+  };
+
+  if (formatOptions.prefix || formatOptions.suffix || formatOptions.thousands || formatOptions.decimal) {
+    if (chartType !== "pie") {
+      var myAxes = options.scales.yAxes;
+      if (chartType === "bar") {
+        myAxes = options.scales.xAxes;
+      }
+
+      if (!myAxes[0].ticks.callback) {
+        myAxes[0].ticks.callback = function (value) {
+          return formatValue("", value, formatOptions);
+        };
+      }
+    }
+
+    if (!options.tooltips.callbacks.label) {
+      if (chartType !== "pie") {
+        var valueLabel = chartType === "bar" ? "xLabel" : "yLabel";
+        options.tooltips.callbacks.label = function (tooltipItem, data) {
+          var label = data.datasets[tooltipItem.datasetIndex].label || '';
+          if (label) {
+            label += ': ';
+          }
+          return formatValue(label, tooltipItem[valueLabel], formatOptions);
+        };
+      } else {
+        // need to use separate label for pie charts
+        options.tooltips.callbacks.label = function (tooltipItem, data) {
+          var dataLabel = data.labels[tooltipItem.index];
+          var value = ': ';
+
+          if (isArray(dataLabel)) {
+            // show value on first line of multiline label
+            // need to clone because we are changing the value
+            dataLabel = dataLabel.slice();
+            dataLabel[0] += value;
+          } else {
+            dataLabel += value;
+          }
+
+          return formatValue(dataLabel, data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index], formatOptions);
+        };
+      }
+    }
+  }
+};
+
+var jsOptions = jsOptionsFunc(merge(baseOptions, defaultOptions), hideLegend, setTitle, setMin, setMax, setStacked, setXtitle, setYtitle);
+
+var createDataTable = function (chart, options, chartType) {
+  var datasets = [];
+  var labels = [];
+
+  var colors = chart.options.colors || defaultColors;
+
+  var day = true;
+  var week = true;
+  var dayOfWeek;
+  var month = true;
+  var year = true;
+  var hour = true;
+  var minute = true;
+  var detectType = (chartType === "line" || chartType === "area") && !chart.discrete;
+
+  var series = chart.data;
+
+  var sortedLabels = [];
+
+  var i, j, s, d, key, rows = [];
+  for (i = 0; i < series.length; i++) {
+    s = series[i];
+
+    for (j = 0; j < s.data.length; j++) {
+      d = s.data[j];
+      key = detectType ? d[0].getTime() : d[0];
+      if (!rows[key]) {
+        rows[key] = new Array(series.length);
+      }
+      rows[key][i] = toFloat(d[1]);
+      if (sortedLabels.indexOf(key) === -1) {
+        sortedLabels.push(key);
+      }
+    }
+  }
+
+  if (detectType || chart.options.xtype === "number") {
+    sortedLabels.sort(sortByNumber);
+  }
+
+  var rows2 = [];
+  for (j = 0; j < series.length; j++) {
+    rows2.push([]);
+  }
+
+  var value;
+  var k;
+  for (k = 0; k < sortedLabels.length; k++) {
+    i = sortedLabels[k];
+    if (detectType) {
+      value = new Date(toFloat(i));
+      // TODO make this efficient
+      day = day && isDay(value);
+      if (!dayOfWeek) {
+        dayOfWeek = value.getDay();
+      }
+      week = week && isWeek(value, dayOfWeek);
+      month = month && isMonth(value);
+      year = year && isYear(value);
+      hour = hour && isHour(value);
+      minute = minute && isMinute(value);
+    } else {
+      value = i;
+    }
+    labels.push(value);
+    for (j = 0; j < series.length; j++) {
+      // Chart.js doesn't like undefined
+      rows2[j].push(rows[i][j] === undefined ? null : rows[i][j]);
+    }
+  }
+
+  for (i = 0; i < series.length; i++) {
+    s = series[i];
+
+    var color = s.color || colors[i];
+    var backgroundColor = chartType !== "line" ? addOpacity(color, 0.5) : color;
+
+    var dataset = {
+      label: s.name,
+      data: rows2[i],
+      fill: chartType === "area",
+      borderColor: color,
+      backgroundColor: backgroundColor,
+      pointBackgroundColor: color,
+      borderWidth: 2
+    };
+
+    if (s.stack) {
+      dataset.stack = s.stack;
+    }
+
+    if (chart.options.curve === false) {
+      dataset.lineTension = 0;
+    }
+
+    if (chart.options.points === false) {
+      dataset.pointRadius = 0;
+      dataset.pointHitRadius = 5;
+    }
+
+    datasets.push(merge(dataset, s.library || {}));
+  }
+
+  if (detectType && labels.length > 0) {
+    var minTime = labels[0].getTime();
+    var maxTime = labels[0].getTime();
+    for (i = 1; i < labels.length; i++) {
+      value = labels[i].getTime();
+      if (value < minTime) {
+        minTime = value;
+      }
+      if (value > maxTime) {
+        maxTime = value;
+      }
+    }
+
+    var timeDiff = (maxTime - minTime) / (86400 * 1000.0);
+
+    if (!options.scales.xAxes[0].time.unit) {
+      var step;
+      if (year || timeDiff > 365 * 10) {
+        options.scales.xAxes[0].time.unit = "year";
+        step = 365;
+      } else if (month || timeDiff > 30 * 10) {
+        options.scales.xAxes[0].time.unit = "month";
+        step = 30;
+      } else if (day || timeDiff > 10) {
+        options.scales.xAxes[0].time.unit = "day";
+        step = 1;
+      } else if (hour || timeDiff > 0.5) {
+        options.scales.xAxes[0].time.displayFormats = {hour: "MMM D, h a"};
+        options.scales.xAxes[0].time.unit = "hour";
+        step = 1 / 24.0;
+      } else if (minute) {
+        options.scales.xAxes[0].time.displayFormats = {minute: "h:mm a"};
+        options.scales.xAxes[0].time.unit = "minute";
+        step = 1 / 24.0 / 60.0;
+      }
+
+      if (step && timeDiff > 0) {
+        var unitStepSize = Math.ceil(timeDiff / step / (chart.element.offsetWidth / 100.0));
+        if (week && step === 1) {
+          unitStepSize = Math.ceil(unitStepSize / 7.0) * 7;
+        }
+        options.scales.xAxes[0].time.unitStepSize = unitStepSize;
+      }
+    }
+
+    if (!options.scales.xAxes[0].time.tooltipFormat) {
+      if (day) {
+        options.scales.xAxes[0].time.tooltipFormat = "ll";
+      } else if (hour) {
+        options.scales.xAxes[0].time.tooltipFormat = "MMM D, h a";
+      } else if (minute) {
+        options.scales.xAxes[0].time.tooltipFormat = "h:mm a";
+      }
+    }
+  }
+
+  var data = {
+    labels: labels,
+    datasets: datasets
+  };
+
+  return data;
+};
+
+var defaultExport = function defaultExport(library) {
+  this.name = "chartjs";
+  this.library = library;
+};
+
+defaultExport.prototype.renderLineChart = function renderLineChart (chart, chartType) {
+  if (chart.options.xtype === "number") {
+    return this.renderScatterChart(chart, chartType, true);
+  }
+
+  var chartOptions = {};
+  // fix for https://github.com/chartjs/Chart.js/issues/2441
+  if (!chart.options.max && allZeros(chart.data)) {
+    chartOptions.max = 1;
+  }
+
+  var options = jsOptions(chart, merge(chartOptions, chart.options));
+  setFormatOptions(chart, options, chartType);
+
+  var data = createDataTable(chart, options, chartType || "line");
+
+  options.scales.xAxes[0].type = chart.discrete ? "category" : "time";
+
+  this.drawChart(chart, "line", data, options);
+};
+
+defaultExport.prototype.renderPieChart = function renderPieChart (chart) {
+  var options = merge({}, baseOptions);
+  if (chart.options.donut) {
+    options.cutoutPercentage = 50;
+  }
+
+  if ("legend" in chart.options) {
+    hideLegend(options, chart.options.legend);
+  }
+
+  if (chart.options.title) {
+    setTitle(options, chart.options.title);
+  }
+
+  options = merge(options, chart.options.library || {});
+  setFormatOptions(chart, options, "pie");
+
+  var labels = [];
+  var values = [];
+  for (var i = 0; i < chart.data.length; i++) {
+    var point = chart.data[i];
+    labels.push(point[0]);
+    values.push(point[1]);
+  }
+
+  var data = {
+    labels: labels,
+    datasets: [
+      {
+        data: values,
+        backgroundColor: chart.options.colors || defaultColors
+      }
+    ]
+  };
+
+  this.drawChart(chart, "pie", data, options);
+};
+
+defaultExport.prototype.renderColumnChart = function renderColumnChart (chart, chartType) {
+  var options;
+  if (chartType === "bar") {
+    options = jsOptionsFunc(merge(baseOptions, defaultOptions), hideLegend, setTitle, setBarMin, setBarMax, setStacked, setXtitle, setYtitle)(chart, chart.options);
+  } else {
+    options = jsOptions(chart, chart.options);
+  }
+  setFormatOptions(chart, options, chartType);
+  var data = createDataTable(chart, options, "column");
+  if (chartType !== "bar") {
+    setLabelSize(chart, data, options);
+  }
+  this.drawChart(chart, (chartType === "bar" ? "horizontalBar" : "bar"), data, options);
+};
+
+defaultExport.prototype.renderAreaChart = function renderAreaChart (chart) {
+  this.renderLineChart(chart, "area");
+};
+
+defaultExport.prototype.renderBarChart = function renderBarChart (chart) {
+  this.renderColumnChart(chart, "bar");
+};
+
+defaultExport.prototype.renderScatterChart = function renderScatterChart (chart, chartType, lineChart) {
+  chartType = chartType || "line";
+
+  var options = jsOptions(chart, chart.options);
+  if (!lineChart) {
+    setFormatOptions(chart, options, chartType);
+  }
+
+  var colors = chart.options.colors || defaultColors;
+
+  var datasets = [];
+  var series = chart.data;
+  for (var i = 0; i < series.length; i++) {
+    var s = series[i];
+    var d = [];
+    for (var j = 0; j < s.data.length; j++) {
+      var point = {
+        x: toFloat(s.data[j][0]),
+        y: toFloat(s.data[j][1])
+      };
+      if (chartType === "bubble") {
+        point.r = toFloat(s.data[j][2]);
+      }
+      d.push(point);
+    }
+
+    var color = s.color || colors[i];
+    var backgroundColor = chartType === "area" ? addOpacity(color, 0.5) : color;
+
+    datasets.push({
+      label: s.name,
+      showLine: lineChart || false,
+      data: d,
+      borderColor: color,
+      backgroundColor: backgroundColor,
+      pointBackgroundColor: color,
+      fill: chartType === "area"
+    });
+  }
+
+  if (chartType === "area") {
+    chartType = "line";
+  }
+
+  var data = {datasets: datasets};
+
+  options.scales.xAxes[0].type = "linear";
+  options.scales.xAxes[0].position = "bottom";
+
+  this.drawChart(chart, chartType, data, options);
+};
+
+defaultExport.prototype.renderBubbleChart = function renderBubbleChart (chart) {
+  this.renderScatterChart(chart, "bubble");
+};
+
+defaultExport.prototype.drawChart = function drawChart (chart, type, data, options) {
+  if (chart.chart) {
+    chart.chart.destroy();
+  }
+
+  chart.element.innerHTML = "<canvas></canvas>";
+  var ctx = chart.element.getElementsByTagName("CANVAS")[0];
+  chart.chart = new this.library(ctx, {
+    type: type,
+    data: data,
+    options: options
+  });
+};
+
+var defaultOptions$1 = {
+  chart: {},
+  xAxis: {
+    title: {
+      text: null
+    },
+    labels: {
+      style: {
+        fontSize: "12px"
+      }
+    }
+  },
+  yAxis: {
+    title: {
+      text: null
+    },
+    labels: {
+      style: {
+        fontSize: "12px"
+      }
+    }
+  },
+  title: {
+    text: null
+  },
+  credits: {
+    enabled: false
+  },
+  legend: {
+    borderWidth: 0
+  },
+  tooltip: {
+    style: {
+      fontSize: "12px"
+    }
+  },
+  plotOptions: {
+    areaspline: {},
+    series: {
+      marker: {}
+    }
+  }
+};
+
+var hideLegend$1 = function (options, legend, hideLegend) {
+  if (legend !== undefined) {
+    options.legend.enabled = !!legend;
+    if (legend && legend !== true) {
+      if (legend === "top" || legend === "bottom") {
+        options.legend.verticalAlign = legend;
+      } else {
+        options.legend.layout = "vertical";
+        options.legend.verticalAlign = "middle";
+        options.legend.align = legend;
+      }
+    }
+  } else if (hideLegend) {
+    options.legend.enabled = false;
+  }
+};
+
+var setTitle$1 = function (options, title) {
+  options.title.text = title;
+};
+
+var setMin$1 = function (options, min) {
+  options.yAxis.min = min;
+};
+
+var setMax$1 = function (options, max) {
+  options.yAxis.max = max;
+};
+
+var setStacked$1 = function (options, stacked) {
+  options.plotOptions.series.stacking = stacked ? (stacked === true ? "normal" : stacked) : null;
+};
+
+var setXtitle$1 = function (options, title) {
+  options.xAxis.title.text = title;
+};
+
+var setYtitle$1 = function (options, title) {
+  options.yAxis.title.text = title;
+};
+
+var jsOptions$1 = jsOptionsFunc(defaultOptions$1, hideLegend$1, setTitle$1, setMin$1, setMax$1, setStacked$1, setXtitle$1, setYtitle$1);
+
+var setFormatOptions$1 = function(chart, options, chartType) {
+  var formatOptions = {
+    prefix: chart.options.prefix,
+    suffix: chart.options.suffix,
+    thousands: chart.options.thousands,
+    decimal: chart.options.decimal
+  };
+
+  if (formatOptions.prefix || formatOptions.suffix || formatOptions.thousands || formatOptions.decimal) {
+    if (chartType !== "pie" && !options.yAxis.labels.formatter) {
+      options.yAxis.labels.formatter = function () {
+        return formatValue("", this.value, formatOptions);
+      };
+    }
+
+    if (!options.tooltip.pointFormatter) {
+      options.tooltip.pointFormatter = function () {
+        return '<span style="color:' + this.color + '>\u25CF</span> ' + formatValue(this.series.name + ': <b>', this.y, formatOptions) + '</b><br/>';
+      };
+    }
+  }
+};
+
+var defaultExport$1 = function defaultExport(library) {
+  this.name = "highcharts";
+  this.library = library;
+};
+
+defaultExport$1.prototype.renderLineChart = function renderLineChart (chart, chartType) {
+  chartType = chartType || "spline";
+  var chartOptions = {};
+  if (chartType === "areaspline") {
+    chartOptions = {
+      plotOptions: {
+        areaspline: {
+          stacking: "normal"
+        },
+        area: {
+          stacking: "normal"
+        },
+        series: {
+          marker: {
+            enabled: false
+          }
+        }
+      }
+    };
+  }
+
+  if (chart.options.curve === false) {
+    if (chartType === "areaspline") {
+      chartType = "area";
+    } else if (chartType === "spline") {
+      chartType = "line";
+    }
+  }
+
+  var options = jsOptions$1(chart, chart.options, chartOptions), data, i, j;
+  options.xAxis.type = chart.discrete ? "category" : "datetime";
+  if (!options.chart.type) {
+    options.chart.type = chartType;
+  }
+  setFormatOptions$1(chart, options, chartType);
+
+  var series = chart.data;
+  for (i = 0; i < series.length; i++) {
+    data = series[i].data;
+    if (!chart.discrete) {
+      for (j = 0; j < data.length; j++) {
+        data[j][0] = data[j][0].getTime();
+      }
+    }
+    series[i].marker = {symbol: "circle"};
+    if (chart.options.points === false) {
+      series[i].marker.enabled = false;
+    }
+  }
+
+  this.drawChart(chart, series, options);
+};
+
+defaultExport$1.prototype.renderScatterChart = function renderScatterChart (chart) {
+  var options = jsOptions$1(chart, chart.options, {});
+  options.chart.type = "scatter";
+  this.drawChart(chart, chart.data, options);
+};
+
+defaultExport$1.prototype.renderPieChart = function renderPieChart (chart) {
+  var chartOptions = merge(defaultOptions$1, {});
+
+  if (chart.options.colors) {
+    chartOptions.colors = chart.options.colors;
+  }
+  if (chart.options.donut) {
+    chartOptions.plotOptions = {pie: {innerSize: "50%"}};
+  }
+
+  if ("legend" in chart.options) {
+    hideLegend$1(chartOptions, chart.options.legend);
+  }
+
+  if (chart.options.title) {
+    setTitle$1(chartOptions, chart.options.title);
+  }
+
+  var options = merge(chartOptions, chart.options.library || {});
+  setFormatOptions$1(chart, options, "pie");
+  var series = [{
+    type: "pie",
+    name: chart.options.label || "Value",
+    data: chart.data
+  }];
+
+  this.drawChart(chart, series, options);
+};
+
+defaultExport$1.prototype.renderColumnChart = function renderColumnChart (chart, chartType) {
+  chartType = chartType || "column";
+  var series = chart.data;
+  var options = jsOptions$1(chart, chart.options), i, j, s, d, rows = [], categories = [];
+  options.chart.type = chartType;
+  setFormatOptions$1(chart, options, chartType);
+
+  for (i = 0; i < series.length; i++) {
+    s = series[i];
+
+    for (j = 0; j < s.data.length; j++) {
+      d = s.data[j];
+      if (!rows[d[0]]) {
+        rows[d[0]] = new Array(series.length);
+        categories.push(d[0]);
+      }
+      rows[d[0]][i] = d[1];
+    }
+  }
+
+  if (chart.options.xtype === "number") {
+    categories.sort(sortByNumber);
+  }
+
+  options.xAxis.categories = categories;
+
+  var newSeries = [], d2;
+  for (i = 0; i < series.length; i++) {
+    d = [];
+    for (j = 0; j < categories.length; j++) {
+      d.push(rows[categories[j]][i] || 0);
+    }
+
+    d2 = {
+      name: series[i].name,
+      data: d
+    };
+    if (series[i].stack) {
+      d2.stack = series[i].stack;
+    }
+
+    newSeries.push(d2);
+  }
+
+  this.drawChart(chart, newSeries, options);
+};
+
+defaultExport$1.prototype.renderBarChart = function renderBarChart (chart) {
+  this.renderColumnChart(chart, "bar");
+};
+
+defaultExport$1.prototype.renderAreaChart = function renderAreaChart (chart) {
+  this.renderLineChart(chart, "areaspline");
+};
+
+defaultExport$1.prototype.drawChart = function drawChart (chart, data, options) {
+  if (chart.chart) {
+    chart.chart.destroy();
+  }
+
+  options.chart.renderTo = chart.element.id;
+  options.series = data;
+  chart.chart = new this.library.Chart(options);
+};
+
+var loaded = {};
+var callbacks = [];
+
+// Set chart options
+var defaultOptions$2 = {
+  chartArea: {},
+  fontName: "'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif",
+  pointSize: 6,
+  legend: {
+    textStyle: {
+      fontSize: 12,
+      color: "#444"
+    },
+    alignment: "center",
+    position: "right"
+  },
+  curveType: "function",
+  hAxis: {
+    textStyle: {
+      color: "#666",
+      fontSize: 12
+    },
+    titleTextStyle: {},
+    gridlines: {
+      color: "transparent"
+    },
+    baselineColor: "#ccc",
+    viewWindow: {}
+  },
+  vAxis: {
+    textStyle: {
+      color: "#666",
+      fontSize: 12
+    },
+    titleTextStyle: {},
+    baselineColor: "#ccc",
+    viewWindow: {}
+  },
+  tooltip: {
+    textStyle: {
+      color: "#666",
+      fontSize: 12
+    }
+  }
+};
+
+var hideLegend$2 = function (options, legend, hideLegend) {
+  if (legend !== undefined) {
+    var position;
+    if (!legend) {
+      position = "none";
+    } else if (legend === true) {
+      position = "right";
+    } else {
+      position = legend;
+    }
+    options.legend.position = position;
+  } else if (hideLegend) {
+    options.legend.position = "none";
+  }
+};
+
+var setTitle$2 = function (options, title) {
+  options.title = title;
+  options.titleTextStyle = {color: "#333", fontSize: "20px"};
+};
+
+var setMin$2 = function (options, min) {
+  options.vAxis.viewWindow.min = min;
+};
+
+var setMax$2 = function (options, max) {
+  options.vAxis.viewWindow.max = max;
+};
+
+var setBarMin$1 = function (options, min) {
+  options.hAxis.viewWindow.min = min;
+};
+
+var setBarMax$1 = function (options, max) {
+  options.hAxis.viewWindow.max = max;
+};
+
+var setStacked$2 = function (options, stacked) {
+  options.isStacked = stacked ? stacked : false;
+};
+
+var setXtitle$2 = function (options, title) {
+  options.hAxis.title = title;
+  options.hAxis.titleTextStyle.italic = false;
+};
+
+var setYtitle$2 = function (options, title) {
+  options.vAxis.title = title;
+  options.vAxis.titleTextStyle.italic = false;
+};
+
+var jsOptions$2 = jsOptionsFunc(defaultOptions$2, hideLegend$2, setTitle$2, setMin$2, setMax$2, setStacked$2, setXtitle$2, setYtitle$2);
+
+var resize = function (callback) {
+  if (window.attachEvent) {
+    window.attachEvent("onresize", callback);
+  } else if (window.addEventListener) {
+    window.addEventListener("resize", callback, true);
+  }
+  callback();
+};
+
+var defaultExport$2 = function defaultExport(library) {
+  this.name = "google";
+  this.library = library;
+};
+
+defaultExport$2.prototype.renderLineChart = function renderLineChart (chart) {
+    var this$1 = this;
+
+  this.waitForLoaded(chart, function () {
+    var chartOptions = {};
+
+    if (chart.options.curve === false) {
+      chartOptions.curveType = "none";
+    }
+
+    if (chart.options.points === false) {
+      chartOptions.pointSize = 0;
+    }
+
+    var options = jsOptions$2(chart, chart.options, chartOptions);
+    var columnType = chart.discrete ? "string" : "datetime";
+    if (chart.options.xtype === "number") {
+      columnType = "number";
+    }
+    var data = this$1.createDataTable(chart.data, columnType);
+
+    this$1.drawChart(chart, this$1.library.visualization.LineChart, data, options);
+  });
+};
+
+defaultExport$2.prototype.renderPieChart = function renderPieChart (chart) {
+    var this$1 = this;
+
+  this.waitForLoaded(chart, function () {
+    var chartOptions = {
+      chartArea: {
+        top: "10%",
+        height: "80%"
+      },
+      legend: {}
+    };
+    if (chart.options.colors) {
+      chartOptions.colors = chart.options.colors;
+    }
+    if (chart.options.donut) {
+      chartOptions.pieHole = 0.5;
+    }
+    if ("legend" in chart.options) {
+      hideLegend$2(chartOptions, chart.options.legend);
+    }
+    if (chart.options.title) {
+      setTitle$2(chartOptions, chart.options.title);
+    }
+    var options = merge(merge(defaultOptions$2, chartOptions), chart.options.library || {});
+
+    var data = new this$1.library.visualization.DataTable();
+    data.addColumn("string", "");
+    data.addColumn("number", "Value");
+    data.addRows(chart.data);
+
+    this$1.drawChart(chart, this$1.library.visualization.PieChart, data, options);
+  });
+};
+
+defaultExport$2.prototype.renderColumnChart = function renderColumnChart (chart) {
+    var this$1 = this;
+
+  this.waitForLoaded(chart, function () {
+    var options = jsOptions$2(chart, chart.options);
+    var data = this$1.createDataTable(chart.data, "string", chart.options.xtype);
+
+    this$1.drawChart(chart, this$1.library.visualization.ColumnChart, data, options);
+  });
+};
+
+defaultExport$2.prototype.renderBarChart = function renderBarChart (chart) {
+    var this$1 = this;
+
+  this.waitForLoaded(chart, function () {
+    var chartOptions = {
+      hAxis: {
+        gridlines: {
+          color: "#ccc"
+        }
+      }
+    };
+    var options = jsOptionsFunc(defaultOptions$2, hideLegend$2, setTitle$2, setBarMin$1, setBarMax$1, setStacked$2, setXtitle$2, setYtitle$2)(chart, chart.options, chartOptions);
+    var data = this$1.createDataTable(chart.data, "string", chart.options.xtype);
+
+    this$1.drawChart(chart, this$1.library.visualization.BarChart, data, options);
+  });
+};
+
+defaultExport$2.prototype.renderAreaChart = function renderAreaChart (chart) {
+    var this$1 = this;
+
+  this.waitForLoaded(chart, function () {
+    var chartOptions = {
+      isStacked: true,
+      pointSize: 0,
+      areaOpacity: 0.5
+    };
+
+    var options = jsOptions$2(chart, chart.options, chartOptions);
+    var columnType = chart.discrete ? "string" : "datetime";
+    if (chart.options.xtype === "number") {
+      columnType = "number";
+    }
+    var data = this$1.createDataTable(chart.data, columnType);
+
+    this$1.drawChart(chart, this$1.library.visualization.AreaChart, data, options);
+  });
+};
+
+defaultExport$2.prototype.renderGeoChart = function renderGeoChart (chart) {
+    var this$1 = this;
+
+  this.waitForLoaded(chart, function () {
+    var chartOptions = {
+      legend: "none",
+      colorAxis: {
+        colors: chart.options.colors || ["#f6c7b6", "#ce502d"]
+      }
+    };
+    var options = merge(merge(defaultOptions$2, chartOptions), chart.options.library || {});
+
+    var data = new this$1.library.visualization.DataTable();
+    data.addColumn("string", "");
+    data.addColumn("number", chart.options.label || "Value");
+    data.addRows(chart.data);
+
+    this$1.drawChart(chart, this$1.library.visualization.GeoChart, data, options);
+  });
+};
+
+defaultExport$2.prototype.renderScatterChart = function renderScatterChart (chart) {
+    var this$1 = this;
+
+  this.waitForLoaded(chart, function () {
+    var chartOptions = {};
+    var options = jsOptions$2(chart, chart.options, chartOptions);
+
+    var series = chart.data, rows2 = [], i, j, data, d;
+    for (i = 0; i < series.length; i++) {
+      d = series[i].data;
+      for (j = 0; j < d.length; j++) {
+        var row = new Array(series.length + 1);
+        row[0] = d[j][0];
+        row[i + 1] = d[j][1];
+        rows2.push(row);
+      }
+    }
+
+    data = new this$1.library.visualization.DataTable();
+    data.addColumn("number", "");
+    for (i = 0; i < series.length; i++) {
+      data.addColumn("number", series[i].name);
+    }
+    data.addRows(rows2);
+
+    this$1.drawChart(chart, this$1.library.visualization.ScatterChart, data, options);
+  });
+};
+
+defaultExport$2.prototype.renderTimeline = function renderTimeline (chart) {
+    var this$1 = this;
+
+  this.waitForLoaded(chart, "timeline", function () {
+    var chartOptions = {
+      legend: "none"
+    };
+
+    if (chart.options.colors) {
+      chartOptions.colors = chart.options.colors;
+    }
+    var options = merge(merge(defaultOptions$2, chartOptions), chart.options.library || {});
+
+    var data = new this$1.library.visualization.DataTable();
+    data.addColumn({type: "string", id: "Name"});
+    data.addColumn({type: "date", id: "Start"});
+    data.addColumn({type: "date", id: "End"});
+    data.addRows(chart.data);
+
+    chart.element.style.lineHeight = "normal";
+
+    this$1.drawChart(chart, this$1.library.visualization.Timeline, data, options);
+  });
+};
+
+defaultExport$2.prototype.drawChart = function drawChart (chart, type, data, options) {
+  if (chart.chart) {
+    chart.chart.clearChart();
+  }
+
+  chart.chart = new type(chart.element);
+  resize(function () {
+    chart.chart.draw(data, options);
+  });
+};
+
+defaultExport$2.prototype.waitForLoaded = function waitForLoaded (chart, pack, callback) {
+    var this$1 = this;
+
+  if (!callback) {
+    callback = pack;
+    pack = "corechart";
+  }
+
+  callbacks.push({pack: pack, callback: callback});
+
+  if (loaded[pack]) {
+    this.runCallbacks();
+  } else {
+    loaded[pack] = true;
+
+    // https://groups.google.com/forum/#!topic/google-visualization-api/fMKJcyA2yyI
+    var loadOptions = {
+      packages: [pack],
+      callback: function () { this$1.runCallbacks(); }
+    };
+    var config = chart.__config();
+    if (config.language) {
+      loadOptions.language = config.language;
+    }
+    if (pack === "corechart" && config.mapsApiKey) {
+      loadOptions.mapsApiKey = config.mapsApiKey;
+    }
+
+    if (this.library.setOnLoadCallback) {
+      this.library.load("visualization", "1", loadOptions);
+    } else {
+      this.library.charts.load("current", loadOptions);
+    }
+  }
+};
+
+defaultExport$2.prototype.runCallbacks = function runCallbacks () {
+    var this$1 = this;
+
+  var cb, call;
+  for (var i = 0; i < callbacks.length; i++) {
+    cb = callbacks[i];
+    call = this$1.library.visualization && ((cb.pack === "corechart" && this$1.library.visualization.LineChart) || (cb.pack === "timeline" && this$1.library.visualization.Timeline));
+    if (call) {
+      cb.callback();
+      callbacks.splice(i, 1);
+      i--;
+    }
+  }
+};
+
+// cant use object as key
+defaultExport$2.prototype.createDataTable = function createDataTable (series, columnType, xtype) {
+  var i, j, s, d, key, rows = [], sortedLabels = [];
+  for (i = 0; i < series.length; i++) {
+    s = series[i];
+
+    for (j = 0; j < s.data.length; j++) {
+      d = s.data[j];
+      key = (columnType === "datetime") ? d[0].getTime() : d[0];
+      if (!rows[key]) {
+        rows[key] = new Array(series.length);
+        sortedLabels.push(key);
+      }
+      rows[key][i] = toFloat(d[1]);
+    }
+  }
+
+  var rows2 = [];
+  var day = true;
+  var value;
+  for (j = 0; j < sortedLabels.length; j++) {
+    i = sortedLabels[j];
+    if (columnType === "datetime") {
+      value = new Date(toFloat(i));
+      day = day && isDay(value);
+    } else if (columnType === "number") {
+      value = toFloat(i);
+    } else {
+      value = i;
+    }
+    rows2.push([value].concat(rows[i]));
+  }
+  if (columnType === "datetime") {
+    rows2.sort(sortByTime);
+  } else if (columnType === "number") {
+    rows2.sort(sortByNumberSeries);
+  }
+
+  if (xtype === "number") {
+    rows2.sort(sortByNumberSeries);
+
+    for (i = 0; i < rows2.length; i++) {
+      rows2[i][0] = toStr(rows2[i][0]);
+    }
+  }
+
+  // create datatable
+  var data = new this.library.visualization.DataTable();
+  columnType = columnType === "datetime" && day ? "date" : columnType;
+  data.addColumn(columnType, "");
+  for (i = 0; i < series.length; i++) {
+    data.addColumn("number", series[i].name);
+  }
+  data.addRows(rows2);
+
+  return data;
+};
+
+var pendingRequests = [], runningRequests = 0, maxRequests = 4;
+
+function pushRequest(url, success, error) {
+  pendingRequests.push([url, success, error]);
+  runNext();
+}
+
+function runNext() {
+  if (runningRequests < maxRequests) {
+    var request = pendingRequests.shift();
+    if (request) {
+      runningRequests++;
+      getJSON(request[0], request[1], request[2]);
+      runNext();
+    }
+  }
+}
+
+function requestComplete() {
+  runningRequests--;
+  runNext();
+}
+
+function getJSON(url, success, error) {
+  ajaxCall(url, success, function (jqXHR, textStatus, errorThrown) {
+    var message = (typeof errorThrown === "string") ? errorThrown : errorThrown.message;
+    error(message);
+  });
+}
+
+function ajaxCall(url, success, error) {
+  var $ = window.jQuery || window.Zepto || window.$;
+
+  if ($) {
+    $.ajax({
+      dataType: "json",
+      url: url,
+      success: success,
+      error: error,
+      complete: requestComplete
+    });
+  } else {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onload = function () {
+      requestComplete();
+      if (xhr.status === 200) {
+        success(JSON.parse(xhr.responseText), xhr.statusText, xhr);
+      } else {
+        error(xhr, "error", xhr.statusText);
+      }
+    };
+    xhr.send();
+  }
+}
+
+var config = (typeof window !== "undefined" && window.Chartkick) || {};
+var adapters = [];
+
+// helpers
+
+function setText(element, text) {
+  if (document.body.innerText) {
+    element.innerText = text;
+  } else {
+    element.textContent = text;
+  }
+}
+
+function chartError(element, message) {
+  setText(element, "Error Loading Chart: " + message);
+  element.style.color = "#ff0000";
+}
+
+function errorCatcher(chart) {
+  try {
+    chart.__render();
+  } catch (err) {
+    chartError(chart.element, err.message);
+    throw err;
+  }
+}
+
+function fetchDataSource(chart, dataSource) {
+  if (typeof dataSource === "string") {
+    pushRequest(dataSource, function (data) {
+      chart.rawData = data;
+      errorCatcher(chart);
+    }, function (message) {
+      chartError(chart.element, message);
+    });
+  } else {
+    chart.rawData = dataSource;
+    errorCatcher(chart);
+  }
+}
+
+function addDownloadButton(chart) {
+  var element = chart.element;
+  var link = document.createElement("a");
+  link.download = chart.options.download === true ? "chart.png" : chart.options.download; // http://caniuse.com/download
+  link.style.position = "absolute";
+  link.style.top = "20px";
+  link.style.right = "20px";
+  link.style.zIndex = 1000;
+  link.style.lineHeight = "20px";
+  link.target = "_blank"; // for safari
+  var image = document.createElement("img");
+  image.alt = "Download";
+  image.style.border = "none";
+  // icon from font-awesome
+  // http://fa2png.io/
+  image.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAABCFBMVEUAAADMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMywEsqxAAAAV3RSTlMAAQIDBggJCgsMDQ4PERQaHB0eISIjJCouLzE0OTo/QUJHSUpLTU5PUllhYmltcHh5foWLjI+SlaCio6atr7S1t7m6vsHHyM7R2tze5Obo7fHz9ff5+/1hlxK2AAAA30lEQVQYGUXBhVYCQQBA0TdYWAt2d3d3YWAHyur7/z9xgD16Lw0DW+XKx+1GgX+FRzM3HWQWrHl5N/oapW5RPe0PkBu+UYeICvozTWZVK23Ao04B79oJrOsJDOoxkZoQPWgX29pHpCZEk7rEvQYiNSFq1UMqvlCjJkRBS1R8hb00Vb/TajtBL7nTHE1X1vyMQF732dQhyF2o6SAwrzP06iUQzvwsArlnzcOdrgBhJyHa1QOgO9U1GsKuvjUTjavliZYQ8nNPapG6sap/3nrIdJ6bOWzmX/fy0XVpfzZP3S8OJT3g9EEiJwAAAABJRU5ErkJggg==";
+  link.appendChild(image);
+  element.style.position = "relative";
+
+  chart.downloadAttached = true;
+
+  // mouseenter
+  addEvent(element, "mouseover", function(e) {
+    var related = e.relatedTarget;
+    // check download option again to ensure it wasn't changed
+    if (!related || (related !== this && !childOf(this, related)) && chart.options.download) {
+      link.href = chart.toImage();
+      element.appendChild(link);
+    }
+  });
+
+  // mouseleave
+  addEvent(element, "mouseout", function(e) {
+    var related = e.relatedTarget;
+    if (!related || (related !== this && !childOf(this, related))) {
+      if (link.parentNode) {
+        link.parentNode.removeChild(link);
+      }
+    }
+  });
+}
+
+// http://stackoverflow.com/questions/10149963/adding-event-listener-cross-browser
+function addEvent(elem, event, fn) {
+  if (elem.addEventListener) {
+    elem.addEventListener(event, fn, false);
+  } else {
+    elem.attachEvent("on" + event, function() {
+      // set the this pointer same as addEventListener when fn is called
+      return(fn.call(elem, window.event));
+    });
+  }
+}
+
+// https://gist.github.com/shawnbot/4166283
+function childOf(p, c) {
+  if (p === c) { return false; }
+  while (c && c !== p) { c = c.parentNode; }
+  return c === p;
+}
+
+function getAdapterType(library) {
+  if (library) {
+    if (library.product === "Highcharts") {
+      return defaultExport$1;
+    } else if (library.setOnLoadCallback || library.charts) {
+      return defaultExport$2;
+    } else if (isFunction(library)) {
+      return defaultExport;
+    }
+  }
+  throw new Error("Unknown adapter");
+}
+
+function addAdapter(library) {
+  var adapterType = getAdapterType(library);
+  var adapter = new adapterType(library);
+
+  if (adapters.indexOf(adapter) === -1) {
+    adapters.push(adapter);
+  }
+}
+
+function loadAdapters() {
+  if ("Chart" in window) {
+    addAdapter(window.Chart);
+  }
+
+  if ("Highcharts" in window) {
+    addAdapter(window.Highcharts);
+  }
+
+  if (window.google && (window.google.setOnLoadCallback || window.google.charts)) {
+    addAdapter(window.google);
+  }
+}
+
+function dataEmpty(data, chartType) {
+  if (chartType === "PieChart" || chartType === "GeoChart" || chartType === "Timeline") {
+    return data.length === 0;
+  } else {
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].data.length > 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
+function renderChart(chartType, chart) {
+  if (chart.options.messages && chart.options.messages.empty && dataEmpty(chart.data, chartType)) {
+    setText(chart.element, chart.options.messages.empty);
+  } else {
+    callAdapter(chartType, chart);
+    if (chart.options.download && !chart.downloadAttached && chart.adapter === "chartjs") {
+      addDownloadButton(chart);
+    }
+  }
+}
+
+// TODO remove chartType if cross-browser way
+// to get the name of the chart class
+function callAdapter(chartType, chart) {
+  var i, adapter, fnName, adapterName;
+  fnName = "render" + chartType;
+  adapterName = chart.options.adapter;
+
+  loadAdapters();
+
+  for (i = 0; i < adapters.length; i++) {
+    adapter = adapters[i];
+    if ((!adapterName || adapterName === adapter.name) && isFunction(adapter[fnName])) {
+      chart.adapter = adapter.name;
+      return adapter[fnName](chart);
+    }
+  }
+
+  if (adapters.length > 0) {
+    throw new Error("No charting library found for " + chartType);
+  } else {
+    throw new Error("No charting libraries found - be sure to include one before your charts");
+  }
+}
+
+// process data
+
+var toFormattedKey = function (key, keyType) {
+  if (keyType === "number") {
+    key = toFloat(key);
+  } else if (keyType === "datetime") {
+    key = toDate(key);
+  } else {
+    key = toStr(key);
+  }
+  return key;
+};
+
+var formatSeriesData = function (data, keyType) {
+  var r = [], key, j;
+  for (j = 0; j < data.length; j++) {
+    if (keyType === "bubble") {
+      r.push([toFloat(data[j][0]), toFloat(data[j][1]), toFloat(data[j][2])]);
+    } else {
+      key = toFormattedKey(data[j][0], keyType);
+      r.push([key, toFloat(data[j][1])]);
+    }
+  }
+  if (keyType === "datetime") {
+    r.sort(sortByTime);
+  } else if (keyType === "number") {
+    r.sort(sortByNumberSeries);
+  }
+  return r;
+};
+
+function detectDiscrete(series) {
+  var i, j, data;
+  for (i = 0; i < series.length; i++) {
+    data = toArr(series[i].data);
+    for (j = 0; j < data.length; j++) {
+      if (!isDate(data[j][0])) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+// creates a shallow copy of each element of the array
+// elements are expected to be objects
+function copySeries(series) {
+  var newSeries = [], i, j;
+  for (i = 0; i < series.length; i++) {
+    var copy = {};
+    for (j in series[i]) {
+      if (series[i].hasOwnProperty(j)) {
+        copy[j] = series[i][j];
+      }
+    }
+    newSeries.push(copy);
+  }
+  return newSeries;
+}
+
+function processSeries(chart, keyType) {
+  var i;
+
+  var opts = chart.options;
+  var series = chart.rawData;
+
+  // see if one series or multiple
+  if (!isArray(series) || typeof series[0] !== "object" || isArray(series[0])) {
+    series = [{name: opts.label || "Value", data: series}];
+    chart.hideLegend = true;
+  } else {
+    chart.hideLegend = false;
+  }
+  if ((opts.discrete === null || opts.discrete === undefined) && keyType !== "bubble" && keyType !== "number") {
+    chart.discrete = detectDiscrete(series);
+  } else {
+    chart.discrete = opts.discrete;
+  }
+  if (chart.discrete) {
+    keyType = "string";
+  }
+  if (chart.options.xtype) {
+    keyType = chart.options.xtype;
+  }
+
+  // right format
+  series = copySeries(series);
+  for (i = 0; i < series.length; i++) {
+    series[i].data = formatSeriesData(toArr(series[i].data), keyType);
+  }
+
+  return series;
+}
+
+function processSimple(chart) {
+  var perfectData = toArr(chart.rawData), i;
+  for (i = 0; i < perfectData.length; i++) {
+    perfectData[i] = [toStr(perfectData[i][0]), toFloat(perfectData[i][1])];
+  }
+  return perfectData;
+}
+
+// define classes
+
+var Chart = function Chart(element, dataSource, options) {
+  var elementId;
+  if (typeof element === "string") {
+    elementId = element;
+    element = document.getElementById(element);
+    if (!element) {
+      throw new Error("No element with id " + elementId);
+    }
+  }
+  this.element = element;
+  this.options = merge(Chartkick.options, options || {});
+  this.dataSource = dataSource;
+
+  Chartkick.charts[element.id] = this;
+
+  fetchDataSource(this, dataSource);
+
+  if (this.options.refresh) {
+    this.startRefresh();
+  }
+};
+
+Chart.prototype.getElement = function getElement () {
+  return this.element;
+};
+
+Chart.prototype.getDataSource = function getDataSource () {
+  return this.dataSource;
+};
+
+Chart.prototype.getData = function getData () {
+  return this.data;
+};
+
+Chart.prototype.getOptions = function getOptions () {
+  return this.options;
+};
+
+Chart.prototype.getChartObject = function getChartObject () {
+  return this.chart;
+};
+
+Chart.prototype.getAdapter = function getAdapter () {
+  return this.adapter;
+};
+
+Chart.prototype.updateData = function updateData (dataSource, options) {
+  this.dataSource = dataSource;
+  if (options) {
+    this.__updateOptions(options);
+  }
+  fetchDataSource(this, dataSource);
+};
+
+Chart.prototype.setOptions = function setOptions (options) {
+  this.__updateOptions(options);
+  this.redraw();
+};
+
+Chart.prototype.redraw = function redraw () {
+  fetchDataSource(this, this.rawData);
+};
+
+Chart.prototype.refreshData = function refreshData () {
+  if (typeof this.dataSource === "string") {
+    // prevent browser from caching
+    var sep = this.dataSource.indexOf("?") === -1 ? "?" : "&";
+    var url = this.dataSource + sep + "_=" + (new Date()).getTime();
+    fetchDataSource(this, url);
+  }
+};
+
+Chart.prototype.startRefresh = function startRefresh () {
+    var this$1 = this;
+
+  var refresh = this.options.refresh;
+
+  if (!this.intervalId) {
+    if (refresh) {
+      this.intervalId = setInterval( function () {
+        this$1.refreshData();
+      }, refresh * 1000);
+    } else {
+      throw new Error("No refresh interval");
+    }
+  }
+};
+
+Chart.prototype.stopRefresh = function stopRefresh () {
+  if (this.intervalId) {
+    clearInterval(this.intervalId);
+    this.intervalId = null;
+  }
+};
+
+Chart.prototype.toImage = function toImage () {
+  if (this.adapter === "chartjs") {
+    return this.chart.toBase64Image();
+  } else {
+    return null;
+  }
+};
+
+Chart.prototype.__updateOptions = function __updateOptions (options) {
+  var updateRefresh = options.refresh && options.refresh !== this.options.refresh;
+  this.options = merge(Chartkick.options, options);
+  if (updateRefresh) {
+    this.stopRefresh();
+    this.startRefresh();
+  }
+};
+
+Chart.prototype.__render = function __render () {
+  this.data = this.__processData();
+  renderChart(this.__chartName(), this);
+};
+
+Chart.prototype.__config = function __config () {
+  return config;
+};
+
+var LineChart = (function (Chart) {
+  function LineChart () {
+    Chart.apply(this, arguments);
+  }
+
+  if ( Chart ) LineChart.__proto__ = Chart;
+  LineChart.prototype = Object.create( Chart && Chart.prototype );
+  LineChart.prototype.constructor = LineChart;
+
+  LineChart.prototype.__processData = function __processData () {
+    return processSeries(this, "datetime");
+  };
+
+  LineChart.prototype.__chartName = function __chartName () {
+    return "LineChart";
+  };
+
+  return LineChart;
+}(Chart));
+
+var PieChart = (function (Chart) {
+  function PieChart () {
+    Chart.apply(this, arguments);
+  }
+
+  if ( Chart ) PieChart.__proto__ = Chart;
+  PieChart.prototype = Object.create( Chart && Chart.prototype );
+  PieChart.prototype.constructor = PieChart;
+
+  PieChart.prototype.__processData = function __processData () {
+    return processSimple(this);
+  };
+
+  PieChart.prototype.__chartName = function __chartName () {
+    return "PieChart";
+  };
+
+  return PieChart;
+}(Chart));
+
+var ColumnChart = (function (Chart) {
+  function ColumnChart () {
+    Chart.apply(this, arguments);
+  }
+
+  if ( Chart ) ColumnChart.__proto__ = Chart;
+  ColumnChart.prototype = Object.create( Chart && Chart.prototype );
+  ColumnChart.prototype.constructor = ColumnChart;
+
+  ColumnChart.prototype.__processData = function __processData () {
+    return processSeries(this, "string");
+  };
+
+  ColumnChart.prototype.__chartName = function __chartName () {
+    return "ColumnChart";
+  };
+
+  return ColumnChart;
+}(Chart));
+
+var BarChart = (function (Chart) {
+  function BarChart () {
+    Chart.apply(this, arguments);
+  }
+
+  if ( Chart ) BarChart.__proto__ = Chart;
+  BarChart.prototype = Object.create( Chart && Chart.prototype );
+  BarChart.prototype.constructor = BarChart;
+
+  BarChart.prototype.__processData = function __processData () {
+    return processSeries(this, "string");
+  };
+
+  BarChart.prototype.__chartName = function __chartName () {
+    return "BarChart";
+  };
+
+  return BarChart;
+}(Chart));
+
+var AreaChart = (function (Chart) {
+  function AreaChart () {
+    Chart.apply(this, arguments);
+  }
+
+  if ( Chart ) AreaChart.__proto__ = Chart;
+  AreaChart.prototype = Object.create( Chart && Chart.prototype );
+  AreaChart.prototype.constructor = AreaChart;
+
+  AreaChart.prototype.__processData = function __processData () {
+    return processSeries(this, "datetime");
+  };
+
+  AreaChart.prototype.__chartName = function __chartName () {
+    return "AreaChart";
+  };
+
+  return AreaChart;
+}(Chart));
+
+var GeoChart = (function (Chart) {
+  function GeoChart () {
+    Chart.apply(this, arguments);
+  }
+
+  if ( Chart ) GeoChart.__proto__ = Chart;
+  GeoChart.prototype = Object.create( Chart && Chart.prototype );
+  GeoChart.prototype.constructor = GeoChart;
+
+  GeoChart.prototype.__processData = function __processData () {
+    return processSimple(this);
+  };
+
+  GeoChart.prototype.__chartName = function __chartName () {
+    return "GeoChart";
+  };
+
+  return GeoChart;
+}(Chart));
+
+var ScatterChart = (function (Chart) {
+  function ScatterChart () {
+    Chart.apply(this, arguments);
+  }
+
+  if ( Chart ) ScatterChart.__proto__ = Chart;
+  ScatterChart.prototype = Object.create( Chart && Chart.prototype );
+  ScatterChart.prototype.constructor = ScatterChart;
+
+  ScatterChart.prototype.__processData = function __processData () {
+    return processSeries(this, "number");
+  };
+
+  ScatterChart.prototype.__chartName = function __chartName () {
+    return "ScatterChart";
+  };
+
+  return ScatterChart;
+}(Chart));
+
+var BubbleChart = (function (Chart) {
+  function BubbleChart () {
+    Chart.apply(this, arguments);
+  }
+
+  if ( Chart ) BubbleChart.__proto__ = Chart;
+  BubbleChart.prototype = Object.create( Chart && Chart.prototype );
+  BubbleChart.prototype.constructor = BubbleChart;
+
+  BubbleChart.prototype.__processData = function __processData () {
+    return processSeries(this, "bubble");
+  };
+
+  BubbleChart.prototype.__chartName = function __chartName () {
+    return "BubbleChart";
+  };
+
+  return BubbleChart;
+}(Chart));
+
+var Timeline = (function (Chart) {
+  function Timeline () {
+    Chart.apply(this, arguments);
+  }
+
+  if ( Chart ) Timeline.__proto__ = Chart;
+  Timeline.prototype = Object.create( Chart && Chart.prototype );
+  Timeline.prototype.constructor = Timeline;
+
+  Timeline.prototype.__processData = function __processData () {
+    var i, data = this.rawData;
+    for (i = 0; i < data.length; i++) {
+      data[i][1] = toDate(data[i][1]);
+      data[i][2] = toDate(data[i][2]);
+    }
+    return data;
+  };
+
+  Timeline.prototype.__chartName = function __chartName () {
+    return "Timeline";
+  };
+
+  return Timeline;
+}(Chart));
+
+var Chartkick = {
+  LineChart: LineChart,
+  PieChart: PieChart,
+  ColumnChart: ColumnChart,
+  BarChart: BarChart,
+  AreaChart: AreaChart,
+  GeoChart: GeoChart,
+  ScatterChart: ScatterChart,
+  BubbleChart: BubbleChart,
+  Timeline: Timeline,
+  charts: {},
+  configure: function (options) {
+    for (var key in options) {
+      if (options.hasOwnProperty(key)) {
+        config[key] = options[key];
+      }
+    }
+  },
+  eachChart: function (callback) {
+    for (var chartId in Chartkick.charts) {
+      if (Chartkick.charts.hasOwnProperty(chartId)) {
+        callback(Chartkick.charts[chartId]);
+      }
+    }
+  },
+  config: config,
+  options: {},
+  adapters: adapters,
+  addAdapter: addAdapter
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Chartkick);
+
+
+/***/ }),
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * @namespace Chart
  */
-var Chart = __webpack_require__(225)();
+var Chart = __webpack_require__(227)();
 
 Chart.helpers = __webpack_require__(1);
 
 // @todo dispatch these helpers into appropriated helpers/helpers.* file and write unit tests!
-__webpack_require__(229)(Chart);
+__webpack_require__(231)(Chart);
 
 Chart.defaults = __webpack_require__(2);
 Chart.Element = __webpack_require__(5);
@@ -74577,40 +76843,40 @@ Chart.platform = __webpack_require__(43);
 Chart.plugins = __webpack_require__(44);
 Chart.Ticks = __webpack_require__(11);
 
-__webpack_require__(240)(Chart);
-__webpack_require__(241)(Chart);
 __webpack_require__(242)(Chart);
 __webpack_require__(243)(Chart);
 __webpack_require__(244)(Chart);
 __webpack_require__(245)(Chart);
-
 __webpack_require__(246)(Chart);
 __webpack_require__(247)(Chart);
+
 __webpack_require__(248)(Chart);
 __webpack_require__(249)(Chart);
 __webpack_require__(250)(Chart);
 __webpack_require__(251)(Chart);
+__webpack_require__(252)(Chart);
+__webpack_require__(253)(Chart);
 
 // Controllers must be loaded after elements
 // See Chart.core.datasetController.dataElementType
-__webpack_require__(253)(Chart);
-__webpack_require__(254)(Chart);
 __webpack_require__(255)(Chart);
 __webpack_require__(256)(Chart);
 __webpack_require__(257)(Chart);
 __webpack_require__(258)(Chart);
 __webpack_require__(259)(Chart);
-
 __webpack_require__(260)(Chart);
 __webpack_require__(261)(Chart);
+
 __webpack_require__(262)(Chart);
 __webpack_require__(263)(Chart);
 __webpack_require__(264)(Chart);
 __webpack_require__(265)(Chart);
 __webpack_require__(266)(Chart);
+__webpack_require__(267)(Chart);
+__webpack_require__(268)(Chart);
 
 // Loading built-it plugins
-var plugins = __webpack_require__(267);
+var plugins = __webpack_require__(269);
 for (var k in plugins) {
 	if (plugins.hasOwnProperty(k)) {
 		Chart.plugins.register(plugins[k]);
@@ -74683,7 +76949,7 @@ Chart.layoutService = Chart.layouts;
 
 
 /***/ }),
-/* 225 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -74739,7 +77005,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 226 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -74996,7 +77262,7 @@ helpers.easingEffects = effects;
 
 
 /***/ }),
-/* 227 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -75217,7 +77483,7 @@ helpers.drawRoundedRectangle = function(ctx) {
 
 
 /***/ }),
-/* 228 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -75320,7 +77586,7 @@ module.exports = {
 
 
 /***/ }),
-/* 229 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -75938,10 +78204,10 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 230 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(231);
+var conversions = __webpack_require__(233);
 
 var convert = function() {
    return new Converter();
@@ -76035,7 +78301,7 @@ Converter.prototype.getValues = function(space) {
 module.exports = convert;
 
 /***/ }),
-/* 231 */
+/* 233 */
 /***/ (function(module, exports) {
 
 /* MIT license */
@@ -76739,11 +79005,11 @@ for (var key in cssKeywords) {
 
 
 /***/ }),
-/* 232 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var colorNames = __webpack_require__(233);
+var colorNames = __webpack_require__(235);
 
 module.exports = {
    getRgba: getRgba,
@@ -76966,7 +79232,7 @@ for (var name in colorNames) {
 
 
 /***/ }),
-/* 233 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77125,7 +79391,7 @@ module.exports = {
 
 
 /***/ }),
-/* 234 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77239,7 +79505,7 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 235 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77337,7 +79603,7 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 236 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77450,7 +79716,7 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 237 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77674,7 +79940,7 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 238 */
+/* 240 */
 /***/ (function(module, exports) {
 
 /**
@@ -77695,7 +79961,7 @@ module.exports = {
 
 
 /***/ }),
-/* 239 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -78159,7 +80425,7 @@ helpers.removeEvent = removeEventListener;
 
 
 /***/ }),
-/* 240 */
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -78338,7 +80604,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 241 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79292,7 +81558,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 242 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79629,7 +81895,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 243 */
+/* 245 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79682,7 +81948,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 244 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80625,7 +82891,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 245 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -81580,7 +83846,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 246 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -81773,7 +84039,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 247 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -81913,7 +84179,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 248 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -82111,7 +84377,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 249 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -82465,7 +84731,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 250 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83001,7 +85267,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 251 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83791,7 +86057,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 252 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -84054,10 +86320,10 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 252;
+webpackContext.id = 254;
 
 /***/ }),
-/* 253 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -84568,7 +86834,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 254 */
+/* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -84755,7 +87021,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 255 */
+/* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85061,7 +87327,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 256 */
+/* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85401,7 +87667,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 257 */
+/* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85630,7 +87896,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 258 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85805,7 +88071,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 259 */
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85854,7 +88120,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 260 */
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85872,7 +88138,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 261 */
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85889,7 +88155,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 262 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85907,7 +88173,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 263 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85925,7 +88191,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 264 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85943,7 +88209,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 265 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85961,7 +88227,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 266 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85976,20 +88242,20 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 267 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 module.exports = {};
-module.exports.filler = __webpack_require__(268);
-module.exports.legend = __webpack_require__(269);
-module.exports.title = __webpack_require__(270);
+module.exports.filler = __webpack_require__(270);
+module.exports.legend = __webpack_require__(271);
+module.exports.title = __webpack_require__(272);
 
 
 /***/ }),
-/* 268 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86314,7 +88580,7 @@ module.exports = {
 
 
 /***/ }),
-/* 269 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86897,7 +89163,7 @@ module.exports = {
 
 
 /***/ }),
-/* 270 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -87156,21 +89422,15 @@ module.exports = {
 
 
 /***/ }),
-/* 271 */
-/***/ (function(module, exports) {
-
-!function(t){function e(n){if(r[n])return r[n].exports;var o=r[n]={i:n,l:!1,exports:{}};return t[n].call(o.exports,o,o.exports,e),o.l=!0,o.exports}var r={};return e.m=t,e.c=r,e.i=function(t){return t},e.d=function(t,e,r){Object.defineProperty(t,e,{configurable:!1,enumerable:!0,get:r})},e.n=function(t){var r=t&&t.__esModule?function(){return t["default"]}:function(){return t};return e.d(r,"a",r),r},e.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},e.p="",e(e.s=22)}([function(t,e,r){"use strict";e["default"]={props:{beginzero:{type:Boolean,"default":function(){return!0}},datalabel:{type:String,"default":function(){return"My dataset"}},labels:{type:Array,"default":function(){return["first","second","third","fourth"]}},data:{type:Array,"default":function(){return[40,60,45,70]}},width:{type:Number,"default":function(){return null}},height:{type:Number,"default":function(){return null}},bordercolor:{"default":function(){return"rgba(75,192,192,1)"}},backgroundcolor:{"default":function(){return"rgba(75,192,192,0.4)"}},scalesdisplay:{type:Boolean,"default":function(){return!0}},target:{type:String,"default":function(){return null}},datasets:{type:Array,"default":function(){return null}},option:{type:Object,"default":function(){return null}},bind:{type:Boolean,"default":function(){return!1}}},data:function(){return{isDatasetsOverride:!1,isOptionOverride:!1,type:null,canvas:null,context:null,chart:null,chart_data:{labels:this.labels,datasets:this.datasets},options:{responsive:!1,maintainAspectRatio:!1,scales:{yAxes:[{display:this.scalesdisplay,ticks:{beginAtZero:this.beginzero}}]}}}},watch:{data:{handler:function(t,e){!this.isDatasetsOverride&&this.bind&&(this.chart_data.datasets[0].data=this.data,this.renderChart())},deep:!0},labels:{handler:function(t,e){this.bind&&(this.chart_data.labels=t,this.renderChart())},deep:!0},datasets:{handler:function(t,e){var r=this;this.isDatasetsOverride&&this.bind&&(this.cleanChart(),this.sleep(5).then(function(){r.renderChart()}))},deep:!0}},methods:{sleep:function(t){return new Promise(function(e){return setTimeout(e,t)})},setDatasets:function(){this.chart_data.datasets=this.datasets},setOption:function(){this.options=this.option},initTargetCanvas:function(){null==this.target?(this.canvas=this.$refs.canvas,this.context=this.$refs.canvas.getContext("2d"),this.renderChart()):(this.canvas=document.getElementById(this.target),this.context=document.getElementById(this.target).getContext("2d"),"undefined"==typeof datasets&&(window.datasets=[]),"undefined"==typeof datasets[this.target]&&(window.datasets[this.target]=[]),this.appendChart())},cleanChart:function(){null!=this.chart&&this.chart.destroy()},checkOverride:function(){null!=this.datasets&&(this.setDatasets(),this.isDatasetsOverride=!0),null!=this.option&&(this.setOption(),this.isOptionOverride=!0)},renderChart:function(){this.cleanChart(),this.chart=new Chart(this.context,{type:this.type,data:this.chart_data,options:this.options})},appendChart:function(){window.datasets[this.target].push(this.chart_data.datasets[0]),this.chart_data.datasets=window.datasets[this.target],document.getElementById(this.target).getAttribute("count")==this.chart_data.datasets.length&&this.renderChart()},checkSize:function(){null!=this.width&&null!=this.height||this.isOptionOverride||(this.options.responsive=!0,this.options.maintainAspectRatio=!0)}},mounted:function(){this.checkOverride(),this.checkSize(),this.initTargetCanvas()},beforeDestroy:function(){this.cleanChart()}}},function(t,e,r){var n,o;n=r(8);var a=r(15);o=n=n||{},"object"!=typeof n["default"]&&"function"!=typeof n["default"]||(o=n=n["default"]),"function"==typeof o&&(o=o.options),o.render=a.render,o.staticRenderFns=a.staticRenderFns,t.exports=n},function(t,e,r){var n,o;n=r(9);var a=r(18);o=n=n||{},"object"!=typeof n["default"]&&"function"!=typeof n["default"]||(o=n=n["default"]),"function"==typeof o&&(o=o.options),o.render=a.render,o.staticRenderFns=a.staticRenderFns,t.exports=n},function(t,e,r){var n,o;n=r(10);var a=r(21);o=n=n||{},"object"!=typeof n["default"]&&"function"!=typeof n["default"]||(o=n=n["default"]),"function"==typeof o&&(o=o.options),o.render=a.render,o.staticRenderFns=a.staticRenderFns,t.exports=n},function(t,e,r){var n,o;n=r(11);var a=r(20);o=n=n||{},"object"!=typeof n["default"]&&"function"!=typeof n["default"]||(o=n=n["default"]),"function"==typeof o&&(o=o.options),o.render=a.render,o.staticRenderFns=a.staticRenderFns,t.exports=n},function(t,e,r){var n,o;n=r(12);var a=r(16);o=n=n||{},"object"!=typeof n["default"]&&"function"!=typeof n["default"]||(o=n=n["default"]),"function"==typeof o&&(o=o.options),o.render=a.render,o.staticRenderFns=a.staticRenderFns,t.exports=n},function(t,e,r){var n,o;n=r(13);var a=r(19);o=n=n||{},"object"!=typeof n["default"]&&"function"!=typeof n["default"]||(o=n=n["default"]),"function"==typeof o&&(o=o.options),o.render=a.render,o.staticRenderFns=a.staticRenderFns,t.exports=n},function(t,e,r){var n,o;n=r(14);var a=r(17);o=n=n||{},"object"!=typeof n["default"]&&"function"!=typeof n["default"]||(o=n=n["default"]),"function"==typeof o&&(o=o.options),o.render=a.render,o.staticRenderFns=a.staticRenderFns,t.exports=n},function(t,e,r){"use strict";e["default"]={mixins:[VueCharts.core["default"]],data:function(){return{type:"bar",chart_data:{labels:this.labels,datasets:[{type:"bar",label:this.datalabel,backgroundColor:this.backgroundcolor,borderColor:this.bordercolor,borderWidth:1,data:this.data}]}}}}},function(t,e,r){"use strict";e["default"]={mixins:[VueCharts.core["default"]],props:{backgroundcolor:{"default":function(){return["#FF6384","#36A2EB","#FFCE56","#00A600"]}},hoverbackgroundcolor:{"default":function(){return["#FF6384","#36A2EB","#FFCE56","#00A600"]}},bordercolor:{"default":function(){return"#fff"}},hoverbordercolor:{"default":function(){return""}}},data:function(){return{type:"doughnut",chart_data:{labels:this.labels,datasets:[{label:this.datalabel,backgroundColor:this.backgroundcolor,borderColor:this.bordercolor,hoverBackgroundColor:this.hoverbackgroundcolor,hoverBorderColor:this.hoverbackgroundcolor,data:this.data}]},options:{scale:{reverse:!0,ticks:{beginAtZero:this.beginzero}}}}}}},function(t,e,r){"use strict";e["default"]={mixins:[VueCharts.core["default"]],data:function(){return{type:"horizontalBar",chart_data:{labels:this.labels,datasets:[{type:"horizontalBar",label:this.datalabel,backgroundColor:this.backgroundcolor,borderColor:this.bordercolor,borderWidth:1,data:this.data}]},options:{scales:{yAxes:[{stacked:!1}],xAxes:[{stacked:!0}]}}}}}},function(t,e,r){"use strict";e["default"]={mixins:[VueCharts.core["default"]],props:{beginzero:{type:Boolean,"default":!1},fill:{type:Boolean,"default":!1},linetension:{type:Number,"default":function(){return.2}},pointbordercolor:{type:String,"default":function(){return"rgba(75,192,192,1)"}},pointbackgroundcolor:{type:String,"default":function(){return"#fff"}},pointhoverbackgroundcolor:{type:String,"default":function(){return"rgba(75,192,192,1)"}},pointhoverbordercolor:{type:String,"default":function(){return"rgba(220,220,220,1)"}},pointborderwidth:{type:Number,"default":function(){return 1}},pointhoverborderwidth:{type:Number,"default":function(){return 2}}},data:function(){return{type:"line",chart_data:{labels:this.labels,datasets:[{type:"line",label:this.datalabel,fill:this.fill,lineTension:this.linetension,backgroundColor:this.backgroundcolor,borderColor:this.bordercolor,borderCapStyle:"butt",borderDash:[],borderDashOffset:0,borderJoinStyle:"miter",pointBorderColor:this.pointbordercolor,pointBackgroundColor:this.pointbackgroundcolor,pointBorderWidth:this.pointborderwidth,pointHoverRadius:5,pointHoverBackgroundColor:this.pointhoverbackgroundcolor,pointHoverBorderColor:this.pointhoverbordercolor,pointHoverBorderWidth:this.pointhoverborderwidth,pointRadius:1,pointHitRadius:10,data:this.data,spanGaps:!1}]}}}}},function(t,e,r){"use strict";e["default"]={mixins:[VueCharts.core["default"]],props:{backgroundcolor:{"default":function(){return["#FF6384","#36A2EB","#FFCE56","#00A600"]}},hoverbackgroundcolor:{"default":function(){return["#FF6384","#36A2EB","#FFCE56","#00A600"]}},bordercolor:{"default":function(){return"#fff"}},hoverbordercolor:{"default":function(){return""}}},data:function(){return{type:"pie",chart_data:{labels:this.labels,datasets:[{label:this.datalabel,backgroundColor:this.backgroundcolor,borderColor:this.bordercolor,hoverBackgroundColor:this.hoverbackgroundcolor,hoverBorderColor:this.hoverbackgroundcolor,data:this.data}]},options:{scale:{reverse:!0,ticks:{beginAtZero:this.beginzero}}}}}}},function(t,e,r){"use strict";e["default"]={mixins:[VueCharts.core["default"]],props:{hoverbackgroundcolor:{"default":function(){return"rgba(75,192,192,0.6)"}},hoverbordercolor:{"default":function(){return"rgba(179,181,198,1)"}}},data:function(){return{type:"polarArea",chart_data:{labels:this.labels,datasets:[{label:this.datalabel,backgroundColor:this.backgroundcolor,borderColor:this.bordercolor,hoverBackgroundColor:this.hoverbackgroundcolor,hoverBorderColor:this.hoverbackgroundcolor,data:this.data}]}}}}},function(t,e,r){"use strict";e["default"]={mixins:[VueCharts.core["default"]],props:{pointbordercolor:{"default":function(){return"#fff"}},pointbackgroundcolor:{"default":function(){return"rgba(179,181,198,1)"}}},data:function(){return{type:"radar",chart_data:{labels:this.labels,datasets:[{label:this.datalabel,backgroundColor:this.backgroundcolor,borderColor:this.bordercolor,pointBackgroundColor:this.pointbackgroundcolor,pointBorderColor:this.pointbordercolor,pointHoverBackgroundColor:"#fff",pointHoverBorderColor:"rgba(179,181,198,1)",data:this.data}]},options:{scale:{reverse:!1,ticks:{beginAtZero:this.beginzero}}}}}}},function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,r=t._self._c||e;return r("div",[t.target?t._e():r("canvas",{ref:"canvas",attrs:{width:t.width,height:t.height}})])},staticRenderFns:[]}},function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,r=t._self._c||e;return r("div",[t.target?t._e():r("canvas",{ref:"canvas",attrs:{width:t.width,height:t.height}})])},staticRenderFns:[]}},function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,r=t._self._c||e;return r("div",[t.target?t._e():r("canvas",{ref:"canvas",attrs:{width:t.width,height:t.height}})])},staticRenderFns:[]}},function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,r=t._self._c||e;return r("div",[t.target?t._e():r("canvas",{ref:"canvas",attrs:{width:t.width,height:t.height}})])},staticRenderFns:[]}},function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,r=t._self._c||e;return r("div",[t.target?t._e():r("canvas",{ref:"canvas",attrs:{width:t.width,height:t.height}})])},staticRenderFns:[]}},function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,r=t._self._c||e;return r("div",[t.target?t._e():r("canvas",{ref:"canvas",attrs:{width:t.width,height:t.height}})])},staticRenderFns:[]}},function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,r=t._self._c||e;return r("div",[t.target?t._e():r("canvas",{ref:"canvas",attrs:{width:t.width,height:t.height}})])},staticRenderFns:[]}},function(t,e,r){if("undefined"==typeof Chart)throw"ChartJS is undefined";window.VueCharts={},VueCharts.core=r(0),VueCharts.install=function(t){t.component("chartjs-line",r(4)),t.component("chartjs-bar",r(1)),t.component("chartjs-horizontal-bar",r(3)),t.component("chartjs-radar",r(7)),t.component("chartjs-polar-area",r(6)),t.component("chartjs-pie",r(5)),t.component("chartjs-doughnut",r(2))}}]);
-
-/***/ }),
-/* 272 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(273)
+var normalizeComponent = __webpack_require__(274)
 /* script */
-var __vue_script__ = __webpack_require__(274)
+var __vue_script__ = __webpack_require__(275)
 /* template */
-var __vue_template__ = __webpack_require__(276)
+var __vue_template__ = __webpack_require__(277)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -87209,7 +89469,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 273 */
+/* 274 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -87318,40 +89578,13 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 274 */
+/* 275 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_draggable_resizable__ = __webpack_require__(275);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_draggable_resizable__ = __webpack_require__(276);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_draggable_resizable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_draggable_resizable__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -87486,8 +89719,8 @@ Vue.component('vue-draggable-resizable', __WEBPACK_IMPORTED_MODULE_0_vue_draggab
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            reports: [{ id: 1, title: 'test title', postion: { x: 15, y: 16 }, size: { width: 600, height: 600 }, charts: [{ datalabel: "TestDataLabelBar", chart: 'bar', name: 'humd', from: '2018/01/01', to: '2018/02/03', optine: 'avg', data: [87, 65, 95] }, { datalabel: "TestDataLabelline", chart: 'line', name: 'temp', from: '2018/01/01', to: '2018/02/03', optine: 'avg', data: [88, 99, 55] }] }],
-            tmp: [],
+            reports: [],
+            measurement: [],
             width: 0,
             height: 0,
             loading: false,
@@ -87504,12 +89737,9 @@ Vue.component('vue-draggable-resizable', __WEBPACK_IMPORTED_MODULE_0_vue_draggab
     },
     created: function created() {
         //            this.tmp = this.reports
-        $.each(this.reports, function (key, report) {
-            $.each(report.charts, function (key, chart) {
-                this.data = [99, 88, 77, 66, 55, 44, 33, 22, 11];
-            });
-        });
-        console.log(this.reports);
+
+        this.getReports();
+        this.getMeasurement();
     },
 
     methods: {
@@ -87521,17 +89751,21 @@ Vue.component('vue-draggable-resizable', __WEBPACK_IMPORTED_MODULE_0_vue_draggab
             //                console.log(this.reports.find(f => f.id === id))
             this.reports.find(function (f) {
                 return f.id === id;
-            }).size = { width: width, height: height };
+            }).width = width;
+            this.reports.find(function (f) {
+                return f.id === id;
+            }).height = height;
         },
         onDrag: function onDrag(id, x, y) {
             //                let index = this.reports.map(function (img) { return img.id }).indexOf(id)
             //                this.reports[index].postion =  {x: x, y: y}
             this.reports.find(function (f) {
                 return f.id === id;
-            }).postion = { x: x, y: y
-
-                //                console.log(this.reports)
-            };
+            }).x = x;
+            this.reports.find(function (f) {
+                return f.id === id;
+            }).y = y;
+            //                console.log(this.reports)
         },
         randkey: function randkey() {
             return Math.floor(Math.random() * (100 - 1 + 1)) + 1;
@@ -87542,11 +89776,25 @@ Vue.component('vue-draggable-resizable', __WEBPACK_IMPORTED_MODULE_0_vue_draggab
             //                this.tmp = this.reports
         },
         saveConfig: function saveConfig() {
+            var _this = this;
+
             //                this.reports = this.tmp
-            //                console.log(this.reports)
             this.configable = false;
             this.styleObject.border = 'none';
-            //                this.tmp = false
+            this.loading = true;
+
+            axios.post('/api/report/update', {
+                reports: this.reports
+            }).then(function (response) {
+                if (response.data.status == 1) {
+                    _this.$notification['success']({
+                        message: 'Success',
+                        description: 'Success to save the config in database'
+                    });
+                }
+
+                _this.loading = false;
+            });
         },
         add: function add() {
             this.addclick = true;
@@ -87554,20 +89802,68 @@ Vue.component('vue-draggable-resizable', __WEBPACK_IMPORTED_MODULE_0_vue_draggab
         dele: function dele(id) {
             this.reports.splice(id, 1);
         },
+        getReports: function getReports() {
+            var _this2 = this;
+
+            this.loading = true;
+            var reportsurl = '/api/report/lists';
+            axios.get(reportsurl).then(function (response) {
+                var reports = [];
+                $.each(response.data, function (key, data) {
+                    reports[key] = data;
+                    reports[key].data = {};
+                });
+                _this2.reports = reports;
+                console.log(_this2.reports);
+                _this2.getChartData();
+            });
+        },
         getChartData: function getChartData() {
-            return [88, 77, 99, 11];
+            $.each(this.reports, function (reportkey, report) {
+                var _this3 = this;
+
+                var group = this.group;
+                var dateto = this.dateto;
+                var datefrom = this.datefrom;
+                var name = this.name;
+                axios.post('/api/get/data', {
+                    group: group,
+                    dataname: name,
+                    dateto: dateto,
+                    datefrom: datefrom
+                }).then(function (response) {
+                    var dtmp = {};
+                    $.each(response.data, function (key, data) {
+                        dtmp[data.time] = data.mean;
+                    });
+                    _this3.data = dtmp;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            });
+            this.loading = false;
+        },
+        getMeasurement: function getMeasurement() {
+            var _this4 = this;
+
+            axios.get('/api/db/measurement').then(function (response) {
+                // JSON responses are automatically parsed.
+                _this4.measurement = response.data;
+            }).catch(function (e) {
+                console.log(e);
+            });
         }
     }
 });
 
 /***/ }),
-/* 275 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 !function(t,e){ true?module.exports=e():"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?exports.VueDraggableResizable=e():t.VueDraggableResizable=e()}(this,function(){return function(t){function e(r){if(n[r])return n[r].exports;var i=n[r]={i:r,l:!1,exports:{}};return t[r].call(i.exports,i,i.exports,e),i.l=!0,i.exports}var n={};return e.m=t,e.c=n,e.i=function(t){return t},e.d=function(t,n,r){e.o(t,n)||Object.defineProperty(t,n,{configurable:!1,enumerable:!0,get:r})},e.n=function(t){var n=t&&t.__esModule?function(){return t.default}:function(){return t};return e.d(n,"a",n),n},e.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},e.p="",e(e.s=39)}([function(t,e,n){var r=n(34)("wks"),i=n(22),o=n(1).Symbol,s="function"==typeof o;(t.exports=function(t){return r[t]||(r[t]=s&&o[t]||(s?o:i)("Symbol."+t))}).store=r},function(t,e){var n=t.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=n)},function(t,e,n){t.exports=!n(12)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a})},function(t,e,n){var r=n(5),i=n(32);t.exports=n(2)?function(t,e,n){return r.f(t,e,i(1,n))}:function(t,e,n){return t[e]=n,t}},function(t,e){t.exports=function(t){return"object"==typeof t?null!==t:"function"==typeof t}},function(t,e,n){var r=n(6),i=n(53),o=n(69),s=Object.defineProperty;e.f=n(2)?Object.defineProperty:function(t,e,n){if(r(t),e=o(e,!0),r(n),i)try{return s(t,e,n)}catch(t){}if("get"in n||"set"in n)throw TypeError("Accessors not supported!");return"value"in n&&(t[e]=n.value),t}},function(t,e,n){var r=n(4);t.exports=function(t){if(!r(t))throw TypeError(t+" is not an object!");return t}},function(t,e,n){var r=n(23);t.exports=function(t,e,n){if(r(t),void 0===e)return t;switch(n){case 1:return function(n){return t.call(e,n)};case 2:return function(n,r){return t.call(e,n,r)};case 3:return function(n,r,i){return t.call(e,n,r,i)}}return function(){return t.apply(e,arguments)}}},function(t,e,n){var r=n(1),i=n(11),o=n(7),s=n(3),u=function(t,e,n){var a,f,c,h=t&u.F,l=t&u.G,p=t&u.S,d=t&u.P,m=t&u.B,v=t&u.W,g=l?i:i[e]||(i[e]={}),y=g.prototype,x=l?r:p?r[e]:(r[e]||{}).prototype;l&&(n=e);for(a in n)(f=!h&&x&&void 0!==x[a])&&a in g||(c=f?x[a]:n[a],g[a]=l&&"function"!=typeof x[a]?n[a]:m&&f?o(c,r):v&&x[a]==c?function(t){var e=function(e,n,r){if(this instanceof t){switch(arguments.length){case 0:return new t;case 1:return new t(e);case 2:return new t(e,n)}return new t(e,n,r)}return t.apply(this,arguments)};return e.prototype=t.prototype,e}(c):d&&"function"==typeof c?o(Function.call,c):c,d&&((g.virtual||(g.virtual={}))[a]=c,t&u.R&&y&&!y[a]&&s(y,a,c)))};u.F=1,u.G=2,u.S=4,u.P=8,u.B=16,u.W=32,u.U=64,u.R=128,t.exports=u},function(t,e){var n={}.hasOwnProperty;t.exports=function(t,e){return n.call(t,e)}},function(t,e){t.exports={}},function(t,e){var n=t.exports={version:"2.5.1"};"number"==typeof __e&&(__e=n)},function(t,e){t.exports=function(t){try{return!!t()}catch(t){return!0}}},function(t,e,n){var r=n(7),i=n(56),o=n(54),s=n(6),u=n(21),a=n(70),f={},c={},e=t.exports=function(t,e,n,h,l){var p,d,m,v,g=l?function(){return t}:a(t),y=r(n,h,e?2:1),x=0;if("function"!=typeof g)throw TypeError(t+" is not iterable!");if(o(g)){for(p=u(t.length);p>x;x++)if((v=e?y(s(d=t[x])[0],d[1]):y(t[x]))===f||v===c)return v}else for(m=g.call(t);!(d=m.next()).done;)if((v=i(m,y,d.value,e))===f||v===c)return v};e.BREAK=f,e.RETURN=c},function(t,e){var n={}.toString;t.exports=function(t){return n.call(t).slice(8,-1)}},function(t,e){t.exports=function(t){if(void 0==t)throw TypeError("Can't call method on  "+t);return t}},function(t,e,n){"use strict";var r=n(58),i=n(8),o=n(63),s=n(3),u=n(9),a=n(10),f=n(57),c=n(17),h=n(60),l=n(0)("iterator"),p=!([].keys&&"next"in[].keys()),d=function(){return this};t.exports=function(t,e,n,m,v,g,y){f(n,e,m);var x,b,w,_=function(t){if(!p&&t in M)return M[t];switch(t){case"keys":case"values":return function(){return new n(this,t)}}return function(){return new n(this,t)}},O=e+" Iterator",S="values"==v,E=!1,M=t.prototype,z=M[l]||M["@@iterator"]||v&&M[v],Y=z||_(v),X=v?S?_("entries"):Y:void 0,j="Array"==e?M.entries||z:z;if(j&&(w=h(j.call(new t)))!==Object.prototype&&w.next&&(c(w,O,!0),r||u(w,l)||s(w,l,d)),S&&z&&"values"!==z.name&&(E=!0,Y=function(){return z.call(this)}),r&&!y||!p&&!E&&M[l]||s(M,l,Y),a[e]=Y,a[O]=d,v)if(x={values:S?Y:_("values"),keys:g?Y:_("keys"),entries:X},y)for(b in x)b in M||o(M,b,x[b]);else i(i.P+i.F*(p||E),e,x);return x}},function(t,e,n){var r=n(5).f,i=n(9),o=n(0)("toStringTag");t.exports=function(t,e,n){t&&!i(t=n?t:t.prototype,o)&&r(t,o,{configurable:!0,value:e})}},function(t,e,n){var r=n(34)("keys"),i=n(22);t.exports=function(t){return r[t]||(r[t]=i(t))}},function(t,e){var n=Math.ceil,r=Math.floor;t.exports=function(t){return isNaN(t=+t)?0:(t>0?r:n)(t)}},function(t,e,n){var r=n(28),i=n(15);t.exports=function(t){return r(i(t))}},function(t,e,n){var r=n(19),i=Math.min;t.exports=function(t){return t>0?i(r(t),9007199254740991):0}},function(t,e){var n=0,r=Math.random();t.exports=function(t){return"Symbol(".concat(void 0===t?"":t,")_",(++n+r).toString(36))}},function(t,e){t.exports=function(t){if("function"!=typeof t)throw TypeError(t+" is not a function!");return t}},function(t,e){t.exports=function(t,e,n,r){if(!(t instanceof e)||void 0!==r&&r in t)throw TypeError(n+": incorrect invocation!");return t}},function(t,e,n){var r=n(14),i=n(0)("toStringTag"),o="Arguments"==r(function(){return arguments}()),s=function(t,e){try{return t[e]}catch(t){}};t.exports=function(t){var e,n,u;return void 0===t?"Undefined":null===t?"Null":"string"==typeof(n=s(e=Object(t),i))?n:o?r(e):"Object"==(u=r(e))&&"function"==typeof e.callee?"Arguments":u}},function(t,e,n){var r=n(4),i=n(1).document,o=r(i)&&r(i.createElement);t.exports=function(t){return o?i.createElement(t):{}}},function(t,e){t.exports="constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf".split(",")},function(t,e,n){var r=n(14);t.exports=Object("z").propertyIsEnumerable(0)?Object:function(t){return"String"==r(t)?t.split(""):Object(t)}},function(t,e){t.exports=function(t,e){return{value:e,done:!!t}}},function(t,e,n){var r=n(22)("meta"),i=n(4),o=n(9),s=n(5).f,u=0,a=Object.isExtensible||function(){return!0},f=!n(12)(function(){return a(Object.preventExtensions({}))}),c=function(t){s(t,r,{value:{i:"O"+ ++u,w:{}}})},h=function(t,e){if(!i(t))return"symbol"==typeof t?t:("string"==typeof t?"S":"P")+t;if(!o(t,r)){if(!a(t))return"F";if(!e)return"E";c(t)}return t[r].i},l=function(t,e){if(!o(t,r)){if(!a(t))return!0;if(!e)return!1;c(t)}return t[r].w},p=function(t){return f&&d.NEED&&a(t)&&!o(t,r)&&c(t),t},d=t.exports={KEY:r,NEED:!1,fastKey:h,getWeak:l,onFreeze:p}},function(t,e,n){var r=n(6),i=n(59),o=n(27),s=n(18)("IE_PROTO"),u=function(){},a=function(){var t,e=n(26)("iframe"),r=o.length;for(e.style.display="none",n(52).appendChild(e),e.src="javascript:",t=e.contentWindow.document,t.open(),t.write("<script>document.F=Object<\/script>"),t.close(),a=t.F;r--;)delete a.prototype[o[r]];return a()};t.exports=Object.create||function(t,e){var n;return null!==t?(u.prototype=r(t),n=new u,u.prototype=null,n[s]=t):n=a(),void 0===e?n:i(n,e)}},function(t,e){t.exports=function(t,e){return{enumerable:!(1&t),configurable:!(2&t),writable:!(4&t),value:e}}},function(t,e,n){var r=n(3);t.exports=function(t,e,n){for(var i in e)n&&t[i]?t[i]=e[i]:r(t,i,e[i]);return t}},function(t,e,n){var r=n(1),i=r["__core-js_shared__"]||(r["__core-js_shared__"]={});t.exports=function(t){return i[t]||(i[t]={})}},function(t,e,n){var r=n(15);t.exports=function(t){return Object(r(t))}},function(t,e,n){var r=n(4);t.exports=function(t,e){if(!r(t)||t._t!==e)throw TypeError("Incompatible receiver, "+e+" required!");return t}},function(t,e,n){n(83);var r=n(81)(n(38),n(82),"data-v-2bcd502f",null);r.options.__file="/Applications/mampstack-7.0.26-1/apache2/htdocs/vdr/src/components/vue-draggable-resizable.vue",r.esModule&&Object.keys(r.esModule).some(function(t){return"default"!==t&&"__esModule"!==t})&&console.error("named exports are not supported in *.vue files."),r.options.functional&&console.error("[vue-loader] vue-draggable-resizable.vue: functional components are not supported with templates, they should use render functions."),t.exports=r.exports},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=n(41),i=n.n(r),o=n(40);e.default={replace:!0,name:"VueDraggableResizable",props:{active:{type:Boolean,default:!1},draggable:{type:Boolean,default:!0},resizable:{type:Boolean,default:!0},w:{type:Number,default:200,validator:function(t){return t>0}},h:{type:Number,default:200,validator:function(t){return t>0}},minw:{type:Number,default:50,validator:function(t){return t>0}},minh:{type:Number,default:50,validator:function(t){return t>0}},x:{type:Number,default:0,validator:function(t){return"number"==typeof t}},y:{type:Number,default:0,validator:function(t){return"number"==typeof t}},z:{type:[String,Number],default:"auto",validator:function(t){return"string"==typeof t?"auto"===t:t>=0}},handles:{type:Array,default:function(){return["tl","tm","tr","mr","br","bm","bl","ml"]},validator:function(t){var e=new i.a(["tl","tm","tr","mr","br","bm","bl","ml"]);return new i.a(t.filter(function(t){return e.has(t)})).size===t.length}},dragHandle:{type:String,default:null},dragCancel:{type:String,default:null},axis:{type:String,default:"both",validator:function(t){return-1!==["x","y","both"].indexOf(t)}},grid:{type:Array,default:function(){return[1,1]}},parent:{type:Boolean,default:!1},maximize:{type:Boolean,default:!1}},created:function(){this.parentX=0,this.parentW=9999,this.parentY=0,this.parentH=9999,this.mouseX=0,this.mouseY=0,this.lastMouseX=0,this.lastMouseY=0,this.mouseOffX=0,this.mouseOffY=0,this.elmX=0,this.elmY=0,this.elmW=0,this.elmH=0},mounted:function(){document.documentElement.addEventListener("mousemove",this.handleMove,!0),document.documentElement.addEventListener("mousedown",this.deselect,!0),document.documentElement.addEventListener("mouseup",this.handleUp,!0),this.elmX=parseInt(this.$el.style.left),this.elmY=parseInt(this.$el.style.top),this.elmW=this.$el.offsetWidth||this.$el.clientWidth,this.elmH=this.$el.offsetHeight||this.$el.clientHeight,this.reviewDimensions()},beforeDestroy:function(){document.documentElement.removeEventListener("mousemove",this.handleMove,!0),document.documentElement.removeEventListener("mousedown",this.deselect,!0),document.documentElement.removeEventListener("mouseup",this.handleUp,!0)},data:function(){return{top:this.y,left:this.x,width:this.w,height:this.h,resizing:!1,dragging:!1,enabled:this.active,handle:null,zIndex:this.z}},methods:{reviewDimensions:function(){if(this.minw>this.w&&(this.width=this.minw),this.minh>this.h&&(this.height=this.minh),this.parent){var t=parseInt(this.$el.parentNode.clientWidth,10),e=parseInt(this.$el.parentNode.clientHeight,10);this.parentW=t,this.parentH=e,this.w>this.parentW&&(this.width=t),this.h>this.parentH&&(this.height=e),this.x+this.w>this.parentW&&(this.width=t-this.x),this.y+this.h>this.parentH&&(this.height=e-this.y)}this.elmW=this.width,this.elmH=this.height,this.$emit("resizing",this.left,this.top,this.width,this.height)},elmDown:function(t){var e=t.target||t.srcElement;if(this.$el.contains(e)){if(this.dragHandle&&!n.i(o.a)(e,this.dragHandle,this.$el)||this.dragCancel&&n.i(o.a)(e,this.dragCancel,this.$el))return;this.reviewDimensions(),this.enabled||(this.enabled=!0,this.$emit("activated"),this.$emit("update:active",!0)),this.draggable&&(this.dragging=!0)}},deselect:function(t){this.mouseX=t.pageX||t.clientX+document.documentElement.scrollLeft,this.mouseY=t.pageY||t.clientY+document.documentElement.scrollTop,this.lastMouseX=this.mouseX,this.lastMouseY=this.mouseY;var e=t.target||t.srcElement,n=new RegExp("handle-([trmbl]{2})","");this.$el.contains(e)||n.test(e.className)||this.enabled&&(this.enabled=!1,this.$emit("deactivated"),this.$emit("update:active",!1))},handleDown:function(t,e){this.handle=t,e.stopPropagation&&e.stopPropagation(),e.preventDefault&&e.preventDefault(),this.resizing=!0},fillParent:function(t){var e=this;if(this.parent&&this.resizable&&this.maximize){var n=!1,r=function t(){n||window.requestAnimationFrame(t),"x"===e.axis?e.width===e.parentW&&e.left===e.parentX&&(n=!0):"y"===e.axis?e.height===e.parentH&&e.top===e.parentY&&(n=!0):"both"===e.axis&&e.width===e.parentW&&e.height===e.parentH&&e.top===e.parentY&&e.left===e.parentX&&(n=!0),"x"!==e.axis&&"both"!==e.axis||(e.width<e.parentW&&(e.width++,e.elmW++),e.left>e.parentX&&(e.left--,e.elmX--)),"y"!==e.axis&&"both"!==e.axis||(e.height<e.parentH&&(e.height++,e.elmH++),e.top>e.parentY&&(e.top--,e.elmY--)),e.$emit("resizing",e.left,e.top,e.width,e.height)};window.requestAnimationFrame(r)}},handleMove:function(t){this.mouseX=t.pageX||t.clientX+document.documentElement.scrollLeft,this.mouseY=t.pageY||t.clientY+document.documentElement.scrollTop;var e=this.mouseX-this.lastMouseX+this.mouseOffX,n=this.mouseY-this.lastMouseY+this.mouseOffY;this.mouseOffX=this.mouseOffY=0,this.lastMouseX=this.mouseX,this.lastMouseY=this.mouseY;var r=e,i=n;this.resizing?(this.handle.indexOf("t")>=0&&(this.elmH-i<this.minh?this.mouseOffY=i-(n=this.elmH-this.minh):this.parent&&this.elmY+i<this.parentY&&(this.mouseOffY=i-(n=this.parentY-this.elmY)),this.elmY+=n,this.elmH-=n),this.handle.indexOf("b")>=0&&(this.elmH+i<this.minh?this.mouseOffY=i-(n=this.minh-this.elmH):this.parent&&this.elmY+this.elmH+i>this.parentH&&(this.mouseOffY=i-(n=this.parentH-this.elmY-this.elmH)),this.elmH+=n),this.handle.indexOf("l")>=0&&(this.elmW-r<this.minw?this.mouseOffX=r-(e=this.elmW-this.minw):this.parent&&this.elmX+r<this.parentX&&(this.mouseOffX=r-(e=this.parentX-this.elmX)),this.elmX+=e,this.elmW-=e),this.handle.indexOf("r")>=0&&(this.elmW+r<this.minw?this.mouseOffX=r-(e=this.minw-this.elmW):this.parent&&this.elmX+this.elmW+r>this.parentW&&(this.mouseOffX=r-(e=this.parentW-this.elmX-this.elmW)),this.elmW+=e),this.left=Math.round(this.elmX/this.grid[0])*this.grid[0],this.top=Math.round(this.elmY/this.grid[1])*this.grid[1],this.width=Math.round(this.elmW/this.grid[0])*this.grid[0],this.height=Math.round(this.elmH/this.grid[1])*this.grid[1],this.$emit("resizing",this.left,this.top,this.width,this.height)):this.dragging&&(this.parent&&(this.elmX+r<this.parentX?this.mouseOffX=r-(e=this.parentX-this.elmX):this.elmX+this.elmW+r>this.parentW&&(this.mouseOffX=r-(e=this.parentW-this.elmX-this.elmW)),this.elmY+i<this.parentY?this.mouseOffY=i-(n=this.parentY-this.elmY):this.elmY+this.elmH+i>this.parentH&&(this.mouseOffY=i-(n=this.parentH-this.elmY-this.elmH))),this.elmX+=e,this.elmY+=n,"x"!==this.axis&&"both"!==this.axis||(this.left=Math.round(this.elmX/this.grid[0])*this.grid[0]),"y"!==this.axis&&"both"!==this.axis||(this.top=Math.round(this.elmY/this.grid[1])*this.grid[1]),this.$emit("dragging",this.left,this.top))},handleUp:function(t){this.handle=null,this.resizing&&(this.resizing=!1,this.$emit("resizestop",this.left,this.top,this.width,this.height)),this.dragging&&(this.dragging=!1,this.$emit("dragstop",this.left,this.top)),this.elmX=this.left,this.elmY=this.top}},computed:{style:function(){return{top:this.top+"px",left:this.left+"px",width:this.width+"px",height:this.height+"px",zIndex:this.zIndex}}},watch:{active:function(t){this.enabled=t},z:function(t){(t>=0||"auto"===t)&&(this.zIndex=t)}}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=n(37),i=n.n(r);n.d(e,"default",function(){return i.a})},function(t,e,n){"use strict";function r(t,e,n){var r=t;do{if(r.matches(e))return!0;if(r===n)return!1;r=r.parentNode}while(r);return!1}e.a=r},function(t,e,n){t.exports={default:n(42),__esModule:!0}},function(t,e,n){n(72),n(74),n(78),n(73),n(77),n(76),n(75),t.exports=n(11).Set},function(t,e){t.exports=function(){}},function(t,e,n){var r=n(13);t.exports=function(t,e){var n=[];return r(t,!1,n.push,n,e),n}},function(t,e,n){var r=n(20),i=n(21),o=n(68);t.exports=function(t){return function(e,n,s){var u,a=r(e),f=i(a.length),c=o(s,f);if(t&&n!=n){for(;f>c;)if((u=a[c++])!=u)return!0}else for(;f>c;c++)if((t||c in a)&&a[c]===n)return t||c||0;return!t&&-1}}},function(t,e,n){var r=n(7),i=n(28),o=n(35),s=n(21),u=n(48);t.exports=function(t,e){var n=1==t,a=2==t,f=3==t,c=4==t,h=6==t,l=5==t||h,p=e||u;return function(e,u,d){for(var m,v,g=o(e),y=i(g),x=r(u,d,3),b=s(y.length),w=0,_=n?p(e,b):a?p(e,0):void 0;b>w;w++)if((l||w in y)&&(m=y[w],v=x(m,w,g),t))if(n)_[w]=v;else if(v)switch(t){case 3:return!0;case 5:return m;case 6:return w;case 2:_.push(m)}else if(c)return!1;return h?-1:f||c?c:_}}},function(t,e,n){var r=n(4),i=n(55),o=n(0)("species");t.exports=function(t){var e;return i(t)&&(e=t.constructor,"function"!=typeof e||e!==Array&&!i(e.prototype)||(e=void 0),r(e)&&null===(e=e[o])&&(e=void 0)),void 0===e?Array:e}},function(t,e,n){var r=n(47);t.exports=function(t,e){return new(r(t))(e)}},function(t,e,n){"use strict";var r=n(5).f,i=n(31),o=n(33),s=n(7),u=n(24),a=n(13),f=n(16),c=n(29),h=n(66),l=n(2),p=n(30).fastKey,d=n(36),m=l?"_s":"size",v=function(t,e){var n,r=p(e);if("F"!==r)return t._i[r];for(n=t._f;n;n=n.n)if(n.k==e)return n};t.exports={getConstructor:function(t,e,n,f){var c=t(function(t,r){u(t,c,e,"_i"),t._t=e,t._i=i(null),t._f=void 0,t._l=void 0,t[m]=0,void 0!=r&&a(r,n,t[f],t)});return o(c.prototype,{clear:function(){for(var t=d(this,e),n=t._i,r=t._f;r;r=r.n)r.r=!0,r.p&&(r.p=r.p.n=void 0),delete n[r.i];t._f=t._l=void 0,t[m]=0},delete:function(t){var n=d(this,e),r=v(n,t);if(r){var i=r.n,o=r.p;delete n._i[r.i],r.r=!0,o&&(o.n=i),i&&(i.p=o),n._f==r&&(n._f=i),n._l==r&&(n._l=o),n[m]--}return!!r},forEach:function(t){d(this,e);for(var n,r=s(t,arguments.length>1?arguments[1]:void 0,3);n=n?n.n:this._f;)for(r(n.v,n.k,this);n&&n.r;)n=n.p},has:function(t){return!!v(d(this,e),t)}}),l&&r(c.prototype,"size",{get:function(){return d(this,e)[m]}}),c},def:function(t,e,n){var r,i,o=v(t,e);return o?o.v=n:(t._l=o={i:i=p(e,!0),k:e,v:n,p:r=t._l,n:void 0,r:!1},t._f||(t._f=o),r&&(r.n=o),t[m]++,"F"!==i&&(t._i[i]=o)),t},getEntry:v,setStrong:function(t,e,n){f(t,e,function(t,n){this._t=d(t,e),this._k=n,this._l=void 0},function(){for(var t=this,e=t._k,n=t._l;n&&n.r;)n=n.p;return t._t&&(t._l=n=n?n.n:t._t._f)?"keys"==e?c(0,n.k):"values"==e?c(0,n.v):c(0,[n.k,n.v]):(t._t=void 0,c(1))},n?"entries":"values",!n,!0),h(e)}}},function(t,e,n){var r=n(25),i=n(44);t.exports=function(t){return function(){if(r(this)!=t)throw TypeError(t+"#toJSON isn't generic");return i(this)}}},function(t,e,n){"use strict";var r=n(1),i=n(8),o=n(30),s=n(12),u=n(3),a=n(33),f=n(13),c=n(24),h=n(4),l=n(17),p=n(5).f,d=n(46)(0),m=n(2);t.exports=function(t,e,n,v,g,y){var x=r[t],b=x,w=g?"set":"add",_=b&&b.prototype,O={};return m&&"function"==typeof b&&(y||_.forEach&&!s(function(){(new b).entries().next()}))?(b=e(function(e,n){c(e,b,t,"_c"),e._c=new x,void 0!=n&&f(n,g,e[w],e)}),d("add,clear,delete,forEach,get,has,set,keys,values,entries,toJSON".split(","),function(t){var e="add"==t||"set"==t;t in _&&(!y||"clear"!=t)&&u(b.prototype,t,function(n,r){if(c(this,b,t),!e&&y&&!h(n))return"get"==t&&void 0;var i=this._c[t](0===n?0:n,r);return e?this:i})}),y||p(b.prototype,"size",{get:function(){return this._c.size}})):(b=v.getConstructor(e,t,g,w),a(b.prototype,n),o.NEED=!0),l(b,t),O[t]=b,i(i.G+i.W+i.F,O),y||v.setStrong(b,t,g),b}},function(t,e,n){var r=n(1).document;t.exports=r&&r.documentElement},function(t,e,n){t.exports=!n(2)&&!n(12)(function(){return 7!=Object.defineProperty(n(26)("div"),"a",{get:function(){return 7}}).a})},function(t,e,n){var r=n(10),i=n(0)("iterator"),o=Array.prototype;t.exports=function(t){return void 0!==t&&(r.Array===t||o[i]===t)}},function(t,e,n){var r=n(14);t.exports=Array.isArray||function(t){return"Array"==r(t)}},function(t,e,n){var r=n(6);t.exports=function(t,e,n,i){try{return i?e(r(n)[0],n[1]):e(n)}catch(e){var o=t.return;throw void 0!==o&&r(o.call(t)),e}}},function(t,e,n){"use strict";var r=n(31),i=n(32),o=n(17),s={};n(3)(s,n(0)("iterator"),function(){return this}),t.exports=function(t,e,n){t.prototype=r(s,{next:i(1,n)}),o(t,e+" Iterator")}},function(t,e){t.exports=!0},function(t,e,n){var r=n(5),i=n(6),o=n(62);t.exports=n(2)?Object.defineProperties:function(t,e){i(t);for(var n,s=o(e),u=s.length,a=0;u>a;)r.f(t,n=s[a++],e[n]);return t}},function(t,e,n){var r=n(9),i=n(35),o=n(18)("IE_PROTO"),s=Object.prototype;t.exports=Object.getPrototypeOf||function(t){return t=i(t),r(t,o)?t[o]:"function"==typeof t.constructor&&t instanceof t.constructor?t.constructor.prototype:t instanceof Object?s:null}},function(t,e,n){var r=n(9),i=n(20),o=n(45)(!1),s=n(18)("IE_PROTO");t.exports=function(t,e){var n,u=i(t),a=0,f=[];for(n in u)n!=s&&r(u,n)&&f.push(n);for(;e.length>a;)r(u,n=e[a++])&&(~o(f,n)||f.push(n));return f}},function(t,e,n){var r=n(61),i=n(27);t.exports=Object.keys||function(t){return r(t,i)}},function(t,e,n){t.exports=n(3)},function(t,e,n){"use strict";var r=n(8),i=n(23),o=n(7),s=n(13);t.exports=function(t){r(r.S,t,{from:function(t){var e,n,r,u,a=arguments[1];return i(this),e=void 0!==a,e&&i(a),void 0==t?new this:(n=[],e?(r=0,u=o(a,arguments[2],2),s(t,!1,function(t){n.push(u(t,r++))})):s(t,!1,n.push,n),new this(n))}})}},function(t,e,n){"use strict";var r=n(8);t.exports=function(t){r(r.S,t,{of:function(){for(var t=arguments.length,e=Array(t);t--;)e[t]=arguments[t];return new this(e)}})}},function(t,e,n){"use strict";var r=n(1),i=n(11),o=n(5),s=n(2),u=n(0)("species");t.exports=function(t){var e="function"==typeof i[t]?i[t]:r[t];s&&e&&!e[u]&&o.f(e,u,{configurable:!0,get:function(){return this}})}},function(t,e,n){var r=n(19),i=n(15);t.exports=function(t){return function(e,n){var o,s,u=String(i(e)),a=r(n),f=u.length;return a<0||a>=f?t?"":void 0:(o=u.charCodeAt(a),o<55296||o>56319||a+1===f||(s=u.charCodeAt(a+1))<56320||s>57343?t?u.charAt(a):o:t?u.slice(a,a+2):s-56320+(o-55296<<10)+65536)}}},function(t,e,n){var r=n(19),i=Math.max,o=Math.min;t.exports=function(t,e){return t=r(t),t<0?i(t+e,0):o(t,e)}},function(t,e,n){var r=n(4);t.exports=function(t,e){if(!r(t))return t;var n,i;if(e&&"function"==typeof(n=t.toString)&&!r(i=n.call(t)))return i;if("function"==typeof(n=t.valueOf)&&!r(i=n.call(t)))return i;if(!e&&"function"==typeof(n=t.toString)&&!r(i=n.call(t)))return i;throw TypeError("Can't convert object to primitive value")}},function(t,e,n){var r=n(25),i=n(0)("iterator"),o=n(10);t.exports=n(11).getIteratorMethod=function(t){if(void 0!=t)return t[i]||t["@@iterator"]||o[r(t)]}},function(t,e,n){"use strict";var r=n(43),i=n(29),o=n(10),s=n(20);t.exports=n(16)(Array,"Array",function(t,e){this._t=s(t),this._i=0,this._k=e},function(){var t=this._t,e=this._k,n=this._i++;return!t||n>=t.length?(this._t=void 0,i(1)):"keys"==e?i(0,n):"values"==e?i(0,t[n]):i(0,[n,t[n]])},"values"),o.Arguments=o.Array,r("keys"),r("values"),r("entries")},function(t,e){},function(t,e,n){"use strict";var r=n(49),i=n(36);t.exports=n(51)("Set",function(t){return function(){return t(this,arguments.length>0?arguments[0]:void 0)}},{add:function(t){return r.def(i(this,"Set"),t=0===t?0:t,t)}},r)},function(t,e,n){"use strict";var r=n(67)(!0);n(16)(String,"String",function(t){this._t=String(t),this._i=0},function(){var t,e=this._t,n=this._i;return n>=e.length?{value:void 0,done:!0}:(t=r(e,n),this._i+=t.length,{value:t,done:!1})})},function(t,e,n){n(64)("Set")},function(t,e,n){n(65)("Set")},function(t,e,n){var r=n(8);r(r.P+r.R,"Set",{toJSON:n(50)("Set")})},function(t,e,n){n(71);for(var r=n(1),i=n(3),o=n(10),s=n(0)("toStringTag"),u="CSSRuleList,CSSStyleDeclaration,CSSValueList,ClientRectList,DOMRectList,DOMStringList,DOMTokenList,DataTransferItemList,FileList,HTMLAllCollection,HTMLCollection,HTMLFormElement,HTMLSelectElement,MediaList,MimeTypeArray,NamedNodeMap,NodeList,PaintRequestList,Plugin,PluginArray,SVGLengthList,SVGNumberList,SVGPathSegList,SVGPointList,SVGStringList,SVGTransformList,SourceBufferList,StyleSheetList,TextTrackCueList,TextTrackList,TouchList".split(","),a=0;a<u.length;a++){var f=u[a],c=r[f],h=c&&c.prototype;h&&!h[s]&&i(h,s,f),o[f]=o.Array}},function(t,e,n){e=t.exports=n(80)(),e.push([t.i,"\n.vdr[data-v-2bcd502f] {\n  position: absolute;\n  box-sizing: border-box;\n}\n.handle[data-v-2bcd502f] {\n  box-sizing: border-box;\n  display: none;\n  position: absolute;\n  width: 10px;\n  height: 10px;\n  font-size: 1px;\n  background: #EEE;\n  border: 1px solid #333;\n}\n.handle-tl[data-v-2bcd502f] {\n  top: -10px;\n  left: -10px;\n  cursor: nw-resize;\n}\n.handle-tm[data-v-2bcd502f] {\n  top: -10px;\n  left: 50%;\n  margin-left: -5px;\n  cursor: n-resize;\n}\n.handle-tr[data-v-2bcd502f] {\n  top: -10px;\n  right: -10px;\n  cursor: ne-resize;\n}\n.handle-ml[data-v-2bcd502f] {\n  top: 50%;\n  margin-top: -5px;\n  left: -10px;\n  cursor: w-resize;\n}\n.handle-mr[data-v-2bcd502f] {\n  top: 50%;\n  margin-top: -5px;\n  right: -10px;\n  cursor: e-resize;\n}\n.handle-bl[data-v-2bcd502f] {\n  bottom: -10px;\n  left: -10px;\n  cursor: sw-resize;\n}\n.handle-bm[data-v-2bcd502f] {\n  bottom: -10px;\n  left: 50%;\n  margin-left: -5px;\n  cursor: s-resize;\n}\n.handle-br[data-v-2bcd502f] {\n  bottom: -10px;\n  right: -10px;\n  cursor: se-resize;\n}\n",""])},function(t,e){t.exports=function(){var t=[];return t.toString=function(){for(var t=[],e=0;e<this.length;e++){var n=this[e];n[2]?t.push("@media "+n[2]+"{"+n[1]+"}"):t.push(n[1])}return t.join("")},t.i=function(e,n){"string"==typeof e&&(e=[[null,e,""]]);for(var r={},i=0;i<this.length;i++){var o=this[i][0];"number"==typeof o&&(r[o]=!0)}for(i=0;i<e.length;i++){var s=e[i];"number"==typeof s[0]&&r[s[0]]||(n&&!s[2]?s[2]=n:n&&(s[2]="("+s[2]+") and ("+n+")"),t.push(s))}},t}},function(t,e){t.exports=function(t,e,n,r){var i,o=t=t||{},s=typeof t.default;"object"!==s&&"function"!==s||(i=t,o=t.default);var u="function"==typeof o?o.options:o;if(e&&(u.render=e.render,u.staticRenderFns=e.staticRenderFns),n&&(u._scopeId=n),r){var a=Object.create(u.computed||null);Object.keys(r).forEach(function(t){var e=r[t];a[t]=function(){return e}}),u.computed=a}return{esModule:i,exports:o,options:u}}},function(t,e,n){t.exports={render:function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("div",{staticClass:"vdr",class:{draggable:t.draggable,resizable:t.resizable,active:t.enabled,dragging:t.dragging,resizing:t.resizing},style:t.style,on:{mousedown:function(e){e.stopPropagation(),t.elmDown(e)},dblclick:t.fillParent}},[t._l(t.handles,function(e){return t.resizable?n("div",{key:e,staticClass:"handle",class:"handle-"+e,style:{display:t.enabled?"block":"none"},on:{mousedown:function(n){n.stopPropagation(),n.preventDefault(),t.handleDown(e,n)}}}):t._e()}),t._v(" "),t._t("default")],2)},staticRenderFns:[]},t.exports.render._withStripped=!0},function(t,e,n){var r=n(79);"string"==typeof r&&(r=[[t.i,r,""]]),r.locals&&(t.exports=r.locals);n(84)("4764308c",r,!1)},function(t,e,n){function r(t){for(var e=0;e<t.length;e++){var n=t[e],r=c[n.id];if(r){r.refs++;for(var i=0;i<r.parts.length;i++)r.parts[i](n.parts[i]);for(;i<n.parts.length;i++)r.parts.push(o(n.parts[i]));r.parts.length>n.parts.length&&(r.parts.length=n.parts.length)}else{for(var s=[],i=0;i<n.parts.length;i++)s.push(o(n.parts[i]));c[n.id]={id:n.id,refs:1,parts:s}}}}function i(){var t=document.createElement("style");return t.type="text/css",h.appendChild(t),t}function o(t){var e,n,r=document.querySelector('style[data-vue-ssr-id~="'+t.id+'"]');if(r){if(d)return m;r.parentNode.removeChild(r)}if(v){var o=p++;r=l||(l=i()),e=s.bind(null,r,o,!1),n=s.bind(null,r,o,!0)}else r=i(),e=u.bind(null,r),n=function(){r.parentNode.removeChild(r)};return e(t),function(r){if(r){if(r.css===t.css&&r.media===t.media&&r.sourceMap===t.sourceMap)return;e(t=r)}else n()}}function s(t,e,n,r){var i=n?"":r.css;if(t.styleSheet)t.styleSheet.cssText=g(e,i);else{var o=document.createTextNode(i),s=t.childNodes;s[e]&&t.removeChild(s[e]),s.length?t.insertBefore(o,s[e]):t.appendChild(o)}}function u(t,e){var n=e.css,r=e.media,i=e.sourceMap;if(r&&t.setAttribute("media",r),i&&(n+="\n/*# sourceURL="+i.sources[0]+" */",n+="\n/*# sourceMappingURL=data:application/json;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(i))))+" */"),t.styleSheet)t.styleSheet.cssText=n;else{for(;t.firstChild;)t.removeChild(t.firstChild);t.appendChild(document.createTextNode(n))}}var a="undefined"!=typeof document;if("undefined"!=typeof DEBUG&&DEBUG&&!a)throw new Error("vue-style-loader cannot be used in a non-browser environment. Use { target: 'node' } in your Webpack config to indicate a server-rendering environment.");var f=n(85),c={},h=a&&(document.head||document.getElementsByTagName("head")[0]),l=null,p=0,d=!1,m=function(){},v="undefined"!=typeof navigator&&/msie [6-9]\b/.test(navigator.userAgent.toLowerCase());t.exports=function(t,e,n){d=n;var i=f(t,e);return r(i),function(e){for(var n=[],o=0;o<i.length;o++){var s=i[o],u=c[s.id];u.refs--,n.push(u)}e?(i=f(t,e),r(i)):i=[];for(var o=0;o<n.length;o++){var u=n[o];if(0===u.refs){for(var a=0;a<u.parts.length;a++)u.parts[a]();delete c[u.id]}}}};var g=function(){var t=[];return function(e,n){return t[e]=n,t.filter(Boolean).join("\n")}}()},function(t,e){t.exports=function(t,e){for(var n=[],r={},i=0;i<e.length;i++){var o=e[i],s=o[0],u=o[1],a=o[2],f=o[3],c={id:t+":"+i,css:u,media:a,sourceMap:f};r[s]?r[s].parts.push(c):n.push(r[s]={id:s,parts:[c]})}return n}}])});
 
 /***/ }),
-/* 276 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -87649,10 +89945,10 @@ var render = function() {
             {
               key: report.id,
               attrs: {
-                x: report.postion.x,
-                y: report.postion.y,
-                w: report.size.width,
-                h: report.size.height,
+                x: report.x,
+                y: report.y,
+                w: report.width,
+                h: report.height,
                 parent: true,
                 draggable: _vm.configable,
                 resizable: _vm.configable
@@ -87702,33 +89998,48 @@ var render = function() {
                     {
                       staticClass: "content",
                       style: {
-                        width: report.size.width + "px",
-                        height:
-                          report.size.height - report.size.height / 10 + "px"
+                        width: report.width + "px",
+                        height: report.height + "px"
                       }
                     },
                     [
-                      _c("canvas", {
-                        attrs: {
-                          id: report.id,
-                          count: report.charts.length,
-                          width: "0",
-                          height: "0"
-                        }
-                      }),
+                      report.chart == "line"
+                        ? _c("line-chart", {
+                            attrs: {
+                              width: report.width - 40 + "px",
+                              height: report.height - 80 + "px",
+                              data: report.data,
+                              colors: ["#878787", "#fffff"],
+                              download: report.name + ".png"
+                            }
+                          })
+                        : _vm._e(),
                       _vm._v(" "),
-                      _vm._l(report.charts, function(da, index) {
-                        return _c("chartjs-line", {
-                          key: index,
-                          attrs: {
-                            target: report.id.toString(),
-                            data: da.data,
-                            datalabel: da.datalabel
-                          }
-                        })
-                      })
+                      report.chart == "bar"
+                        ? _c("column-chart", {
+                            attrs: {
+                              width: report.width - 40 + "px",
+                              height: report.height - 80 + "px",
+                              data: report.data,
+                              colors: ["#878787", "#fffff"],
+                              download: report.name + ".png"
+                            }
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      report.chart == "area"
+                        ? _c("area-chart", {
+                            attrs: {
+                              width: report.width - 40 + "px",
+                              height: report.height - 80 + "px",
+                              data: report.data,
+                              colors: ["#878787", "#fffff"],
+                              download: report.name + ".png"
+                            }
+                          })
+                        : _vm._e()
                     ],
-                    2
+                    1
                   )
                 ]
               )
@@ -87786,96 +90097,31 @@ var render = function() {
                           _vm._v(" "),
                           _c("div", { staticClass: "clearfix" }),
                           _vm._v(" "),
-                          _c("div", { staticClass: " form-group  col-md-3" }, [
-                            _c(
+                          _vm._l(_vm.measurement, function(data) {
+                            return _c(
                               "div",
-                              { staticClass: "pretty p-default p-curve" },
+                              { staticClass: " form-group  col-md-3  " },
                               [
-                                _c("input", {
-                                  attrs: { type: "checkbox", name: "data" }
-                                }),
-                                _vm._v(" "),
                                 _c(
                                   "div",
-                                  { staticClass: "state p-primary-o" },
-                                  [_c("label", [_vm._v("Primary")])]
+                                  { staticClass: "pretty p-default p-curve" },
+                                  [
+                                    _c("input", {
+                                      attrs: { type: "option", name: "data" }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "state p-primary-o" },
+                                      [_c("label", [_vm._v(_vm._s(data.name))])]
+                                    )
+                                  ]
                                 )
                               ]
                             )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: " form-group  col-md-3" }, [
-                            _c(
-                              "div",
-                              { staticClass: "pretty p-default p-curve" },
-                              [
-                                _c("input", {
-                                  attrs: { type: "checkbox", name: "data" }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
-                                  { staticClass: "state p-primary-o" },
-                                  [_c("label", [_vm._v("Primary")])]
-                                )
-                              ]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: " form-group  col-md-3" }, [
-                            _c(
-                              "div",
-                              { staticClass: "pretty p-default p-curve" },
-                              [
-                                _c("input", {
-                                  attrs: { type: "checkbox", name: "data" }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
-                                  { staticClass: "state p-primary-o" },
-                                  [_c("label", [_vm._v("Primary")])]
-                                )
-                              ]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: " form-group  col-md-3" }, [
-                            _c(
-                              "div",
-                              { staticClass: "pretty p-default p-curve" },
-                              [
-                                _c("input", {
-                                  attrs: { type: "checkbox", name: "data" }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
-                                  { staticClass: "state p-primary-o" },
-                                  [_c("label", [_vm._v("Primary")])]
-                                )
-                              ]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: " form-group  col-md-3" }, [
-                            _c(
-                              "div",
-                              { staticClass: "pretty p-default p-curve" },
-                              [
-                                _c("input", {
-                                  attrs: { type: "checkbox", name: "data" }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
-                                  { staticClass: "state p-primary-o" },
-                                  [_c("label", [_vm._v("Primary")])]
-                                )
-                              ]
-                            )
-                          ])
-                        ]
+                          })
+                        ],
+                        2
                       ),
                       _vm._v(" "),
                       _c(

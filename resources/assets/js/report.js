@@ -15,9 +15,12 @@ require('./bootstrap');
 
 
 
-require('chart.js');
-require('hchs-vue-charts');
-Vue.use(VueCharts);
+// require('chart.js');
+// require('hchs-vue-charts');
+// Vue.use(VueCharts);
+import VueChartkick from 'vue-chartkick'
+import Chart from 'chart.js'
+Vue.use(VueChartkick, {adapter: Chart})
 Vue.component('showreport', require('./components/back/report/ShowReportComponent.vue'));
 
 
