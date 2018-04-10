@@ -46,7 +46,10 @@
         <v-modal title="Add Widget"
                  :visible="addclick"
                  ok-text="Submit"
-                 cancel-text="Cancel">
+                 cancel-text="Cancel"
+                 @ok="handleOk"
+                 @cancel="handleCancel"
+        >
 
             <div >
                 <div style="width: 480px;padding-right: 15px;">
@@ -56,60 +59,60 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="widgetname">Widget Name</label>
-                                        <input type="text" name="widgetname" class="form-control border-input" placeholder="First Chart 1 ...">
+                                        <input type="text" v-model="edit.widgetname" name="widgetname" class="form-control border-input" placeholder="First Chart 1 ...">
                                     </div>
                                 </div>
                                 <div class="col-md-12 " style="margin-left: 10px;">
-                                    <label for="widgetname">Data Select</label>
+                                    <label for="name">Data Select</label>
                                     <div class="clearfix"></div>
                                     <div class=" form-group  col-md-3  " v-for="data in measurement">
-                                        <div class="pretty p-default p-curve">
-                                            <input type="option" name="data" />
-                                            <div class="state p-primary-o">
+                                        <div class="pretty p-default p-round">
+                                            <input type="radio" name="name" :value="data.name" v-model="edit.name" >
+                                            <div class="state">
                                                 <label>{{data.name}}</label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 " style="margin-left: 10px;">
-                                    <label for="widgetname">Data Option</label>
+                                    <label for="group">Data Option</label>
                                     <div class="clearfix"></div>
                                     <div class="pretty p-default p-round">
-                                        <input type="radio" name="radio1">
+                                        <input type="radio" name="group" value="realtime" v-model="edit.group">
                                         <div class="state">
                                             <label>Real Time</label>
                                         </div>
                                     </div>
 
                                     <div class="pretty p-default p-round">
-                                        <input type="radio" name="radio1">
+                                        <input type="radio" name="group" value="day"  v-model="edit.group">
                                         <div class="state">
                                             <label>Day</label>
                                         </div>
                                     </div>
 
                                     <div class="pretty p-default p-round">
-                                        <input type="radio" name="radio1">
+                                        <input type="radio" name="group" value="month"  v-model="edit.group">
                                         <div class="state">
                                             <label>Month</label>
                                         </div>
                                     </div>
 
                                     <div class="pretty p-default p-round">
-                                        <input type="radio" name="radio1">
+                                        <input type="radio" name="group" value="year"  v-model="edit.group">
                                         <div class="state">
                                             <label>Year</label>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12" style="margin-left: 10px;">
+                                <div class="col-md-12" style="margin-left: 10px;" v-if="edit.group!='realtime'">
                                     <div class="form-group">
                                         <label>From</label>
-                                        <input type="text" class="form-control border-input" placeholder="2017/1/1" value="">
+                                        <datePicker :format="customFormatter"  v-model="edit.datefrom" :input-class="datePicker.inputclass" name="datefrom" :required="true" :disabled="datePicker.disabled"></datePicker>
                                     </div>
                                     <div class="form-group">
                                         <label>To</label>
-                                        <input type="text" class="form-control border-input" placeholder="2017/1/1" value="">
+                                        <datePicker :format="customFormatter" v-model="edit.dateto" :input-class="datePicker.inputclass" name="dateto" :required="true" :disabled="datePicker.disabled"></datePicker>
                                     </div>
                                 </div>
                             </div>
@@ -126,6 +129,8 @@
 
 <script>
     import VueDraggableResizable from 'vue-draggable-resizable'
+    import datePicker from 'vuejs-datepicker';
+    let moment = require('moment');
 
     Vue.component('vue-draggable-resizable', VueDraggableResizable)
 
@@ -146,6 +151,21 @@
                     position: 'relative',
                 },
                 addclick:false,
+                edit:{
+                    widgetname:'',
+                    name:'',
+                    group:'',
+                    datefrom:'',
+                    dateto:'',
+                },
+                datePicker:{
+                    disabled: {
+                        to: new Date(2016, 0, 5), // Disable all dates up to specific date
+                        from: new Date(2016, 0, 26), // Disable all dates after specific date
+                    },
+                    inputclass:'form-control border-input',
+                    format: 'yyyy-MM-dd',
+                },
             }
         },
         created(){
@@ -153,9 +173,12 @@
 
             this.getReports()
             this.getMeasurement()
-
+            this.getDataStatus()
         },
         methods: {
+            customFormatter(date) {
+                return moment(date).format().substr(0, 10);
+            },
             onResize(id,x, y, width, height) {
                 this.x = x
                 this.y = y
@@ -256,6 +279,31 @@
                         console.log(e)
                     })
             },
+            getDataStatus(){
+                axios.get('/api/db/datatime')
+                    .then(response => {
+                        // JSON responses are automatically parsed.
+                        this.edit.datefrom = new Date(response.data.first)
+                        this.edit.dateto = new Date(response.data.last)
+                        this.datePicker.disabled.to = new Date(response.data.first)
+                        this.datePicker.disabled.from = new Date(response.data.last)
+                    })
+                    .catch(e => {
+                        console.log(e)
+                    })
+
+            },
+            handleOk () {
+                this.reports.push({"title":this.edit.widgetname,"x":300,"y":300,"width":300,"height":300,"chart":"area","datefrom":this.edit.datefrom,"dateto":this.edit.dateto,"group":this.edit.group,"name":this.edit.name,});
+                this.getChartData()
+                this.addclick = false;
+            },
+            handleCancel(){
+                this.addclick = false;
+            },
+        },
+        components: {
+            datePicker
         }
     }
 </script>

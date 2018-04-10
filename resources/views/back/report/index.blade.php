@@ -2,7 +2,11 @@
 @extends('layouts.backmaster')
 
 @section('include-css')
-
+    .form-control[readonly]{
+        background-color: #fffcf5;
+        cursor: default;
+        color: #000;
+    }
 @endsection
 
 

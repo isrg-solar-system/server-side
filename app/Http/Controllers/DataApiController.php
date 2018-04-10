@@ -30,10 +30,15 @@ class DataApiController extends Controller
          */
 //        dd($request->all());
         $group = '';
+        $datefrom = Carbon::parse($request->datefrom, 'Asia/Taipei')->toDateString();
+        $dateto = Carbon::parse( $request->dateto,'Asia/Taipei')->toDateString();
+        $fyear = Carbon::parse($request->datefrom,'Asia/Taipei')->year;
+        $tyear = Carbon::parse($request->dateto,'Asia/Taipei')->year;
+        $fmonth = Carbon::parse( $request->datefrom,'Asia/Taipei')->month;
+        $tmonth = Carbon::parse( $request->dateto,'Asia/Taipei')->month;
+
         switch ($request->group) {
             case 'day':
-                $datefrom = Carbon::createFromFormat('Y-m-d', $request->datefrom)->toDateString();
-                $dateto = Carbon::createFromFormat('Y-m-d', $request->dateto)->toDateString();
                 $result = InfluxDB::query("select MEAN(value) from " . $request->dataname . " where time >= '".$datefrom."' AND time <= '". $dateto."' group by time(1d)");
                 $points = $result->getPoints();
                 $re = [];
@@ -44,10 +49,7 @@ class DataApiController extends Controller
                 return json_encode($re);
                 break;
             case 'month':
-                $fyear = Carbon::createFromFormat('Y-m-d', $request->datefrom)->year;
-                $tyear = Carbon::createFromFormat('Y-m-d', $request->dateto)->year;
-                $fmonth = Carbon::createFromFormat('Y-m-d', $request->datefrom)->month;
-                $tmonth = Carbon::createFromFormat('Y-m-d', $request->dateto)->month;
+
                 $re = [];
                 for($year = $fyear; $year <= $tyear ;$year++){
                    if($year == $fyear){
@@ -88,8 +90,6 @@ class DataApiController extends Controller
                 return json_encode($re);
                 break;
             case 'year':
-                $fyear = Carbon::createFromFormat('Y-m-d', $request->datefrom)->year;
-                $tyear = Carbon::createFromFormat('Y-m-d', $request->dateto)->year;
                 $re = [];
                 for($year = $fyear; $year <= $tyear ;$year++){
                     $carbonform =  Carbon::create($year, 1, 1,0,0,0);
