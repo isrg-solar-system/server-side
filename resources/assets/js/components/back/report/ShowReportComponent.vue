@@ -27,8 +27,8 @@
                 <div class="card" style="width: 100%;height: 105%">
                     <div class="header row">
                         <h4 class="title col-xs-9">{{ report.title }}</h4>
-                        <div class="col-xs-3 text-right" v-if="configable == true">
-                            <button class="btn btn-sm btn-warning btn-icon" @click="dele(index)"><i class="fa ti-trash"></i></button>
+                        <div class="col-xs-3 text-right" >
+                            <button class="btn btn-sm btn-warning btn-icon" @click="dele(report.id,index)"><i class="fa ti-trash"></i></button>
                         </div>
                     </div>
                     <div class="content" v-bind:style="{ width: report.width + 'px', height: (report.height) + 'px' }">
@@ -105,6 +105,30 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-12 " style="margin-left: 10px;">
+                                    <label for="group">Chart Option</label>
+                                    <div class="clearfix"></div>
+                                    <div class="pretty p-default p-round">
+                                        <input type="radio" name="group" value="line" v-model="edit.chart">
+                                        <div class="state">
+                                            <label>Line</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="pretty p-default p-round">
+                                        <input type="radio" name="group" value="bar"  v-model="edit.chart">
+                                        <div class="state">
+                                            <label>Bar</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="pretty p-default p-round">
+                                        <input type="radio" name="group" value="area"  v-model="edit.chart">
+                                        <div class="state">
+                                            <label>Area</label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-12" style="margin-left: 10px;" v-if="edit.group!='realtime'">
                                     <div class="form-group">
                                         <label>From</label>
@@ -157,6 +181,7 @@
                     group:'',
                     datefrom:'',
                     dateto:'',
+                    chart:'',
                 },
                 datePicker:{
                     disabled: {
@@ -171,11 +196,14 @@
         created(){
 //            this.tmp = this.reports
 
-            this.getReports()
-            this.getMeasurement()
-            this.getDataStatus()
+            this.init()
         },
         methods: {
+            init(){
+                this.getReports()
+                this.getMeasurement()
+                this.getDataStatus()
+            },
             customFormatter(date) {
                 return moment(date).format().substr(0, 10);
             },
@@ -227,8 +255,31 @@
             add(){
                 this.addclick = true
             },
-            dele(id){
-                this.reports.splice(id, 1)
+            dele(id,index){
+                this.$modal.confirm({
+                    title: 'Confirm',
+                    content: 'Are you Sure?',
+                    okText: 'OK',
+                    cancelText: 'Cancel',
+                    onOk: ()=>{
+                        this.loading = true;
+                        axios.post('/api/report/delete', {
+                            id:id
+                        })
+                            .then(response => {
+                                if(response.data.status == 1){
+                                    this.$notification['success']({
+                                        message: 'Success',
+                                        description: 'Success to save the config in database'
+                                    });
+                                }
+                                this.reports.splice(index, 1)
+                                this.loading = false;
+                            });
+                    },
+                })
+
+
             },
             getReports(){
                 this.loading = true;
@@ -294,8 +345,25 @@
 
             },
             handleOk () {
-                this.reports.push({"title":this.edit.widgetname,"x":300,"y":300,"width":300,"height":300,"chart":"area","datefrom":this.edit.datefrom,"dateto":this.edit.dateto,"group":this.edit.group,"name":this.edit.name,});
-                this.getChartData()
+                this.loading = true;
+                axios.post('/api/report/create', {"title":this.edit.widgetname,"x":300,"y":300,"width":300,"height":300,"chart":"area","datefrom":this.edit.datefrom,"dateto":this.edit.dateto,"group":this.edit.group,"name":this.edit.name,"chart":this.edit.chart,})
+                    .then(response => {
+                    if(response.data.status == 1){
+                        this.$notification['success']({
+                            message: 'Success',
+                            description: 'Success to save the config in database'
+                        });
+                        this.edit = {
+                            widgetname:'',
+                            name:'',
+                            group:'',
+                            datefrom:'',
+                            dateto:'',
+                        }
+                    }
+                    this.init()
+                    this.loading = false;
+                });
                 this.addclick = false;
             },
             handleCancel(){

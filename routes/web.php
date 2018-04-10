@@ -51,7 +51,9 @@ Route::post('/back/member/add', 'Back\MemberController@store')->name('MemberStor
 
 Route::get('/back/report', 'Back\ReportController@index')->name('ReportIndex');
 Route::get('/api/report/lists', 'Back\ReportController@lists')->name('ReportLists');
+Route::post('/api/report/create', 'Back\ReportController@create')->name('ReportCreate');
 Route::post('/api/report/update', 'Back\ReportController@update')->name('ReportUpdate');
+Route::post('/api/report/delete', 'Back\ReportController@delete')->name('ReportDelete');
 
 //input data this api
 Route::post('/api/input/data', 'DataApiController@input')->name('InputData');

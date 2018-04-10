@@ -22,29 +22,32 @@ class ReportController extends BackController
         return json_decode($re);
     }
 
+    public function create(Request $request){
+        $a = new Report();
+        $a->title = $request->title;
+        $a->x = $request->x;
+        $a->y = $request->y;
+        $a->width = $request->width;
+        $a->height = $request->height;
+        $a->chart = $request->chart;
+        $a->datefrom = Carbon::parse($request->datefrom, 'Asia/Taipei')->toDateString();
+        $a->dateto = Carbon::parse($request->dateto, 'Asia/Taipei')->toDateString();
+        $a->group = $request->group;
+        $a->name = $request->name;
+        $a->chart = $request->chart;
+        $a->user_id = Auth::id();
+        $a->save();
+        return json_encode(['status'=>1]);
+    }
+    
     public function update(Request $request){
         $allreports = Auth::user()->reports->toArray();
         foreach ($request->reports as $report){
-
-            // 查看那些被刪除
-            try {
-                $index = array_search($report['id'], array_column($allreports, 'id')) + 1;
-                if($index != false){
-                    unset($allreports[array_search($report['id'], array_column($allreports, 'id'))]);
-                }
-            } catch (ErrorException $e) {
-
-            }
-
-            try {
-                $a = Report::find($report['id']);
-            } catch (ErrorException $e) {
-                $a = new Report();
-                $a->user_id = Auth::id();
-            }
+            $a = Report::find($report['id']);
             $a->title = $report['title'];
             $a->x = $report['x'];
             $a->y = $report['y'];
+            $a->chart = $report['chart'];
             $a->width = $report['width'];
             $a->height = $report['height'];
             $a->chart = $report['chart'];
@@ -53,13 +56,13 @@ class ReportController extends BackController
             $a->group = $report['group'];
             $a->name = $report['name'];
             $a->save();
-
         }
+        return json_encode(['status'=>1]);
+    }
 
-        foreach ($allreports as $report){
-            $del = Report::find($report['id']);
-            $del->delete();
-        }
-        return json_encode($allreports);
+    public function delete(Request $request){
+        $del = Report::find($request->id);
+        $del->delete();
+        return json_encode(['status'=>1]);
     }
 }
