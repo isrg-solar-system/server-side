@@ -30,7 +30,7 @@ class DownloadController extends BackController
         $value = Session('downloadstatus');
 //        dd($value);
         if(isset($value['filename'])){
-            $path = storage_path('excel\exports' .'\\'. $value['filename']);
+            $path = storage_path('excel/exports' .'/'. $value['filename']);
             session()->forget('downloadstatus');
             return response()->download($path);
         }else{
