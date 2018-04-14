@@ -51,13 +51,17 @@
     font-size: 10px;
 }
 
+.first-line > .col-6 {
+    padding-right: 0px;
+}
+
 .second-line{
     min-height:64px;
 }
 
 .inner-box{
     margin-left:-8px;
-    width:912px;
+    width:100%;
     background-color:#202020;
 }
 

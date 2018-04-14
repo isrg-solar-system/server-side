@@ -10,17 +10,13 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-import videojs from 'video.js'
-import VueVideoPlayer from 'vue-video-player'
-import 'video.js/dist/video-js.css'
-window.videojs = videojs
-Vue.use(VueVideoPlayer);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-Vue.component('ex', require('./components/ExampleComponent.vue'));
+// Vue.component('ex', require('./components/ExampleComponent.vue'));
 
 Vue.component('frontindexfirst', require('./components/front/index/firstComponent.vue'));
 Vue.component('frontindexchart', require('./components/front/index/chartComponent.vue'));
@@ -28,8 +24,17 @@ Vue.component('frontindexcam', require('./components/front/index/camComponent.vu
 
 Vue.component('frontlog', require('./components/front/log/logComponent.vue'));
 
+Vue.component('frontguage', require('./components/front/inverter/GuagueComponent.vue'));
+
+
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data:{
+        value:20,
+    },
+    methods: {
+
+    },
 });
 
 

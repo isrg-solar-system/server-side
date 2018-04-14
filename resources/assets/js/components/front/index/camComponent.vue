@@ -10,6 +10,11 @@
 
 <script>
 
+    import videojs from 'video.js'
+    import VueVideoPlayer from 'vue-video-player'
+    import 'video.js/dist/video-js.css'
+    window.videojs = videojs
+    Vue.use(VueVideoPlayer);
     // hls plugin for videojs6
     require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
     // export
@@ -23,7 +28,7 @@
                     sources: [{
                         withCredentials: false,
                         type: "application/x-mpegURL",
-                        src: "https://logos-channel.scaleengine.net/logos-channel/live/biblescreen-ad-free/playlist.m3u8"
+                        src: "http://192.168.99.100:8081/hls/test.m3u8"
                     }],
                     controlBar: {
                         timeDivider: false,

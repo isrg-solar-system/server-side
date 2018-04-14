@@ -8,7 +8,7 @@
 
 @section('content')
        <frontindexfirst></frontindexfirst>
-       <ex></ex>
+
 @endsection
 
 @section('include-javascript')

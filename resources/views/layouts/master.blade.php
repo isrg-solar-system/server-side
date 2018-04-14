@@ -2,7 +2,10 @@
 <html lang="en" >
 
 <head>
-    <meta charset="UTF-8">
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no'>
     <title>@yield('title')</title>
 
     <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
@@ -13,7 +16,7 @@
 
 <body>
 
-<div id="container">
+<div class="container">
     <div id="topbar" class="col-md-12">
         <div id="topheader">
             <div id="top-pic">
@@ -69,7 +72,7 @@
 
 
 @yield('include-javascript')
-<script src="{{ asset('js/front.js') }}"></script>
+<script src="@yield('js',asset('js/front.js'))"></script>
 </body>
 
 </html>

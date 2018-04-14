@@ -30,6 +30,7 @@ class DataApiController extends Controller
          */
 //        dd($request->all());
         $group = '';
+
         $datefrom = Carbon::parse($request->datefrom, 'Asia/Taipei')->toDateString();
         $dateto = Carbon::parse( $request->dateto,'Asia/Taipei')->toDateString();
         $fyear = Carbon::parse($request->datefrom,'Asia/Taipei')->year;
@@ -39,6 +40,7 @@ class DataApiController extends Controller
 
         switch ($request->group) {
             case 'day':
+                dd("select MEAN(value) from " . $request->dataname . " where time >= '".$datefrom."' AND time <= '". $dateto."' group by time(1d)");
                 $result = InfluxDB::query("select MEAN(value) from " . $request->dataname . " where time >= '".$datefrom."' AND time <= '". $dateto."' group by time(1d)");
                 $points = $result->getPoints();
                 $re = [];
