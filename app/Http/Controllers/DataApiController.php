@@ -29,6 +29,7 @@ class DataApiController extends Controller
          *   dateto   = 2018/12/31
          */
 //        dd($request->all());
+        header('Access-Control-Allow-Origin: *');
         $group = '';
 
         $datefrom = Carbon::parse($request->datefrom, 'Asia/Taipei')->toDateString();
