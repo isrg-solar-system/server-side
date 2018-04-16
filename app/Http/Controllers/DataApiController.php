@@ -41,7 +41,6 @@ class DataApiController extends Controller
 
         switch ($request->group) {
             case 'day':
-                dd("select MEAN(value) from " . $request->dataname . " where time >= '".$datefrom."' AND time <= '". $dateto."' group by time(1d)");
                 $result = InfluxDB::query("select MEAN(value) from " . $request->dataname . " where time >= '".$datefrom."' AND time <= '". $dateto."' group by time(1d)");
                 $points = $result->getPoints();
                 $re = [];
