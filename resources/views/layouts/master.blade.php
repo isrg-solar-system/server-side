@@ -37,20 +37,17 @@
         <nav class="navbar navbar-toggleable-md navbar-inverse">
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">主面<span class="sr-only">(current)</span></a>
+                    <li class="nav-item @if($place=='index') active @endif">
+                        <a class="nav-link" href="{{route('FrontIndex')}}">Home @if($place=='index')<span class="sr-only">(current)</span>@endif</a>
+                    </li>
+                    <li class="nav-item @if($place=='inverter') active @endif">
+                        <a class="nav-link" href="{{route('FrontInverter')}}">Inverter @if($place=='inverter')<span class="sr-only">(current)</span>@endif</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">逆便器</a>
+                        <a class="nav-link" href="#">Chart</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">趨勢圖</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">報表下載</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">警告訊息</a>
+                        <a class="nav-link" href="#">IPCam</a>
                     </li>
                 </ul>
                 <span class="navbar-text">

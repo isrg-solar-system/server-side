@@ -12,12 +12,13 @@ class FrontController extends Controller
     //
 
     public function index(){
-
-        return view('front.index');
+        $place = 'index';
+        return view('front.index')->with('place',$place);
     }
 
     public function inverter(){
-        return view('front.inverter');
+        $place = 'inverter';
+        return view('front.inverter')->with('place',$place);
     }
 
     public function log(){

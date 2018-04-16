@@ -72,7 +72,7 @@
             <div class="clearFix"></div>
         </div>
         <div class="clearFix"></div>
-        <div class="col-md-12 second-line mt-2 pl-4 text-white ">
+        <div class="col-md-12  mt-2 pl-4 text-white ">
             <div class="inner-box row p-4">
                 <div class="second-line-block power-day col-md-3 col-6 pl-3 pr-0 m-0">
                     <span class="second-line-value ml-4">{{today}}W</span><br>
@@ -133,7 +133,7 @@
             <div class="col-md-6">
                 <div class="cube">
                     <div class="head">
-                        <i class="fa fa-spinner" aria-hidden="true"></i> 當日發電量
+                        <i class="fa fa-spinner" aria-hidden="true"></i> 即時發電量
                     </div>
                     <div class="cubecontent four-line-cubecontent">
                         <frontindexchart :height="300"></frontindexchart>
@@ -143,11 +143,11 @@
             <div class="col-md-6">
                 <div class="cube">
                     <div class="head">
-                        <i class="fa fa-spinner" aria-hidden="true"></i> 監視
+                        <i class="fa fa-spinner" aria-hidden="true"></i> 本周發電量
                     </div>
                     <div class="cubecontent four-line-cubecontent">
                         <div class="col-md-12">
-                            <frontindexcam></frontindexcam>
+                            <frontindexchart :height="300"></frontindexchart>
                         </div>
                     </div>
                 </div>

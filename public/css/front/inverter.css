@@ -166,6 +166,14 @@
     padding: 10px 0 10px 0;
 }
 
+.row > .col-md-6{
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+
+}
+
 .AC-blocktitle{
     text-align: center;
 }

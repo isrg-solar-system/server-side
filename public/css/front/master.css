@@ -37,6 +37,25 @@ body {
 
 }
 
+@media (min-width: 768px) {
+    .container {
+        width: 1000px;
+        min-height: 870px;
+        height:870px;
+        margin: 15px auto 30px auto;
+        padding: 5px 15px 15px 15px;
+        background-color: #121212;
+        -webkit-border-radius: 7px;
+        -moz-border-radius: 7px;
+        -ms-border-radius: 7px;
+        border-radius: 7px;
+        -webkit-box-shadow: 0 0px 6px 4px #222;
+        -moz-box-shadow: 0 0px 6px 4px #222;
+        box-shadow: 0 0px 6px 4px #222;
+    }
+
+}
+
 
 /* nav bar */
 .navbar{
