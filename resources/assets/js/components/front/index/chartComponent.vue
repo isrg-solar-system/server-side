@@ -4,6 +4,7 @@
     //Exporting this so it can be used in other components
     export default ({
         extends: Bar,
+        prop:['test',],
         data () {
             return {
                 datacollection: {

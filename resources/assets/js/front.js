@@ -18,22 +18,44 @@ window.Vue = require('vue');
  */
 // Vue.component('ex', require('./components/ExampleComponent.vue'));
 
-Vue.component('frontindexfirst', require('./components/front/index/firstComponent.vue'));
+
 Vue.component('frontindexchart', require('./components/front/index/chartComponent.vue'));
 Vue.component('frontindexcam', require('./components/front/index/camComponent.vue'));
 
-Vue.component('frontlog', require('./components/front/log/logComponent.vue'));
+// Vue.component('frontindexfirst', require('./components/front/index/firstComponent.vue'));
 
-Vue.component('frontguage', require('./components/front/inverter/GuagueComponent.vue'));
+// Vue.component('frontlog', require('./components/front/log/logComponent.vue'));
+
 
 
 const app = new Vue({
     el: '#app',
     data:{
-        value:20,
+        voltage:0,
+        current:0,
+        power:0,
+        lastupdatetime:0,
+        today:0,
+        week:0,
+        month:0,
+        year:0,
+        sun:0,
+        temp:0,
+        wind:0,
+        speed:0,
+        windspeed:0,
+    },
+    mounted() {
+        this.gettimenow();
+    },
+    computed: {
+
     },
     methods: {
-
+        gettimenow(){
+            let dt = new Date();
+            this.lastupdatetime =  dt.getHours()+":"+dt.getMinutes()+":"+dt.getSeconds();
+        },
     },
 });
 
