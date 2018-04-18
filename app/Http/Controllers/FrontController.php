@@ -24,4 +24,9 @@ class FrontController extends Controller
     public function log(){
         return view('front.log');
     }
+
+    public function ipcam(){
+        $place = 'ipcam';
+        return view('front.ipcam')->with('place',$place);
+    }
 }
