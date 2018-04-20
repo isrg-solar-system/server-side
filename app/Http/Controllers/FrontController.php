@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SaveDataToInflux;
+use App\SettingWarning;
 use Illuminate\Http\Request;
 use InfluxDB\Point;
 use TrayLabs\InfluxDB\Facades\InfluxDB;
