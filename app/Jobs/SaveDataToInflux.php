@@ -39,6 +39,7 @@ class SaveDataToInflux implements ShouldQueue
         //
         $points = array();
         $time = time();
+        $arr = array();
         foreach (json_decode($this->data) as $key => $data){
             $points[] =  new Point(
                 $key, // name of the measurement
@@ -47,7 +48,9 @@ class SaveDataToInflux implements ShouldQueue
                 [], // optional additional fields,
                 $time
             );
+            $arr[] = $key;
         }
         $result = InfluxDB::writePoints($points, \InfluxDB\Database::PRECISION_SECONDS);
+        print_r($arr);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CacheDownload;
 use App\Events\InputData;
+use App\Jobs\CheckingData;
 use App\Jobs\SaveDataToInflux;
 use DateTime;
 use Illuminate\Http\Request;
@@ -19,8 +20,11 @@ class DataApiController extends Controller
 
     public function input(Request $request){
         $data = $request->get('data');
-        event(new InputData($data));
-        $this->dispatch(new SaveDataToInflux($data));
+        print_r($data);
+        // 資料EXAMPLE : {"battery_charging_current":21,"grid_voltage":110}
+//        event(new InputData($data));
+//        $this->dispatch(new SaveDataToInflux($data));
+        $this->dispatch(new CheckingData($data));
     }
 
     public function getData(Request $request){
@@ -31,14 +35,12 @@ class DataApiController extends Controller
 //        dd($request->all());
         header('Access-Control-Allow-Origin: *');
         $group = '';
-
         $datefrom = Carbon::parse($request->datefrom, 'Asia/Taipei')->toDateString();
         $dateto = Carbon::parse( $request->dateto,'Asia/Taipei')->toDateString();
         $fyear = Carbon::parse($request->datefrom,'Asia/Taipei')->year;
         $tyear = Carbon::parse($request->dateto,'Asia/Taipei')->year;
         $fmonth = Carbon::parse( $request->datefrom,'Asia/Taipei')->month;
         $tmonth = Carbon::parse( $request->dateto,'Asia/Taipei')->month;
-
         switch ($request->group) {
             case 'day':
                 $result = InfluxDB::query("select MEAN(value) from " . $request->dataname . " where time >= '".$datefrom."' AND time <= '". $dateto."' group by time(1d)");
