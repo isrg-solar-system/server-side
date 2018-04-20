@@ -16,7 +16,6 @@ class CreateWarningTable extends Migration
         Schema::create('warning', function (Blueprint $table) {
             $table->increments('id');
             $table->char('dataname');
-            $table->char('operate');
             $table->boolean('status');
             $table->timestamps();
         });

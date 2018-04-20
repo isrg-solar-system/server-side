@@ -38,91 +38,60 @@ class CheckingData implements ShouldQueue
         foreach (json_decode($this->data) as $key => $data){
             $settings = SettingWarning::where('name',$key)->get();
             print_r("正在處理".$key."的資料->".$data."\n");
+
+            $lastcheck = Warning::where('dataname',$key)->orderBy('id','desc')->first();
+            $status = true;  // true 無狀況 false有狀況
             if(!is_null($settings)){
                 foreach ($settings as $setting){
                     switch ($setting->operate){
                         case '>':
                             //先有不正常狀態,才會有恢復正常狀態,若一直在不正常狀態只會有一筆資料
-                            $lastcheck = Warning::where('dataname',$key)->where('operate','>')->orderBy('id','desc')->first();
                             if($data > $setting->value){ //當資料為不正常狀態
-                                if(!is_null($lastcheck)){  //如果最後一比存在
-                                    if($lastcheck->status){ //最後一筆為 正常值
-                                        print_r("資料不正常,發現最後一筆為正常值.建立一筆新的不正常警告\n");
-                                        $new_warning = new Warning(); //新增一筆為不正常狀態
-                                        $new_warning->dataname = $key;
-                                        $new_warning->operate = '>';
-                                        $new_warning->status = 0;
-                                        $new_warning->save();
-                                    }else{ //若為不正常但最會一筆依然為"未恢復狀態"則不動
-                                        print_r("資料依然處於不正常.不做任何作業\n");
-                                    }
-                                }else{  //最後一筆不存在
-                                    print_r("資料不正常,未最後一筆為正常值.建立一筆新的不正常警告\n");
-                                    $new_warning = new Warning();  //新增一筆為不正常狀態
-                                    $new_warning->dataname = $key;
-                                    $new_warning->operate = '>';
-                                    $new_warning->status = 0;
-                                    $new_warning->save();
-                                }
+                                $status = false;
                             }else{ //當資料為正常狀態
-                                if(!is_null($lastcheck)){  //如果最後一比存在
-                                    if(!$lastcheck->status){ //最後一筆為 未恢復正常
-                                        print_r("資料正常,發現最後一筆為不正常值.建立一筆新的正常警告\n");
-                                        $new_warning = new Warning(); //新增一筆為恢復正常狀態
-                                        $new_warning->dataname = $key;
-                                        $new_warning->operate = '>';
-                                        $new_warning->status = 1;
-                                        $new_warning->save();
-                                    }else{//若為正常但最會一筆依然為"正常狀態"則不動
-                                        print_r("資料依然處於正常.不做任何作業\n");
-                                    }
-                                }else{//若最後一筆不存在則不動
-                                    print_r("資料正常,未發現最後一筆.不做任何作業\n");
-                                }
+                                $status = true && $status;
                             }
                             break;
                         case '<':
                             //先有不正常狀態,才會有恢復正常狀態,若一直在不正常狀態只會有一筆資料
-                            $lastcheck = Warning::where('dataname',$key)->where('operate','<')->orderBy('id','desc')->first();
                             if($data < $setting->value){ //當資料為不正常狀態
-                                if(!is_null($lastcheck)){  //如果最後一比存在
-                                    if($lastcheck->status){ //最後一筆為 正常值
-                                        print_r("資料不正常,發現最後一筆為正常值.建立一筆新的不正常警告\n");
-                                        $new_warning = new Warning(); //新增一筆為不正常狀態
-                                        $new_warning->dataname = $key;
-                                        $new_warning->operate = '<';
-                                        $new_warning->status = 0;
-                                        $new_warning->save();
-                                    }else{ //若為不正常但最會一筆依然為"未恢復狀態"則不動
-                                        print_r("資料依然處於不正常.不做任何作業\n");
-                                    }
-                                }else{  //最後一筆不存在
-                                    print_r("資料不正常,未最後一筆為正常值.建立一筆新的不正常警告\n");
-                                    $new_warning = new Warning();  //新增一筆為不正常狀態
-                                    $new_warning->dataname = $key;
-                                    $new_warning->operate = '<';
-                                    $new_warning->status = 0;
-                                    $new_warning->save();
-                                }
+                                $status = false;
                             }else{ //當資料為正常狀態
-                                if(!is_null($lastcheck)){  //如果最後一比存在
-                                    if(!$lastcheck->status){ //最後一筆為 未恢復正常
-                                        print_r("資料正常,發現最後一筆為不正常值.建立一筆新的正常警告\n");
-                                        $new_warning = new Warning(); //新增一筆為恢復正常狀態
-                                        $new_warning->dataname = $key;
-                                        $new_warning->operate = '<';
-                                        $new_warning->status = 1;
-                                        $new_warning->save();
-                                    }else{//若為正常但最會一筆依然為"正常狀態"則不動
-                                        print_r("資料依然處於正常.不做任何作業\n");
-                                    }
-                                }else{//若最後一筆不存在則不動
-                                    print_r("資料正常,未發現最後一筆.不做任何作業\n");
-                                }
+                                $status = true && $status;
                             }
                             break;
                     }
                 }
+
+                // status=true 安好 = false有狀況
+                if(!is_null($lastcheck)){
+                    if($lastcheck->status == false && $status == false){ //資料庫:有狀況 實際:有狀況 , 部任何動作
+                        print_r("資料庫:有狀況 實際:有狀況 , 部任何動作");
+                    }elseif ($lastcheck->status == false && $status == true){ //資料庫:有狀況 實際:無狀況 , 新增至資料庫"無狀況"
+                        print_r("資料庫:有狀況 實際:無狀況 , 新增至資料庫無狀況");
+                        $warning = new Warning();
+                        $warning->dataname = $key;
+                        $warning->status = true;
+                        $warning->save();
+                    }elseif ($lastcheck->status == true && $status == false) { //資料庫:沒狀況 實際:有狀況 , 新增至資料庫"有狀況"
+                        print_r("資料庫:沒狀況 實際:有狀況 , 新增至資料庫\"有狀況\"");
+                        $warning = new Warning();
+                        $warning->dataname = $key;
+                        $warning->status = false;
+                        $warning->save();
+                    }elseif ($lastcheck->status == true && $status == true) { //資料庫:沒狀況 實際:沒狀況 , 部動作
+                        print_r("資料庫:沒狀況 實際:沒狀況 , 部動作");
+                    }
+                }else{
+                    if($status==false){
+                        print_r("資料庫:未寫入 實際:有狀況 , 新增至資料庫\"有狀況\"");
+                        $warning = new Warning();
+                        $warning->dataname = $key;
+                        $warning->status = false;
+                        $warning->save();
+                    }
+                }
+
             }
 
         }
