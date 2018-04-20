@@ -42,8 +42,8 @@ class SaveDataToInflux implements ShouldQueue
         foreach (json_decode($this->data) as $key => $data){
             $points[] =  new Point(
                 $key, // name of the measurement
-                $data, // the measurement value
-                ['region' => 'isrg'], // optional tags
+                floatval ($data), // the measurement value
+                ['region' => 'tw'], // optional tags
                 [], // optional additional fields,
                 $time
             );
