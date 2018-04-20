@@ -16,6 +16,7 @@
 //});
 Route::get('/', 'FrontController@index')->name('FrontIndex');
 Route::get('/inverter', 'FrontController@inverter')->name('FrontInverter');
+Route::get('/ipcam', 'FrontController@ipcam')->name('FrontIpcam');
 Route::get('/log', 'FrontController@log')->name('FrontLog');
 
 
