@@ -44,10 +44,10 @@ class InputData implements ShouldBroadcast
     public function broadcastOn()
     {
         #return new PrivateChannel('channel-name');
-        return ['receive'];
+        return ['publicchannel'];
     }
 
     public function broadcastAs() {
-        return 'xdxd';
+        return 'data';
     }
 }

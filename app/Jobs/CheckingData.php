@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\WarningBroadcast;
 use App\SettingWarning;
 use App\Warning;
 use function GuzzleHttp\Psr7\str;
@@ -10,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Ixudra\Curl\Facades\Curl;
 
 class CheckingData implements ShouldQueue
 {
@@ -69,12 +71,14 @@ class CheckingData implements ShouldQueue
                         print_r("資料庫:有狀況 實際:有狀況 , 部任何動作\n");
                     }elseif ($lastcheck->status == false && $status == true){ //資料庫:有狀況 實際:無狀況 , 新增至資料庫"無狀況"
                         print_r("資料庫:有狀況 實際:無狀況 , 新增至資料庫無狀況\n");
+                        $this->alert($key,1,$data);
                         $warning = new Warning();
                         $warning->dataname = $key;
                         $warning->status = true;
                         $warning->save();
                     }elseif ($lastcheck->status == true && $status == false) { //資料庫:沒狀況 實際:有狀況 , 新增至資料庫"有狀況"
                         print_r("資料庫:沒狀況 實際:有狀況 , 新增至資料庫\"有狀況\"\n");
+                        $this->alert($key,0,$data);
                         $warning = new Warning();
                         $warning->dataname = $key;
                         $warning->status = false;
@@ -85,6 +89,7 @@ class CheckingData implements ShouldQueue
                 }else{
                     if($status==false){
                         print_r("資料庫:未寫入 實際:有狀況 , 新增至資料庫\"有狀況\"\n");
+                        $this->alert($key,0,$data);
                         $warning = new Warning();
                         $warning->dataname = $key;
                         $warning->status = false;
@@ -97,6 +102,19 @@ class CheckingData implements ShouldQueue
             }
 
         }
+    }
 
+    public function alert($dataname,$status,$value){
+        $token = 'KsaH2AyQnOqQHCTbHlsiOioVwjNwhrDdrTZDbvcqxxQ';
+        if($status){
+            $message = "\r\n 🚨 『".$dataname . "』\r\n目前數值為:\"". $value . "\"\r\n狀況:返回至安全";
+        }else{
+            $message = "\r\n 🚨 『".$dataname . "』\r\n目前數值為:\"". $value . "\"\r\n狀況:超出範圍";
+        }
+        event(new WarningBroadcast($dataname,$status,$value));
+        $response = Curl::to('https://notify-api.line.me/api/notify')
+            ->withHeaders( array( 'Authorization: Bearer '.$token, 'Content-Type: application/x-www-form-urlencoded' ) )
+            ->withData( ['message' => $message ])
+            ->post();
     }
 }

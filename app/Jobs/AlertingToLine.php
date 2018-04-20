@@ -20,7 +20,7 @@ class AlertingToLine implements ShouldQueue
      */
     protected $dataname;
     protected $status;
-    protected $token;
+    protected $token = 'KsaH2AyQnOqQHCTbHlsiOioVwjNwhrDdrTZDbvcqxxQ';
     public function __construct($dataname,$status)
     {
         //
@@ -36,10 +36,14 @@ class AlertingToLine implements ShouldQueue
     public function handle()
     {
         //
-        $response = Curl::to('http://foo.com/bar')
-            ->withHeaders( array( 'Authorization: Bearer '+$this->token, 'Content-Type: application/x-www-form-urlencoded' ) )
-            ->withData( array( 'message' => $this->dataname ) )
-            ->asJson()
+        if($this->status){
+            $message = "\r\n".$this->dataname . " 目前已回復穩定數值";
+        }else{
+            $message = "\r\n".$this->dataname . " 目前有狀況,請維護";
+        }
+        $response = Curl::to('https://notify-api.line.me/api/notify')
+            ->withHeaders( array( 'Authorization: Bearer '.$this->token, 'Content-Type: application/x-www-form-urlencoded' ) )
+            ->withData( ['message' => $message ])
             ->post();
     }
 }

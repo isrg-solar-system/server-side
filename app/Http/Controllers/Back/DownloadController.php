@@ -44,6 +44,7 @@ class DownloadController extends BackController
             $filename = $sql->first()->filename;
             session(['downloadstatus' => [ 'status'=>'Finished','val'=> 100 ,'filename'=>$filename]]);
         }else{
+            ini_set("memory_limit","4G");
             $total_datas = count($request->datas);
             $colect_status = 0;
             $re = [];

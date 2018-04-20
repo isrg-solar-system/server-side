@@ -64,7 +64,7 @@ Route::get('/api/db/measurement', 'DataApiController@getMeasurement')->name('get
 // show first data time and last data time (for select)
 Route::get('/api/db/datatime', 'DataApiController@getDataTime')->name('getDataTime');
 Route::post('/api/get/data', 'DataApiController@getData')->name('getData');
-
+Route::get('/api/get/{name}', 'DataApiController@getDataStatus')->name('getDataStatus');
 //
 Auth::routes();
 //

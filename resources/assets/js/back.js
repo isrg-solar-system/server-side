@@ -23,7 +23,9 @@ Vue.component('serverstatus', require('./components/back/index/ServerStatusCompo
 Vue.component('downloads', require('./components/back/download/downloadsComponent.vue'));
 
 /* warning */
-Vue.component('warning', require('./components/back/warning/indexComponent.vue'));
+Vue.component('set-warning', require('./components/back/warning/setComponent.vue'));
+Vue.component('list-warning', require('./components/back/warning/listComponent.vue'));
+
 
 const app = new Vue({
     el: '#app',
@@ -31,6 +33,16 @@ const app = new Vue({
         'weather': VueWeatherWidget,
     },
     mounted(){
+        window.Echo.channel('publicchannel')
+            .listen('.warning', (data) => {
+                if(data.status){
+                    this.$notify("Data name ："+data.dataname + "<br>Data Value:" + data.value + "<br>is safe now ", 'info', {mode: 'html'})
+                }else{
+                    this.$notify("Data name ："+data.dataname + "<br>Data Value:" + data.value + "<br>is out of range ", 'warning', {mode: 'html'})
+
+                }
+
+            })
         // this.$layer.iframe({
         //     content: {
         //         content: VueWeatherWidget, //传递的组件对象

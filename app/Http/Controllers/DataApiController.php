@@ -4,25 +4,29 @@ namespace App\Http\Controllers;
 
 use App\CacheDownload;
 use App\Events\InputData;
+use App\Events\WarningBroadcast;
+use App\Jobs\AlertingToLine;
 use App\Jobs\CheckingData;
 use App\Jobs\SaveDataToInflux;
+use App\Warning;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Crypt;
 use InfluxDB\Point;
+use Ixudra\Curl\Facades\Curl;
 use Maatwebsite\Excel\Facades\Excel;
 use TrayLabs\InfluxDB\Facades\InfluxDB;
 
 class DataApiController extends Controller
 {
     //
-
     public function input(Request $request){
         $data = $request->get('data');
         print_r($data);
+
         // 資料EXAMPLE : {"battery_charging_current":21,"grid_voltage":110}
-//        event(new InputData($data));
+//        event(new InputData(json_encode($data)));
 //        $this->dispatch(new SaveDataToInflux($data));
         $this->dispatch(new CheckingData($data));
     }
@@ -128,6 +132,15 @@ class DataApiController extends Controller
         $result = InfluxDB::query('select * from '.$points[1]['name']. ' ORDER BY time desc limit 1');
         $last = new DateTime($result->getPoints()[0]['time']);
         return json_encode(['first'=>$first->format('Y-m-d'),'last'=>$last->format('Y-m-d')]);
+    }
+
+    public function getDataStatus($name){
+        $lastcheck = Warning::where('dataname',$name)->orderBy('id','desc')->first();
+        if(is_null($lastcheck)){
+            return 1;
+        }else{
+            return $lastcheck->status;
+        }
     }
 
 

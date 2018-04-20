@@ -32319,8 +32319,7 @@ return zhTw;
 /* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(161);
-module.exports = __webpack_require__(229);
+module.exports = __webpack_require__(161);
 
 
 /***/ }),
@@ -32355,7 +32354,8 @@ Vue.component('serverstatus', __webpack_require__(218));
 Vue.component('downloads', __webpack_require__(221));
 
 /* warning */
-Vue.component('warning', __webpack_require__(226));
+Vue.component('set-warning', __webpack_require__(229));
+Vue.component('list-warning', __webpack_require__(232));
 
 var app = new Vue({
     el: '#app',
@@ -32363,6 +32363,15 @@ var app = new Vue({
         'weather': __WEBPACK_IMPORTED_MODULE_0_vue_weather_widget___default.a
     },
     mounted: function mounted() {
+        var _this = this;
+
+        window.Echo.channel('publicchannel').listen('.warning', function (data) {
+            if (data.status) {
+                _this.$notify("Data name ：" + data.dataname + "<br>Data Value:" + data.value + "<br>is safe now ", 'info', { mode: 'html' });
+            } else {
+                _this.$notify("Data name ：" + data.dataname + "<br>Data Value:" + data.value + "<br>is out of range ", 'warning', { mode: 'html' });
+            }
+        });
         // this.$layer.iframe({
         //     content: {
         //         content: VueWeatherWidget, //传递的组件对象
@@ -32448,6 +32457,7 @@ window.Echo = new __WEBPACK_IMPORTED_MODULE_3_laravel_echo___default.a({
     broadcaster: 'socket.io',
     host: '127.0.0.1:6001'
 });
+
 // window.Pusher = require('pusher-js');
 
 // window.Echo = new Echo({
@@ -77066,32 +77076,29 @@ var moment = __webpack_require__(0);
             });
         },
         postData: function postData() {
-            var _this3 = this;
-
             //                console.log(Date.parse(this.datePicker.datefrom))
             axios.post('/api/download/file', {
                 datas: this.userinput.selectdata,
                 datefrom: this.datePicker.datefrom,
                 dateto: this.datePicker.dateto,
                 filetype: this.userinput.filetype
-            }).then(function (response) {
-                _this3.downloadstatus.status = true;
-                _this3.downloadstatus.timer = setInterval(_this3.checkdownload, 500);
-                _this3.downloadstatus.progress = 0;
-                _this3.downloadstatus.desc = '';
-            }).catch(function (error) {
+            }).then(function (response) {}).catch(function (error) {
                 console.log(error);
             });
+            this.downloadstatus.status = true;
+            this.downloadstatus.timer = setInterval(this.checkdownload, 500);
+            this.downloadstatus.progress = 0;
+            this.downloadstatus.desc = '';
         },
         checkdownload: function checkdownload() {
-            var _this4 = this;
+            var _this3 = this;
 
             axios.get('/api/download/status').then(function (response) {
-                _this4.downloadstatus.progress = response.data.val;
-                _this4.downloadstatus.desc = response.data.status;
+                _this3.downloadstatus.progress = response.data.val;
+                _this3.downloadstatus.desc = response.data.status;
                 if (response.data.vals = 100) {
                     location.href = '/back/download/get';
-                    clearInterval(_this4.downloadstatus.timer);
+                    clearInterval(_this3.downloadstatus.timer);
                 }
             });
         }
@@ -77890,15 +77897,18 @@ if (false) {
 }
 
 /***/ }),
-/* 226 */
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(16)
 /* script */
-var __vue_script__ = __webpack_require__(227)
+var __vue_script__ = __webpack_require__(230)
 /* template */
-var __vue_template__ = __webpack_require__(228)
+var __vue_template__ = __webpack_require__(231)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -77915,7 +77925,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\back\\warning\\indexComponent.vue"
+Component.options.__file = "resources\\assets\\js\\components\\back\\warning\\setComponent.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -77924,9 +77934,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-16cec399", Component.options)
+    hotAPI.createRecord("data-v-205a8f89", Component.options)
   } else {
-    hotAPI.reload("data-v-16cec399", Component.options)
+    hotAPI.reload("data-v-205a8f89", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -77937,12 +77947,11 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 227 */
+/* 230 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
 //
 //
 //
@@ -78154,7 +78163,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 228 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -78249,12 +78258,6 @@ var render = function() {
                               "option",
                               { domProps: { selected: item.operate == "<" } },
                               [_vm._v("<")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "option",
-                              { domProps: { selected: item.operate == "=" } },
-                              [_vm._v("=")]
                             )
                           ]
                         )
@@ -78536,15 +78539,215 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-16cec399", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-205a8f89", module.exports)
   }
 }
 
 /***/ }),
-/* 229 */
-/***/ (function(module, exports) {
+/* 232 */
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+var disposed = false
+var normalizeComponent = __webpack_require__(16)
+/* script */
+var __vue_script__ = __webpack_require__(233)
+/* template */
+var __vue_template__ = __webpack_require__(234)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\back\\warning\\listComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-8581e7be", Component.options)
+  } else {
+    hotAPI.reload("data-v-8581e7be", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 233 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            loading: true,
+            datas: []
+        };
+    },
+    created: function created() {
+        this.loading = true;
+        this.init();
+        this.loading = false;
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        window.Echo.channel('publicchannel').listen('.warning', function (data) {
+            _this.datas.find(function (f) {
+                return f.name === data.dataname;
+            }).status = data.status;
+        });
+    },
+
+    methods: {
+        init: function init() {
+            var _this2 = this;
+
+            axios.get('/api/db/measurement').then(function (response) {
+                // JSON responses are automatically parsed.
+                _this2.datas = response.data;
+                _this2.getdatastatus();
+            }).catch(function (e) {
+                console.log(e);
+            });
+        },
+        getdatastatus: function getdatastatus() {
+            $.each(this.datas, function (key, value) {
+                var _this3 = this;
+
+                axios.get('/api/get/' + value.name).then(function (response) {
+                    // JSON responses are automatically parsed.
+                    Vue.set(_this3, "status", response.data);
+                }).catch(function (e) {
+                    console.log(e);
+                });
+            });
+            console.log(this.datas);
+        }
+    },
+    beforeDestroy: function beforeDestroy() {}
+});
+
+/***/ }),
+/* 234 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "header row" }, [
+      _c("h4", { staticClass: "col-xs-9 title" }, [_vm._v("Warning List")]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "col-xs-3 text-right" },
+        [_vm.loading ? _c("v-spin", { attrs: { size: "large" } }) : _vm._e()],
+        1
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "content" }, [
+      _c(
+        "ul",
+        { staticClass: "list-unstyled team-members" },
+        _vm._l(_vm.datas, function(item) {
+          return _c("li", [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-xs-6 col-6  text-center" }, [
+                _vm._v(
+                  "\n                        " +
+                    _vm._s(item.name) +
+                    "\n                    "
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-xs-4  col-4  text-center " }, [
+                item.status
+                  ? _c("p", { staticClass: "text-success" }, [
+                      _vm._v(
+                        "\n                            Safe\n                        "
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                !item.status
+                  ? _c("p", { staticClass: "text-danger" }, [
+                      _vm._v(
+                        "\n                            Data out of range\n                        "
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            ])
+          ])
+        })
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-8581e7be", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

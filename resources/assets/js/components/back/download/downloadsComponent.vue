@@ -216,14 +216,15 @@
                         filetype: this.userinput.filetype,
                     })
                     .then(response => {
-                        this.downloadstatus.status = true
-                        this.downloadstatus.timer = setInterval(this.checkdownload,500)
-                        this.downloadstatus.progress = 0
-                        this.downloadstatus.desc = ''
+
                     })
                     .catch(function (error) {
                         console.log(error)
                     });
+                this.downloadstatus.status = true
+                this.downloadstatus.timer = setInterval(this.checkdownload,500)
+                this.downloadstatus.progress = 0
+                this.downloadstatus.desc = ''
             },
             checkdownload(){
                 axios.get('/api/download/status')

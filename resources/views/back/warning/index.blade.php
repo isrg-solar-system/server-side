@@ -8,8 +8,11 @@
 
 @section('content')
     <div id="app">
-        <div class="col-lg-8 col-md-8 ">
-            <warning></warning>
+        <div class="col-8 col-md-8 ">
+            <set-warning></set-warning>
+        </div>
+        <div class="col-4 col-md-4">
+            <list-warning></list-warning>
         </div>
     </div>
 
