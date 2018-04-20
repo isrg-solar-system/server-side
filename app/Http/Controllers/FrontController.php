@@ -7,6 +7,7 @@ use App\SettingWarning;
 use Illuminate\Http\Request;
 use InfluxDB\Point;
 use TrayLabs\InfluxDB\Facades\InfluxDB;
+use Ixudra\Curl\Facades\Curl;
 
 class FrontController extends Controller
 {

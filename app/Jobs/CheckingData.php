@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\SettingWarning;
 use App\Warning;
+use function GuzzleHttp\Psr7\str;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -62,33 +63,34 @@ class CheckingData implements ShouldQueue
                             break;
                     }
                 }
-
                 // status=true 安好 = false有狀況
                 if(!is_null($lastcheck)){
                     if($lastcheck->status == false && $status == false){ //資料庫:有狀況 實際:有狀況 , 部任何動作
-                        print_r("資料庫:有狀況 實際:有狀況 , 部任何動作");
+                        print_r("資料庫:有狀況 實際:有狀況 , 部任何動作\n");
                     }elseif ($lastcheck->status == false && $status == true){ //資料庫:有狀況 實際:無狀況 , 新增至資料庫"無狀況"
-                        print_r("資料庫:有狀況 實際:無狀況 , 新增至資料庫無狀況");
+                        print_r("資料庫:有狀況 實際:無狀況 , 新增至資料庫無狀況\n");
                         $warning = new Warning();
                         $warning->dataname = $key;
                         $warning->status = true;
                         $warning->save();
                     }elseif ($lastcheck->status == true && $status == false) { //資料庫:沒狀況 實際:有狀況 , 新增至資料庫"有狀況"
-                        print_r("資料庫:沒狀況 實際:有狀況 , 新增至資料庫\"有狀況\"");
+                        print_r("資料庫:沒狀況 實際:有狀況 , 新增至資料庫\"有狀況\"\n");
                         $warning = new Warning();
                         $warning->dataname = $key;
                         $warning->status = false;
                         $warning->save();
                     }elseif ($lastcheck->status == true && $status == true) { //資料庫:沒狀況 實際:沒狀況 , 部動作
-                        print_r("資料庫:沒狀況 實際:沒狀況 , 部動作");
+                        print_r("資料庫:沒狀況 實際:沒狀況 , 部動作\n");
                     }
                 }else{
                     if($status==false){
-                        print_r("資料庫:未寫入 實際:有狀況 , 新增至資料庫\"有狀況\"");
+                        print_r("資料庫:未寫入 實際:有狀況 , 新增至資料庫\"有狀況\"\n");
                         $warning = new Warning();
                         $warning->dataname = $key;
                         $warning->status = false;
                         $warning->save();
+                    }else{
+                        print_r("資料庫:未寫入 實際:無狀況 \n");
                     }
                 }
 

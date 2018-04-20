@@ -166,6 +166,7 @@ return [
 
         TrayLabs\InfluxDB\Providers\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Ixudra\Curl\CurlServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -231,7 +232,7 @@ return [
 
         'InfluxDB' => TrayLabs\InfluxDB\Facades\InfluxDB::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-
+        'Curl'   => Ixudra\Curl\Facades\Curl::class,
 
     ],
 
