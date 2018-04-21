@@ -20,7 +20,6 @@ Vue.component('serverstatus', require('./components/back/index/ServerStatusCompo
 
 
 /* download */
-Vue.component('downloads', require('./components/back/download/downloadsComponent.vue'));
 
 /* warning */
 Vue.component('set-warning', require('./components/back/warning/setComponent.vue'));

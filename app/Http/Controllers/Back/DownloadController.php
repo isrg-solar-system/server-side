@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Back;
 
 
 use App\CacheDownload;
+use App\Events\DownloadStatus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -21,7 +23,7 @@ class DownloadController extends BackController
     public $title = 'Data Download';
 
     public function index(){
-        return view('back.download.index');
+        return view('back.download.index')->with('user',Auth::user());
     }
 
 
@@ -42,9 +44,11 @@ class DownloadController extends BackController
         $sql = CacheDownload::where('key', json_encode($request->all()))->first();
         if(!is_null($sql)){
             $filename = $sql->first()->filename;
-            session(['downloadstatus' => [ 'status'=>'Finished','val'=> 100 ,'filename'=>$filename]]);
+            event(new DownloadStatus(Auth::user(),['downloadstatus' => [ 'status'=>'Finished','val'=> 100 ,'filename'=>$filename]]));
+//            session(['downloadstatus' => [ 'status'=>'Finished','val'=> 100 ,'filename'=>$filename]]);
         }else{
-            ini_set("memory_limit","4G");
+            ini_set('memory_limit', '-1');
+            ini_set('max_execution_time', 300); //300 seconds = 5 minutes
             $total_datas = count($request->datas);
             $colect_status = 0;
             $re = [];
@@ -55,9 +59,11 @@ class DownloadController extends BackController
                     $re[$point['time']][$data] = $point['value'];
                 }
                 $colect_status += 1;
-                session(['downloadstatus' => [ 'status'=>'collecting data','val'=> round($colect_status / $total_datas / 2,2)*100 ]]);
+                event(new DownloadStatus(Auth::user(),['downloadstatus' => [ 'status'=>'collecting data','val'=> round($colect_status / $total_datas / 2,2)*100 ]]));
+//                session(['downloadstatus' => [ 'status'=>'collecting data','val'=> round($colect_status / $total_datas / 2,2)*100 ]]);
             }
-            session(['downloadstatus' => [ 'status'=>'converting data to file','val'=> 75 ]]);
+            event(new DownloadStatus(Auth::user(),['downloadstatus' => [ 'status'=>'converting data to file','val'=> 75 ]]));
+//            session(['downloadstatus' => [ 'status'=>'converting data to file','val'=> 75 ]]);
             /*  conver to excel data */
             $out = [];
             foreach ($re as $key => $value){
@@ -79,7 +85,8 @@ class DownloadController extends BackController
                     $sheet->rows($out);
                 });
             })->store($request->filetype,storage_path('excel/exports'));
-            session(['downloadstatus' => [ 'status'=>'Finished','val'=> 100 ,'filename'=>$filename.'.'.$request->filetype]]);
+            event(new DownloadStatus(Auth::user(),['downloadstatus' => [ 'status'=>'Finished','val'=> 100 ,'filename'=>$filename.'.'.$request->filetype]]));
+//            session(['downloadstatus' => [ 'status'=>'Finished','val'=> 100 ,'filename'=>$filename.'.'.$request->filetype]]);
             $create = new CacheDownload();
             $create->key = json_encode($request->all());
             $create->filename = $filename.'.'.$request->filetype;
