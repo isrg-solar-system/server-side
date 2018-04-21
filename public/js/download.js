@@ -31836,11 +31836,16 @@ var app = new Vue({
             }
         });
         window.Echo.private('download.' + userid).listen('.status', function (data) {
-            console.log(data.downloadstatus);
-            _this.downloadstatus.progress = response.data.val;
-            _this.downloadstatus.desc = response.data.status;
-            if (response.data.vals = 100) {
-                location.href = '/back/download/get';
+            // console.log(data.downloadstatus)
+            _this.downloadstatus.progress = data.downloadstatus.val;
+            _this.downloadstatus.desc = data.downloadstatus.status;
+            if (_this.downloadstatus.progress == 100) {
+                console.log(data.downloadstatus);
+                _this.downloadstatus.status = true;
+                //this.downloadstatus.timer = setInterval(this.checkdownload,500)
+                _this.downloadstatus.progress = 0;
+                _this.downloadstatus.desc = '';
+                // location.href = '/back/download/get/'+data.downloadstatus.filename;
             }
         });
     },

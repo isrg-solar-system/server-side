@@ -66,11 +66,16 @@ const app = new Vue({
             })
         window.Echo.private('download.'+userid)
             .listen('.status', (data) => {
-                console.log(data.downloadstatus)
-                this.downloadstatus.progress = response.data.val
-                this.downloadstatus.desc = response.data.status
-                if(response.data.vals = 100){
-                    location.href = '/back/download/get';
+                // console.log(data.downloadstatus)
+                this.downloadstatus.progress = data.downloadstatus.val
+                this.downloadstatus.desc = data.downloadstatus.status
+                if( this.downloadstatus.progress == 100){
+                    console.log(data.downloadstatus)
+                    this.downloadstatus.status = true
+                    //this.downloadstatus.timer = setInterval(this.checkdownload,500)
+                    this.downloadstatus.progress = 0
+                    this.downloadstatus.desc = ''
+                    // location.href = '/back/download/get/'+data.downloadstatus.filename;
                 }
             })
     },

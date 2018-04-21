@@ -21,7 +21,7 @@ class DownloadStatus implements ShouldBroadcast
     public function __construct($user,$data)
     {
         //
-        print_r($data);
+//        print_r($data);
         $this->user = $user;
         $this->data = $data;
     }
@@ -40,7 +40,7 @@ class DownloadStatus implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('download.'.$this->user->id);
+        return new PrivateChannel('download.'.$this->user);
 //        return ['publicchannel'];
     }
 

@@ -173,5 +173,5 @@
 
 @section('js',asset('js/download.js'))
 @section('include-javascript')
-    var userid = {{$user->id}};
+    var userid = '{{$user}}';
 @endsection

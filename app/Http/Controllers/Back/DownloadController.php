@@ -23,7 +23,9 @@ class DownloadController extends BackController
     public $title = 'Data Download';
 
     public function index(){
-        return view('back.download.index')->with('user',Auth::user());
+        $key = substr(Crypt::encrypt(rand (0, 99)),0,28);
+        session(['downloadbroadkey' => $key]);
+        return view('back.download.index')->with('user',$key);
     }
 
 
@@ -38,13 +40,15 @@ class DownloadController extends BackController
         }else{
             abort(500);
         }
+
     }
 
     public function makedownload(Request $request){
+        $bkey = Session('downloadbroadkey');
         $sql = CacheDownload::where('key', json_encode($request->all()))->first();
         if(!is_null($sql)){
             $filename = $sql->first()->filename;
-            event(new DownloadStatus(Auth::user(),['downloadstatus' => [ 'status'=>'Finished','val'=> 100 ,'filename'=>$filename]]));
+            event(new DownloadStatus($bkey,['downloadstatus' => [ 'status'=>'Finished(From Cache)','val'=> 100 ,'filename'=>$filename]]));
 //            session(['downloadstatus' => [ 'status'=>'Finished','val'=> 100 ,'filename'=>$filename]]);
         }else{
             ini_set('memory_limit', '-1');
@@ -59,10 +63,10 @@ class DownloadController extends BackController
                     $re[$point['time']][$data] = $point['value'];
                 }
                 $colect_status += 1;
-                event(new DownloadStatus(Auth::user(),['downloadstatus' => [ 'status'=>'collecting data','val'=> round($colect_status / $total_datas / 2,2)*100 ]]));
+                event(new DownloadStatus($bkey,['downloadstatus' => [ 'status'=>'collecting data','val'=> round($colect_status / $total_datas / 2,2)*100 ]]));
 //                session(['downloadstatus' => [ 'status'=>'collecting data','val'=> round($colect_status / $total_datas / 2,2)*100 ]]);
             }
-            event(new DownloadStatus(Auth::user(),['downloadstatus' => [ 'status'=>'converting data to file','val'=> 75 ]]));
+            event(new DownloadStatus($bkey,['downloadstatus' => [ 'status'=>'converting data to file','val'=> 75 ]]));
 //            session(['downloadstatus' => [ 'status'=>'converting data to file','val'=> 75 ]]);
             /*  conver to excel data */
             $out = [];
@@ -79,14 +83,15 @@ class DownloadController extends BackController
             array_unshift($out,$da);
 
             $filename = substr(Carbon::now(),0,10) . substr(Crypt::encrypt(random_int(0,99)),15,8);
+            event(new DownloadStatus($bkey,['downloadstatus' => [ 'status'=>'Making File','val'=> 90 ]]));
 
             $file = Excel::create($filename,function($excel) use ($out){
                 $excel->sheet('data', function($sheet) use ($out){
                     $sheet->rows($out);
                 });
             })->store($request->filetype,storage_path('excel/exports'));
-            event(new DownloadStatus(Auth::user(),['downloadstatus' => [ 'status'=>'Finished','val'=> 100 ,'filename'=>$filename.'.'.$request->filetype]]));
-//            session(['downloadstatus' => [ 'status'=>'Finished','val'=> 100 ,'filename'=>$filename.'.'.$request->filetype]]);
+            event(new DownloadStatus($bkey,['downloadstatus' => [ 'status'=>'Finished','val'=> 100 ,'filename'=>$filename.'.'.$request->filetype]]));
+            session(['downloadstatus' => [ 'status'=>'Finished','val'=> 100 ,'filename'=>$filename.'.'.$request->filetype]]);
             $create = new CacheDownload();
             $create->key = json_encode($request->all());
             $create->filename = $filename.'.'.$request->filetype;
