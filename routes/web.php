@@ -25,6 +25,9 @@ Route::get('/api/server/data', 'Back\HomeController@getServer')->name('getServer
 
 Route::get('/back/member', 'Back\MemberController@index')->name('MemberIndex');
 Route::get('/api/member/lists', 'Back\MemberController@lists')->name('MemberList');
+Route::post('/api/member/add', 'Back\MemberController@add')->name('MemberAdd');
+Route::post('/api/member/update', 'Back\MemberController@update')->name('MemberUpdate');
+Route::post('/api/member/delete', 'Back\MemberController@delete')->name('MemberDelete');
 
 
 
@@ -48,7 +51,7 @@ Route::post('/api/warning/delete', 'Back\WarningController@delete')->name('Warni
 
 
 
-Route::post('/back/member/add', 'Back\MemberController@store')->name('MemberStore');
+
 
 Route::get('/back/report', 'Back\ReportController@index')->name('ReportIndex');
 Route::get('/api/report/lists', 'Back\ReportController@lists')->name('ReportLists');

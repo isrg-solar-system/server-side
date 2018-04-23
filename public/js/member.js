@@ -15600,37 +15600,123 @@ var app = new Vue({
     el: '#app',
     data: function data() {
         return {
+            loading: false,
             users: [],
             edit: {
                 status: false,
-                title: ''
+                title: '',
+                url: '',
+                model: {
+                    id: '',
+                    email: '',
+                    name: '',
+                    password: '',
+                    level: '',
+                    tmpass: ''
+                }
             }
         };
     },
-    mounted: function mounted() {},
+    mounted: function mounted() {
+        var _this = this;
+
+        window.Echo.channel('publicchannel').listen('.warning', function (data) {
+            if (data.status) {
+                _this.$notify("Data name ：" + data.dataname + "<br>Data Value:" + data.value + "<br>is safe now ", 'info', { mode: 'html' });
+            } else {
+                _this.$notify("Data name ：" + data.dataname + "<br>Data Value:" + data.value + "<br>is out of range ", 'warning', { mode: 'html' });
+            }
+        });
+    },
     created: function created() {
         this.init();
     },
 
     methods: {
         init: function init() {
-            var _this = this;
+            var _this2 = this;
 
+            this.loading = true;
             axios.get('/api/member/lists').then(function (response) {
-                _this.users = response.data;
-                console.log(_this.users);
+                _this2.users = response.data;
             }).catch(function (e) {
                 console.log(e);
             });
+            this.loading = false;
         },
         add: function add() {
             this.edit.status = true;
             this.edit.title = 'Add New User';
+            this.edit.url = '/api/member/add';
         },
-        handleOk: function handleOk() {},
+        update: function update(id) {
+            this.edit.status = true;
+            this.edit.title = 'Edit User';
+            this.edit.url = '/api/member/update';
+            var update = this.users.find(function (f) {
+                return f.id === id;
+            });
+            this.edit.model.tmpass = Math.random().toString(36).substr(2, 5);
+            this.edit.model.id = update.id;
+            this.edit.model.name = update.name;
+            this.edit.model.email = update.email;
+            this.edit.model.password = this.edit.model.tmpass;
+            this.edit.model.level = update.level;
+        },
+        delete_: function delete_(id) {
+            var _this3 = this;
+
+            var delete_ = this.users.find(function (f) {
+                return f.id === id;
+            });
+            this.$modal.confirm({
+                title: 'Confirm',
+                content: 'Are you Sure?',
+                okText: 'OK',
+                cancelText: 'Cancel',
+                onOk: function onOk() {
+                    _this3.loading = true;
+                    axios.post('/api/member/delete', {
+                        id: id
+                    }).then(function (response) {
+                        if (response.data) {
+                            _this3.$notify.success('Success!');
+                            _this3.init();
+                        }
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                    _this3.loading = false;
+                }
+            });
+        },
+        handleOk: function handleOk() {
+            var _this4 = this;
+
+            if (this.edit.model.password == this.edit.model.tmpass) {
+                this.edit.model.password = null;
+            }
+            this.loading = true;
+            this.edit.status = false;
+            axios.post(this.edit.url, this.edit.model).then(function (response) {
+                if (response.data) {
+                    _this4.$notify.success('Success!');
+                    _this4.init();
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+            this.loading = false;
+        },
         handleCancel: function handleCancel() {
             this.edit.status = false;
             this.edit.title = '';
+            this.edit.model.id = '';
+            this.edit.model.name = '';
+            this.edit.model.email = '';
+            this.edit.model.password = '';
+            this.edit.model.level = '';
+            this.edit.model.tmpass = '';
         }
     }
 });

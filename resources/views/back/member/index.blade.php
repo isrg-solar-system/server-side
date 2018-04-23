@@ -14,6 +14,7 @@
                     <h4 class="col-xs-9 title">Team Members</h4>
                     <div class="col-xs-3 text-right">
                         <button class="btn btn-sm btn-warning btn-icon" @click="add"><i class="fa ti-plus"></i></button>
+                        <v-spin size="large" v-if="loading"></v-spin>
                     </div>
                 </div>
                 <div class="content">
@@ -28,15 +29,15 @@
                                 <div class="col-xs-3">
                                     @{{ user.name }}
                                     <br>
-                                    <span class="text-success"><small v-if="user.level==1">Admin</small><small v-if="user.level!=1">Admin</small></span>
+                                    <span class="text-danger"  v-if="user.level"><small>Admin</small></span><span class="text-success" v-if="!user.level"><small>Member</small></span>
                                 </div>
                                 <div class="col-xs-3">
                                     @{{ user.email }}
                                 </div>
 
                                 <div class="col-xs-3 text-right">
-                                    <button class="btn btn-sm btn-success btn-icon"><i class="fa ti-pencil"></i></button>
-                                    <button class="btn btn-sm btn-success btn-icon"><i class="fa ti-trash"></i></button>
+                                    <button class="btn btn-sm btn-success btn-icon" @click="update(user.id)"><i class="fa ti-pencil"></i></button>
+                                    <button class="btn btn-sm btn-success btn-icon" @click="delete_(user.id)"><i class="fa ti-trash"></i></button>
                                 </div>
                             </div>
                         </li>
@@ -59,7 +60,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Email address</label>
-                                    <input type="email" class="form-control border-input" placeholder="Email">
+                                    <input type="email" class="form-control border-input" placeholder="Email" v-model="edit.model.email">
                                 </div>
                             </div>
                         </div>
@@ -68,7 +69,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" class="form-control border-input" placeholder="name">
+                                    <input type="text" class="form-control border-input" placeholder="name" v-model="edit.model.name">
                                 </div>
                             </div>
                         </div>
@@ -79,7 +80,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input type="password" class="form-control border-input" placeholder="Password" >
+                                    <input type="password" class="form-control border-input" placeholder="Password" v-model="edit.model.password">
                                 </div>
                             </div>
                         </div>
@@ -88,9 +89,9 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Level</label>
-                                    <select class="form-control border-input" >
-                                        <option>Admin</option>
-                                        <option>Member</option>
+                                    <select class="form-control border-input" v-model="edit.model.level">
+                                        <option value="1">Admin</option>
+                                        <option value="0">Member</option>
                                     </select>
                                 </div>
                             </div>
