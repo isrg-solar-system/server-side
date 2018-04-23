@@ -34198,6 +34198,7 @@ window.Echo = new __WEBPACK_IMPORTED_MODULE_3_laravel_echo___default.a({
     broadcaster: 'socket.io',
     host: '127.0.0.1:6001'
 });
+
 // window.Pusher = require('pusher-js');
 
 // window.Echo = new Echo({
@@ -90246,7 +90247,10 @@ var render = function() {
                           _vm._l(_vm.measurement, function(data) {
                             return _c(
                               "div",
-                              { staticClass: " form-group  col-md-3  " },
+                              {
+                                staticClass: " form-group  col-md-5 ",
+                                staticStyle: { "word-break": "break-all" }
+                              },
                               [
                                 _c(
                                   "div",
@@ -90300,40 +90304,6 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "clearfix" }),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "pretty p-default p-round" },
-                            [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.edit.group,
-                                    expression: "edit.group"
-                                  }
-                                ],
-                                attrs: {
-                                  type: "radio",
-                                  name: "group",
-                                  value: "realtime"
-                                },
-                                domProps: {
-                                  checked: _vm._q(_vm.edit.group, "realtime")
-                                },
-                                on: {
-                                  change: function($event) {
-                                    _vm.$set(_vm.edit, "group", "realtime")
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "state" }, [
-                                _c("label", [_vm._v("Real Time")])
-                              ])
-                            ]
-                          ),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -90467,7 +90437,7 @@ var render = function() {
                                 ],
                                 attrs: {
                                   type: "radio",
-                                  name: "group",
+                                  name: "chart",
                                   value: "line"
                                 },
                                 domProps: {
@@ -90501,7 +90471,7 @@ var render = function() {
                                 ],
                                 attrs: {
                                   type: "radio",
-                                  name: "group",
+                                  name: "chart",
                                   value: "bar"
                                 },
                                 domProps: {
@@ -90535,7 +90505,7 @@ var render = function() {
                                 ],
                                 attrs: {
                                   type: "radio",
-                                  name: "group",
+                                  name: "chart",
                                   value: "area"
                                 },
                                 domProps: {

@@ -65,11 +65,11 @@
                                 <div class="col-md-12 " style="margin-left: 10px;">
                                     <label for="name">Data Select</label>
                                     <div class="clearfix"></div>
-                                    <div class=" form-group  col-md-3  " v-for="data in measurement">
+                                    <div class=" form-group  col-md-5 " style="word-break: break-all;" v-for="data in measurement">
                                         <div class="pretty p-default p-round">
                                             <input type="radio" name="name" :value="data.name" v-model="edit.name" >
-                                            <div class="state">
-                                                <label>{{data.name}}</label>
+                                            <div class="state" >
+                                                <label >{{data.name}}</label>
                                             </div>
                                         </div>
                                     </div>
@@ -77,12 +77,12 @@
                                 <div class="col-md-12 " style="margin-left: 10px;">
                                     <label for="group">Data Option</label>
                                     <div class="clearfix"></div>
-                                    <div class="pretty p-default p-round">
-                                        <input type="radio" name="group" value="realtime" v-model="edit.group">
-                                        <div class="state">
-                                            <label>Real Time</label>
-                                        </div>
-                                    </div>
+                                    <!--<div class="pretty p-default p-round">-->
+                                        <!--<input type="radio" name="group" value="realtime" v-model="edit.group">-->
+                                        <!--<div class="state">-->
+                                            <!--<label>Real Time</label>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
 
                                     <div class="pretty p-default p-round">
                                         <input type="radio" name="group" value="day"  v-model="edit.group">
@@ -109,21 +109,21 @@
                                     <label for="group">Chart Option</label>
                                     <div class="clearfix"></div>
                                     <div class="pretty p-default p-round">
-                                        <input type="radio" name="group" value="line" v-model="edit.chart">
+                                        <input type="radio" name="chart" value="line" v-model="edit.chart">
                                         <div class="state">
                                             <label>Line</label>
                                         </div>
                                     </div>
 
                                     <div class="pretty p-default p-round">
-                                        <input type="radio" name="group" value="bar"  v-model="edit.chart">
+                                        <input type="radio" name="chart" value="bar"  v-model="edit.chart">
                                         <div class="state">
                                             <label>Bar</label>
                                         </div>
                                     </div>
 
                                     <div class="pretty p-default p-round">
-                                        <input type="radio" name="group" value="area"  v-model="edit.chart">
+                                        <input type="radio" name="chart" value="area"  v-model="edit.chart">
                                         <div class="state">
                                             <label>Area</label>
                                         </div>

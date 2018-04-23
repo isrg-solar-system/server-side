@@ -31845,7 +31845,7 @@ var app = new Vue({
                 //this.downloadstatus.timer = setInterval(this.checkdownload,500)
                 _this.downloadstatus.progress = 0;
                 _this.downloadstatus.desc = '';
-                // location.href = '/back/download/get/'+data.downloadstatus.filename;
+                location.href = '/back/download/get/';
             }
         });
     },

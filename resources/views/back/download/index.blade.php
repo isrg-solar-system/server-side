@@ -43,7 +43,7 @@
                     <div class="content ">
                         <ul>
                             <li v-for="data in datas">
-                                <label class="fancy-checkbox">
+                                <label class="fancy-checkbox" style="word-break: break-all;">
                                     <input type="checkbox" v-model="userinput.selectdata" :value=data.name />
                                     <span>@{{data.name}}</span>
                                 </label>
