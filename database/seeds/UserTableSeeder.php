@@ -17,6 +17,21 @@ class UserTableSeeder extends Seeder
         $user = new \App\User();
         $user->name = 'img21326';
         $user->email = 'img21326@gmail.com';
+        $user->level = '1';
+        $user->password =  Hash::make('password');
+        $user->save();
+
+        $user = new \App\User();
+        $user->name = 'qwe21326';
+        $user->email = 'qwe21326@gmail.com';
+        $user->level = '0';
+        $user->password =  Hash::make('password');
+        $user->save();
+
+        $user = new \App\User();
+        $user->name = 'test';
+        $user->email = 'test@gmail.com';
+        $user->level = '0';
         $user->password =  Hash::make('password');
         $user->save();
     }
