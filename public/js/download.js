@@ -31835,7 +31835,7 @@ var app = new Vue({
                 _this.$notify("Data name ：" + data.dataname + "<br>Data Value:" + data.value + "<br>is out of range ", 'warning', { mode: 'html' });
             }
         });
-        window.Echo.private('download.' + userid).listen('.status', function (data) {
+        window.Echo.channel('download.' + userid).listen('.status', function (data) {
             // console.log(data.downloadstatus)
             _this.downloadstatus.progress = data.downloadstatus.val;
             _this.downloadstatus.desc = data.downloadstatus.status;

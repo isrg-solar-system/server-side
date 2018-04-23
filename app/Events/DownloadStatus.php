@@ -40,7 +40,7 @@ class DownloadStatus implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('download.'.$this->user);
+        return ['download.'.$this->user];
 //        return ['publicchannel'];
     }
 

@@ -13,10 +13,10 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
-        'api/data','/api/download/file','api/input/data','/api/get/data','/api/warning/create','/api/warning/delete','/api/warning/update',
+        'api/data','/api/download/file','api/input/data','/api/get/data','/api/warning/create','/api/warning/delete','/api/warning/update','/broadcasting/auth'
     ];
     protected $except_urls = [
-        'api/data','/api/download/file','api/input/data','/api/get/data','/api/warning/create','/api/warning/delete','/api/warning/update',
+        'api/data','/api/download/file','api/input/data','/api/get/data','/api/warning/create','/api/warning/delete','/api/warning/update','/broadcasting/auth'
     ];
 
 

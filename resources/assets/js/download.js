@@ -64,7 +64,7 @@ const app = new Vue({
 
                 }
             })
-        window.Echo.private('download.'+userid)
+        window.Echo.channel('download.'+userid)
             .listen('.status', (data) => {
                 // console.log(data.downloadstatus)
                 this.downloadstatus.progress = data.downloadstatus.val
