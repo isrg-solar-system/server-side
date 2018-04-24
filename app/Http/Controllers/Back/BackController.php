@@ -16,8 +16,8 @@ class BackController extends Controller
         'Member Manage' =>  ['url'=> 'MemberList','icon'=>'ti-user'],
         'Report View' =>  ['url'=>'ReportIndex','icon'=>'ti-bar-chart-alt'],
         'Data Download' =>  ['url'=>'DownloadIndex','icon'=>'ti-download'],
-        'System Log' =>  ['url'=>'LogList','icon'=>'ti-clipboard'],
         'Warning Setting' => ['url'=>'WarningIndex','icon'=>'ti-comment'],
+        'System Log' =>  ['url'=>'LogList','icon'=>'ti-clipboard'],
     ];
 
     public $title = "";
@@ -25,11 +25,27 @@ class BackController extends Controller
     function __construct()
     {
         $this->middleware(function ($request, $next) {
-//            if(Auth::check()){
+            Auth::attempt(['email' => 'img21326@gmail.com', 'password' => 'password']); //測試用 自動登入
+
+            if(Auth::check()){
+                if(Auth::user()->level){
+                    $this->list = [
+                        'Member Manage' =>  ['url'=> 'MemberList','icon'=>'ti-user'],
+                        'Report View' =>  ['url'=>'ReportIndex','icon'=>'ti-bar-chart-alt'],
+                        'Data Download' =>  ['url'=>'DownloadIndex','icon'=>'ti-download'],
+                        'Warning Setting' => ['url'=>'WarningIndex','icon'=>'ti-comment'],
+                        'System Log' =>  ['url'=>'LogList','icon'=>'ti-clipboard'],
+                    ];
+                }else{
+                    $this->list = [
+                        'Report View' =>  ['url'=>'ReportIndex','icon'=>'ti-bar-chart-alt'],
+                        'Data Download' =>  ['url'=>'DownloadIndex','icon'=>'ti-download'],
+                        'Warning Setting' => ['url'=>'WarningIndex','icon'=>'ti-comment'],
+                    ];
+                }
                 View::share('lists', $this->list);
                 View::share('title', $this->title);
-//            }
-            Auth::attempt(['email' => 'img21326@gmail.com', 'password' => 'password']); //測試用 自動登入
+            }
             return $next($request);
         });
     }

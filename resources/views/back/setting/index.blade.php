@@ -10,13 +10,11 @@
     <div class="header">
         1.提醒格式
         2.提醒方式(@,line)
-        3.快取處存天數
-        4.影片處存天數
+        4.影片處存筆數
         5.LOG處存天數
         6.網站名稱
         7.email server
         8.line api key
-        9.時區
         <div class="row ">
             <div class="col-md-12">
                 <div class="col-md-2">
