@@ -41,7 +41,7 @@
         created() {
             this.loading = true
             this.init()
-            this.loading = false
+
 
         },
         mounted(){
@@ -63,18 +63,21 @@
                     })
             },
             getdatastatus(){
-                $.each( this.datas, function( key, value ) {
+                let count = this.datas.length
+                $.each( this.datas, ( key, value )=>{
                     axios.get('/api/get/'+value.name)
                         .then(response => {
                             // JSON responses are automatically parsed.
-                            Vue.set(this, "status", response.data);
+                            Vue.set(this.datas[key], "status", response.data);
+                            if(count == (key+1)){
+                                this.loading = false
+                            }
                         })
                         .catch(e => {
                             console.log(e)
                         })
-                })
-                console.log(this.datas)
 
+                })
             },
 
         },

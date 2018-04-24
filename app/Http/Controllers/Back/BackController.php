@@ -12,8 +12,8 @@ class BackController extends Controller
     //
 
     public $list = [
-        'Web Setting' => ['url'=>'MemberList','icon'=>'ti-settings'],
-        'Member Manage' =>  ['url'=> 'MemberList','icon'=>'ti-user'],
+        'Web Setting' => ['url'=>'SettingIndex','icon'=>'ti-settings'],
+        'Member Manage' =>  ['url'=> 'MemberIndex','icon'=>'ti-user'],
         'Report View' =>  ['url'=>'ReportIndex','icon'=>'ti-bar-chart-alt'],
         'Data Download' =>  ['url'=>'DownloadIndex','icon'=>'ti-download'],
         'Warning Setting' => ['url'=>'WarningIndex','icon'=>'ti-comment'],
@@ -30,7 +30,8 @@ class BackController extends Controller
             if(Auth::check()){
                 if(Auth::user()->level){
                     $this->list = [
-                        'Member Manage' =>  ['url'=> 'MemberList','icon'=>'ti-user'],
+                        'Web Setting' => ['url'=>'SettingIndex','icon'=>'ti-settings'],
+                        'Member Manage' =>  ['url'=> 'MemberIndex','icon'=>'ti-user'],
                         'Report View' =>  ['url'=>'ReportIndex','icon'=>'ti-bar-chart-alt'],
                         'Data Download' =>  ['url'=>'DownloadIndex','icon'=>'ti-download'],
                         'Warning Setting' => ['url'=>'WarningIndex','icon'=>'ti-comment'],

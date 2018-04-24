@@ -17,5 +17,6 @@ mix
     // .js('resources/assets/js/front.js', 'public/js')
     // .js('resources/assets/js/download.js', 'public/js')
     // .js('resources/assets/js/report.js', 'public/js')
+    .js('resources/assets/js/back.js', 'public/js')
     .js('resources/assets/js/member.js', 'public/js')
     // .sass('resources/assets/sass/app.scss', 'public/css');

@@ -7,143 +7,44 @@
 
 
 @section('content')
-    <div class="header">
+
         1.提醒格式
         2.提醒方式(@,line)
-        4.影片處存筆數
-        5.LOG處存天數
+        5.LOG處存筆數
         6.網站名稱
-        7.email server
         8.line api key
-        <div class="row ">
-            <div class="col-md-12">
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label>　</label>
-                        <button type="submit" class="btn btn-secondary form-control border-input ">Add Widget</button>
-                    </div>
+        <div id="app">
+            <div class="row">
 
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Web Title</h4>
+                                <p class="category">Congi this Application title</p>
+                            </div>
+                            <div class="content ">
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Web Title</h4>
+                                <p class="category">Congi this Application title</p>
+                            </div>
+                            <div class="content ">
+
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
         </div>
-
-        {{--<h4 class="title"></h4>--}}
-        {{--<p class="category">Here is a subtitle for this table</p>--}}
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="content ">
-                <form>
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label for="widgetname">Widget Name</label>
-                                <input type="text" name="widgetname" class="form-control border-input" placeholder="First Chart 1 ...">
-                            </div>
-                        </div>
-                        <div class="col-md-12 " style="margin-left: 10px;">
-                            <label for="widgetname">Data Select</label>
-                            <div class="clearfix"></div>
-                            <div class=" form-group  col-md-3">
-                                <div class="pretty p-default p-curve">
-                                    <input type="checkbox" name="data" />
-                                    <div class="state p-primary-o">
-                                        <label>Primary</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class=" form-group  col-md-3">
-                                <div class="pretty p-default p-curve">
-                                    <input type="checkbox" name="data" />
-                                    <div class="state p-primary-o">
-                                        <label>Primary</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class=" form-group  col-md-3">
-                                <div class="pretty p-default p-curve">
-                                    <input type="checkbox" name="data" />
-                                    <div class="state p-primary-o">
-                                        <label>Primary</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class=" form-group  col-md-3">
-                                <div class="pretty p-default p-curve">
-                                    <input type="checkbox" name="data" />
-                                    <div class="state p-primary-o">
-                                        <label>Primary</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class=" form-group  col-md-3">
-                                <div class="pretty p-default p-curve">
-                                    <input type="checkbox" name="data" />
-                                    <div class="state p-primary-o">
-                                        <label>Primary</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 " style="margin-left: 10px;">
-                            <label for="widgetname">Data Option</label>
-                            <div class="clearfix"></div>
-                            <div class="pretty p-default p-round">
-                                <input type="radio" name="radio1">
-                                <div class="state">
-                                    <label>Real Time</label>
-                                </div>
-                            </div>
-
-                            <div class="pretty p-default p-round">
-                                <input type="radio" name="radio1">
-                                <div class="state">
-                                    <label>Day</label>
-                                </div>
-                            </div>
-
-                            <div class="pretty p-default p-round">
-                                <input type="radio" name="radio1">
-                                <div class="state">
-                                    <label>Month</label>
-                                </div>
-                            </div>
-
-                            <div class="pretty p-default p-round">
-                                <input type="radio" name="radio1">
-                                <div class="state">
-                                    <label>Year</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-8 " style="margin-left: 10px;">
-                            <div class="form-group">
-                                <label>From</label>
-                                <input type="text" class="form-control border-input" placeholder="2017/1/1" value="">
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="col-md-8 " style="margin-left: 10px;">
-                            <div class="form-group">
-                                <label>To</label>
-                                <input type="text" class="form-control border-input" placeholder="2017/1/1" value="">
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="col-md-8 " style="margin-left: 10px;">
-                            <div class="form-group">
-                                <label>　</label>
-                                <button type="submit" class="btn btn-secondary form-control border-input ">Submit</button>
-                            </div>
-                        </div>
-                    </div>
-
-                </form>
-
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('include-javascript')

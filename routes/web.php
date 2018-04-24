@@ -23,6 +23,8 @@ Route::get('/log', 'FrontController@log')->name('FrontLog');
 Route::get('/back', 'Back\HomeController@index')->name('BackIndex');
 Route::get('/api/server/data', 'Back\HomeController@getServer')->name('getServerData');
 
+Route::get('/back/setting', 'Back\SettingController@index')->name('SettingIndex');
+
 Route::get('/back/member', 'Back\MemberController@index')->name('MemberIndex');
 Route::get('/api/member/lists', 'Back\MemberController@lists')->name('MemberList');
 Route::post('/api/member/add', 'Back\MemberController@add')->name('MemberAdd');
