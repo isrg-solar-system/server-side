@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Events\WarningBroadcast;
 use App\SettingWarning;
 use App\Warning;
+use App\Websetting;
 use function GuzzleHttp\Psr7\str;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -12,6 +13,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Ixudra\Curl\Facades\Curl;
+use Mailgun\Mailgun;
 
 class CheckingData implements ShouldQueue
 {
@@ -105,16 +107,39 @@ class CheckingData implements ShouldQueue
     }
 
     public function alert($dataname,$status,$value){
-        $token = 'KsaH2AyQnOqQHCTbHlsiOioVwjNwhrDdrTZDbvcqxxQ';
+        $line_token = Websetting::where('key','line_api')->first()->value;
+
+        $message = Websetting::where('key','alert_format')->first()->value;
         if($status){
-            $message = "\r\n 🚨 『".$dataname . "』\r\n目前數值為:\"". $value . "\"\r\n狀況:返回至安全";
+            $status = '狀況正常';
         }else{
-            $message = "\r\n 🚨 『".$dataname . "』\r\n目前數值為:\"". $value . "\"\r\n狀況:超出範圍";
+            $status = '超出異常範圍';
         }
+
+        $message = "\r\n" . $message;
+        $message = str_replace('@dataname', $dataname, $message);
+        $message = str_replace('@status', $status, $message);
+        $message = str_replace('@value', $value, $message);
         event(new WarningBroadcast($dataname,$status,$value));
-        $response = Curl::to('https://notify-api.line.me/api/notify')
-            ->withHeaders( array( 'Authorization: Bearer '.$token, 'Content-Type: application/x-www-form-urlencoded' ) )
-            ->withData( ['message' => $message ])
-            ->post();
+        if(isset($line_token)){
+            $response = Curl::to('https://notify-api.line.me/api/notify')
+                ->withHeaders( array( 'Authorization: Bearer '.$line_token, 'Content-Type: application/x-www-form-urlencoded' ) )
+                ->withData( ['message' => $message ])
+                ->post();
+        }
+
+//        $email_token = Websetting::where('key','email_api')->first()->value;
+//        if(isset($email_token)){
+//
+//            $mgClient = new Mailgun($email_token);
+//            $domain = "sandboxb3d4f76588ab418baeb8fdd337b9e074.mailgun.org";
+//            $result = $mgClient->sendMessage($domain, array(
+//                'from'    => 'Excited User <postmaster@sandboxb3d4f76588ab418baeb8fdd337b9e074.mailgun.org>',
+//                'to'      => 'Baz <img2126@gmail.com>',
+//                'subject' => 'Hello',
+//                'text'    => 'Testing some Mailgun awesomness!'
+//            ));
+//        }
+
     }
 }

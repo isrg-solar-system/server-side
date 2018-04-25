@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\User;
+use App\Websetting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -39,19 +40,27 @@ class SaveDataToInflux implements ShouldQueue
     {
         //
         $points = array();
-        $time = Carbon::now('Asia/Taipei')->toDateTimeString();
+        $time = Carbon::now('Asia/Taipei')->timestamp;
         $arr = array();
         foreach (json_decode($this->data) as $key => $data){
-            $points[] =  new Point(
-                $key, // name of the measurement
-                floatval ($data), // the measurement value
-                ['region' => 'tw'], // optional tags
-                [], // optional additional fields,
-                $time
-            );
-            $arr[] = $key;
+            $result = InfluxDB::query('select * from '.$key. ' ORDER BY time desc limit 1');
+            $last = new Carbon($result->getPoints()[0]['time']);
+            $last = $last->timestamp;
+            $limit = Websetting::where('key','data_limit')->first()->value;
+            if(($time - $last) > $limit){
+                $points[] =  new Point(
+                    $key, // name of the measurement
+                    floatval ($data), // the measurement value
+                    ['region' => 'tw'], // optional tags
+                    [], // optional additional fields,
+                    $time
+                );
+                $arr[] = $key;
+            }
+
         }
-//        $result = InfluxDB::writePoints($points, \InfluxDB\Database::PRECISION_SECONDS);
+
+        $result = InfluxDB::writePoints($points, \InfluxDB\Database::PRECISION_SECONDS);
         print_r($arr);
     }
 }

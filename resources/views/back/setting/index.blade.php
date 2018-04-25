@@ -20,26 +20,26 @@
                             </div>
                             <div class="content ">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Email Api Key</label>
-                                            <input type="text" class="form-control border-input" placeholder="You can get from https://app.mailgun.com/">
-                                        </div>
-                                    </div>
+                                    {{--<div class="col-md-12">--}}
+                                        {{--<div class="form-group">--}}
+                                            {{--<label for="exampleInputEmail1">Email Api Key</label>--}}
+                                            {{--<input type="text" class="form-control border-input" placeholder="You can get from https://app.mailgun.com/" value="{{$setting->where('key','email_api')->first()->value}}">--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Line Api Key</label>
-                                            <input type="text" class="form-control border-input" placeholder="">
+                                            <input type="text" class="form-control border-input" placeholder="" value="{{$setting->where('key','line_api')->first()->value}}">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Format</label>
-                                            <textarea class="form-control  border-input" rows="5" placeholder="You can use the key word 'value','status','dataname','datetime' in the Format &#10; by adding '@' &#10; example: the value is @value"></textarea>
+                                            <textarea class="form-control  border-input" rows="3" placeholder="You can use the key word 'value','status','dataname','datetime' in the Format &#10; by adding '@' &#10; example: the value is @value">  {!! $setting->where('key','alert_format')->first()->value !!}  </textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-12 text-right">
-                                        <button type="button" class="btn btn-secondary">Send test message</button>
+                                        {{--<button type="button" class="btn btn-secondary">Send test message</button>--}}
                                         <button type="button" class="btn btn-success">Save</button>
                                     </div>
                                 </div>
@@ -58,7 +58,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Store Data Limit(second)</label>
-                                            <input type="text" class="form-control border-input" placeholder="5">
+                                            <input type="text" class="form-control border-input" placeholder="5" value="{{$setting->where('key','data_limit')->first()->value}}">
                                         </div>
                                     </div>
                                     <div class="col-md-12 text-right">

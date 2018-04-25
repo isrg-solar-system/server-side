@@ -44,8 +44,8 @@
                     <li class="nav-item @if($place=='inverter') active @endif">
                         <a class="nav-link" href="{{route('FrontInverter')}}">Inverter @if($place=='inverter')<span class="sr-only">(current)</span>@endif</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Chart</a>
+                    <li class="nav-item @if($place=='chart') active @endif">
+                        <a class="nav-link" href="{{route('FrontChart','pv_input_voltage')}}">Chart</a>
                     </li>
                     <li class="nav-item @if($place=='ipcam') active @endif" >
                         <a class="nav-link" href="{{route('FrontIpcam')}}">IPCam @if($place=='ipcam')<span class="sr-only">(current)</span>@endif</a>

@@ -19,12 +19,20 @@ class WebsettingTableSeeder extends Seeder
 
         $email = new \App\Websetting();
         $email->key = 'email_api';
-        $email->value = null;
+        $email->value = 'key-a0b8a600707180e7995561cd674c33dc';
         $email->save();
 
         $datalimit = new \App\Websetting();
         $datalimit->key = 'data_limit';
         $datalimit->value = 5;
         $datalimit->save();
+
+        $datalimit = new \App\Websetting();
+        $datalimit->key = 'alert_format' ;
+        $datalimit->value = '🚨 『@dataname』
+目前數值為:@value
+狀況:@status';
+        $datalimit->save();
+
     }
 }

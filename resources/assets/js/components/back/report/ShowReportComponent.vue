@@ -85,23 +85,30 @@
                                     <!--</div>-->
 
                                     <div class="pretty p-default p-round">
-                                        <input type="radio" name="group" value="day"  v-model="edit.group">
+                                        <input type="radio" name="group" value="todayofhour"  v-model="edit.group">
                                         <div class="state">
-                                            <label>Day</label>
+                                            <label>todayofhour</label>
                                         </div>
                                     </div>
 
                                     <div class="pretty p-default p-round">
-                                        <input type="radio" name="group" value="month"  v-model="edit.group">
+                                        <input type="radio" name="group" value="allofday"  v-model="edit.group">
                                         <div class="state">
-                                            <label>Month</label>
+                                            <label>allofday</label>
                                         </div>
                                     </div>
 
                                     <div class="pretty p-default p-round">
-                                        <input type="radio" name="group" value="year"  v-model="edit.group">
+                                        <input type="radio" name="group" value="allofmonth"  v-model="edit.group">
                                         <div class="state">
-                                            <label>Year</label>
+                                            <label>allofmonth</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="pretty p-default p-round">
+                                        <input type="radio" name="group" value="allofyear"  v-model="edit.group">
+                                        <div class="state">
+                                            <label>allofyear</label>
                                         </div>
                                     </div>
                                 </div>
