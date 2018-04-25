@@ -30,12 +30,13 @@ class BackController extends Controller
             if(Auth::check()){
                 if(Auth::user()->level){
                     $this->list = [
-                        'Web Setting' => ['url'=>'SettingIndex','icon'=>'ti-settings'],
                         'Member Manage' =>  ['url'=> 'MemberIndex','icon'=>'ti-user'],
                         'Report View' =>  ['url'=>'ReportIndex','icon'=>'ti-bar-chart-alt'],
                         'Data Download' =>  ['url'=>'DownloadIndex','icon'=>'ti-download'],
                         'Warning Setting' => ['url'=>'WarningIndex','icon'=>'ti-comment'],
                         'System Log' =>  ['url'=>'LogList','icon'=>'ti-clipboard'],
+                        'Web Setting' => ['url'=>'SettingIndex','icon'=>'ti-settings'],
+
                     ];
                 }else{
                     $this->list = [

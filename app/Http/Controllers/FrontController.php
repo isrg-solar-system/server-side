@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Jobs\SaveDataToInflux;
 use App\SettingWarning;
+use App\Websetting;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use InfluxDB\Point;
 use TrayLabs\InfluxDB\Facades\InfluxDB;
@@ -25,6 +27,12 @@ class FrontController extends Controller
 
     public function log(){
         return view('front.log');
+    }
+
+    public function chart($dataname){
+        $place = 'chart';
+        $now = Carbon::now();
+        return view('front.chart')->with('place',$place)->with('dataname',$dataname)->with('now',$now);
     }
 
     public function ipcam(){

@@ -18,6 +18,7 @@ Route::get('/', 'FrontController@index')->name('FrontIndex');
 Route::get('/inverter', 'FrontController@inverter')->name('FrontInverter');
 Route::get('/ipcam', 'FrontController@ipcam')->name('FrontIpcam');
 Route::get('/log', 'FrontController@log')->name('FrontLog');
+Route::get('/chart/{dataname}', 'FrontController@chart')->name('FrontChart');
 
 
 Route::get('/back', 'Back\HomeController@index')->name('BackIndex');

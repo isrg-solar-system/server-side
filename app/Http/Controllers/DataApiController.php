@@ -10,6 +10,8 @@ use App\Jobs\CheckingData;
 use App\Jobs\SaveDataToInflux;
 use App\Warning;
 use DateTime;
+use DateTimeZone;
+use http\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Crypt;
@@ -23,11 +25,11 @@ class DataApiController extends Controller
     //
     public function input(Request $request){
         $data = $request->get('data');
-        print_r($data);
-
-        // 資料EXAMPLE : {"battery_charging_current":21,"grid_voltage":110}
-//        event(new InputData(json_encode($data)));
-//        $this->dispatch(new SaveDataToInflux($data));
+//        print_r($data);
+//
+//        // 資料EXAMPLE : {"battery_charging_current":21,"grid_voltage":110}
+////        event(new InputData(json_encode($data)));
+        $this->dispatch(new SaveDataToInflux($data));
         $this->dispatch(new CheckingData($data));
     }
 
@@ -37,32 +39,59 @@ class DataApiController extends Controller
          *   dateto   = 2018/12/31
          */
 //        dd($request->all());
-        header('Access-Control-Allow-Origin: *');
+        if(env('APP_DEBUG')){
+            header('Access-Control-Allow-Origin: *');
+        }
         $group = '';
-        $datefrom = Carbon::parse($request->datefrom, 'Asia/Taipei')->toDateString();
-        $dateto = Carbon::parse( $request->dateto,'Asia/Taipei')->toDateString();
-        $fyear = Carbon::parse($request->datefrom,'Asia/Taipei')->year;
-        $tyear = Carbon::parse($request->dateto,'Asia/Taipei')->year;
-        $fmonth = Carbon::parse( $request->datefrom,'Asia/Taipei')->month;
-        $tmonth = Carbon::parse( $request->dateto,'Asia/Taipei')->month;
+        try{
+            $datefrom = Carbon::parse($request->datefrom, 'Asia/Taipei')->toDateString();
+            $dateto = Carbon::parse( $request->dateto,'Asia/Taipei')->toDateString();
+            $fyear = Carbon::parse($request->datefrom,'Asia/Taipei')->year;
+            $tyear = Carbon::parse($request->dateto,'Asia/Taipei')->year;
+            $fmonth = Carbon::parse( $request->datefrom,'Asia/Taipei')->month;
+            $tmonth = Carbon::parse( $request->dateto,'Asia/Taipei')->month;
+        }
+        catch (Exception $e){
+
+        }
         switch ($request->group) {
-            case 'day':
+            case 'todayofhour':
+                $carbonyes = Carbon::yesterday()->addHour(16);
+                $carbontod = Carbon::today()->addHour(16);
+                $query = sprintf("select MEAN(value) from %s where time > %s AND time < %s group by time(1h)",$request->dataname,"'".$carbonyes->toDateTimeString()."'","'".$carbontod->toDateTimeString()."'");
+                $result = InfluxDB::query($query);
+                $points = $result->getPoints();
+                $re = [];
+                foreach ($points as $point){
+                    if(!is_null($point['mean'])){
+                        $arr = [];
+                        $time = new Carbon($point['time']);
+                        $time->timezone = new DateTimeZone('Asia/Taipei');
+                        $arr['time'] =  $time->toDateTimeString();
+                        $arr['mean'] =  $point['mean'];
+                        $re[] = $arr;
+                    }
+                }
+                return json_encode($re);
+                break;
+            case 'allofday':
                 $result = InfluxDB::query("select MEAN(value) from " . $request->dataname . " where time >= '".$datefrom."' AND time <= '". $dateto."' group by time(1d)");
                 $points = $result->getPoints();
                 $re = [];
                 foreach ($points as $point){
-                    if(!is_null($point['mean']))
+                    if(!is_null($point['mean'])){
                         $re[] = $point;
+                    }
                 }
                 return json_encode($re);
                 break;
-            case 'month':
-
+            case 'allofmonth':
                 $re = [];
                 for($year = $fyear; $year <= $tyear ;$year++){
                    if($year == $fyear){
                        for ($month= $fmonth;$month <= 12;$month++){
                            $carbon =  Carbon::create($year, $month, 1,0,0,0);
+                           $carbon->timezone = new DateTimeZone('Asia/Taipei');
                            $query = sprintf("select MEAN(value) from %s where time > %s AND time < %s",$request->dataname,"'".$carbon->toDateTimeString()."'","'".$carbon->endOfMonth()->toDateTimeString()."'");
 //                           var_dump($query);
                            $result = InfluxDB::query($query);
@@ -74,6 +103,7 @@ class DataApiController extends Controller
                    }elseif($year == $tyear){
                        for ($month= 1;$month <= $tmonth;$month++){
                            $carbon =  Carbon::create($year, $month, 1,0,0,0);
+                           $carbon->timezone = new DateTimeZone('Asia/Taipei');
                            $query = sprintf("select MEAN(value) from %s where time > %s AND time < %s",$request->dataname,"'".$carbon->toDateTimeString()."'","'".$carbon->endOfMonth()->toDateTimeString()."'");
 //                           var_dump($query);
                            $result = InfluxDB::query($query);
@@ -85,6 +115,7 @@ class DataApiController extends Controller
                    }else{
                        for ($month= 1;$month <= 12;$month++){
                            $carbon =  Carbon::create($year, $month, 1,0,0,0);
+                           $carbon->timezone = new DateTimeZone('Asia/Taipei');
                            $query = sprintf("select MEAN(value) from %s where time > %s AND time < %s",$request->dataname,"'".$carbon->toDateTimeString()."'","'".$carbon->endOfMonth()->toDateTimeString()."'");
 //                           var_dump($query);
                            $result = InfluxDB::query($query);
@@ -97,11 +128,13 @@ class DataApiController extends Controller
                 }
                 return json_encode($re);
                 break;
-            case 'year':
+            case 'allofyear':
                 $re = [];
                 for($year = $fyear; $year <= $tyear ;$year++){
                     $carbonform =  Carbon::create($year, 1, 1,0,0,0);
+                    $carbonform->timezone = new DateTimeZone('Asia/Taipei');
                     $carbonto =  Carbon::create($year, 12, 31,23,59,59);
+                    $carbonto->timezone = new DateTimeZone('Asia/Taipei');
                     $query = sprintf("select MEAN(value) from %s where time > %s AND time < %s",$request->dataname,"'".$carbonform->toDateTimeString()."'","'".$carbonto->endOfMonth()->toDateTimeString()."'");
 //                           var_dump($query);
                     $result = InfluxDB::query($query);

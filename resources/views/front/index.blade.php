@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="col-md-12 row first-line">
-        <div class="col-md-3 col-6 mt-1">
+        <div class="col-md-3 col-6 mt-1" onclick="location.href = '{{route('FrontChart','pv_input_voltage')}}'">
             <div class="cube">
                 <div class="head">
                     <i class="fa fa-spinner" aria-hidden="true"></i> Voltage
@@ -25,7 +25,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-6 mt-1">
+        <div class="col-md-3 col-6 mt-1" onclick="location.href = '{{route('FrontChart','pv_input_current_for_battery')}}'">
             <div class="cube">
                 <div class="head">
                     <i class="fa fa-spinner" aria-hidden="true"></i> Current
@@ -42,7 +42,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-6 mt-1">
+        <div class="col-md-3 col-6 mt-1" onclick="location.href = '{{route('FrontChart','pv_charging_power')}}'">
             <div class="cube">
                 <div class="head">
                     <i class="fa fa-spinner" aria-hidden="true"></i> Power
@@ -58,8 +58,8 @@
                     <div class="clearFix"></div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3 col-6 mt-1">
+        </div >
+        <div class="col-md-3 col-6 mt-1" >
             <div class="cube">
                 <div class="head">
                     <i class="fa fa-spinner" aria-hidden="true"></i> Last Update

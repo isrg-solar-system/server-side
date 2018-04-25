@@ -8,6 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Carbon;
 use InfluxDB\Point;
 use Symfony\Component\HttpFoundation\Request;
 use TrayLabs\InfluxDB\Facades\InfluxDB;
@@ -38,7 +39,7 @@ class SaveDataToInflux implements ShouldQueue
     {
         //
         $points = array();
-        $time = time();
+        $time = Carbon::now('Asia/Taipei')->toDateTimeString();
         $arr = array();
         foreach (json_decode($this->data) as $key => $data){
             $points[] =  new Point(
@@ -50,7 +51,7 @@ class SaveDataToInflux implements ShouldQueue
             );
             $arr[] = $key;
         }
-        $result = InfluxDB::writePoints($points, \InfluxDB\Database::PRECISION_SECONDS);
+//        $result = InfluxDB::writePoints($points, \InfluxDB\Database::PRECISION_SECONDS);
         print_r($arr);
     }
 }

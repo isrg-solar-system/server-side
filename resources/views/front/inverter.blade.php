@@ -24,21 +24,21 @@
         </div>
         <div class="cubecontent freq-cube cube-frequency">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-3" onclick="location.href = '{{route('FrontChart','battery_voltage')}}'">
                     <a href="#" class="cubeblock battery-block" >
                         <div class="blocktitle">Battery voltage</div>
                         <div class="blocktitle">527</div>
                         <frontguage :max="100" :min="0" :value="value" :angle="-0.1" :linewidth="0.23" :width="200" :height="100"></frontguage>
                     </a>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" onclick="location.href = '{{route('FrontChart','battery_charging_current')}}'">
                     <a href="#" class="cubeblock battery-block">
                         <div class="blocktitle">Battery Charging Current</div>
                         <div class="blocktitle">527</div>
                         <frontguage :max="100" :min="0" :value="value" :angle="-0.1" :linewidth="0.23" :width="200" :height="100"></frontguage>
                     </a>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" onclick="location.href = '{{route('FrontChart','battery_discharge_current')}}'">
                     <a href="#" class="cubeblock battery-block">
                         <div class="blocktitle">Battery Discharge Current</div>
                         <div class="blocktitle">527</div>
@@ -46,7 +46,7 @@
 
                     </a>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" onclick="location.href = '{{route('FrontChart','battery_capacity')}}'">
                     <a href="#" class="cubeblock battery-block">
                         <div class="blocktitle">Battery Capacity</div>
                         <div class="blocktitle">527</div>
@@ -128,7 +128,7 @@
                         </div>
                         <div class="cubecontent use-cubecontent">
 
-                            <div class="use-overallleft">
+                            <div class="use-overallleft" onclick="location.href = '{{route('FrontChart','inverter_heat_sink_temperature')}}'">
                                 <a href="#" class="cubeblock percent-block">
 
                                     <div class="tempGauge-demo">35&deg;C</div>
@@ -138,7 +138,7 @@
 
                             </div>  <!-- use-overall -->
 
-                            <div class="use-coresright">
+                            <div class="use-coresright" onclick="location.href = '{{route('FrontChart','grid_voltage')}}'">
 
                                 <a href="#" class="cubeblock grid-block">
                                     <div class="cores-circle">
@@ -150,7 +150,7 @@
 
                                 </a>
 
-                                <a href="#" class="cubeblock grid-block">
+                                <a href="#" class="cubeblock grid-block" onclick="location.href = '{{route('FrontChart','grid_frequency')}}'">
                                     <div class="cores-circle">
                                         <div class="cores-circle-inner">
                                             90&#37;
@@ -184,14 +184,14 @@
                     <i class="fa fa-thermometer-three-quarters" aria-hidden="true"></i> AC</div>
                 <div class="cubecontent atemp-cubecontent ">
                     <div class="row">
-                        <div class="col-md-6" style=" padding-left: 18px;">
+                        <div class="col-md-6" style=" padding-left: 18px;" onclick="location.href = '{{route('FrontChart','ac_output_voltage')}}'">
                             <a href="#" class="cubeblock ACcubecontent-block-top">
                                 <div class="blocktitle AC-blocktitle">AC output voltage</div>
                                 <div class="AC-blocktitle">527</div>
                                 <frontguage :max="100" :min="0" :value="value" :angle="0.25" :linewidth="0.10" :width="150" :height="100"></frontguage>
                             </a>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" onclick="location.href = '{{route('FrontChart','ac_output_frequency')}}'">
                             <a href="#" class="cubeblock ACcubecontent-block-top">
                                 <div class="blocktitle AC-blocktitle">AC output frequency</div>
                                 <div class="AC-blocktitle">527</div>
@@ -199,7 +199,7 @@
 
                             </a>
                         </div>
-                        <div class="col-md-6" style=" padding-left: 18px;">
+                        <div class="col-md-6" style=" padding-left: 18px;" onclick="location.href = '{{route('FrontChart','grid_frequency')}}'">
                             <a href="#" class="cubeblock ACcubecontent-block-top">
                                 <div class="blocktitle AC-blocktitle">AC output apparent power</div>
                                 <div class="AC-blocktitle">527</div>
@@ -207,7 +207,7 @@
 
                             </a>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" onclick="location.href = '{{route('FrontChart','ac_output_active_power')}}'">
                             <a href="#" class="cubeblock ACcubecontent-block-top">
                                 <div class="blocktitle AC-blocktitle"> 　AC output active　　power</div>
                                 <div class="AC-blocktitle">527</div>
