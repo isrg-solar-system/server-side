@@ -303,11 +303,12 @@
                 })
             },
             getChartData(){
-                $.each(this.reports, function(reportkey, report) {
-                    let group =  this.group
-                    let dateto= this.dateto
-                    let datefrom =  this.datefrom
-                    let name = this.name
+                let reportlen = this.reports.length
+                $.each(this.reports, (reportkey, report) => {
+                    let group =  report.group
+                    let dateto= report.dateto
+                    let datefrom =  report.datefrom
+                    let name = report.name
                     axios.post('/api/get/data', {
                         group: group,
                         dataname: name,
@@ -319,13 +320,18 @@
                             $.each(response.data,function(key, data) {
                                 dtmp[data.time] =  data.mean
                             })
-                            this.data = dtmp
+                            report.data = dtmp
+
+                            if(reportlen == reportkey+1){
+                                this.loading = false;
+                            }
+
                         })
                         .catch(function (error) {
                             console.log(error)
                         });
                 });
-                this.loading = false;
+
             },
             getMeasurement(){
                 axios.get('/api/db/measurement')

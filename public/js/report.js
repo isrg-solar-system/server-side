@@ -89906,13 +89906,14 @@ Vue.component('vue-draggable-resizable', __WEBPACK_IMPORTED_MODULE_0_vue_draggab
             });
         },
         getChartData: function getChartData() {
-            $.each(this.reports, function (reportkey, report) {
-                var _this4 = this;
+            var _this4 = this;
 
-                var group = this.group;
-                var dateto = this.dateto;
-                var datefrom = this.datefrom;
-                var name = this.name;
+            var reportlen = this.reports.length;
+            $.each(this.reports, function (reportkey, report) {
+                var group = report.group;
+                var dateto = report.dateto;
+                var datefrom = report.datefrom;
+                var name = report.name;
                 axios.post('/api/get/data', {
                     group: group,
                     dataname: name,
@@ -89923,12 +89924,15 @@ Vue.component('vue-draggable-resizable', __WEBPACK_IMPORTED_MODULE_0_vue_draggab
                     $.each(response.data, function (key, data) {
                         dtmp[data.time] = data.mean;
                     });
-                    _this4.data = dtmp;
+                    report.data = dtmp;
+
+                    if (reportlen == reportkey + 1) {
+                        _this4.loading = false;
+                    }
                 }).catch(function (error) {
                     console.log(error);
                 });
             });
-            this.loading = false;
         },
         getMeasurement: function getMeasurement() {
             var _this5 = this;

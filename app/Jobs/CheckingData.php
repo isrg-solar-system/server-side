@@ -6,14 +6,12 @@ use App\Events\WarningBroadcast;
 use App\SettingWarning;
 use App\Warning;
 use App\Websetting;
-use function GuzzleHttp\Psr7\str;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Ixudra\Curl\Facades\Curl;
-use Mailgun\Mailgun;
 
 class CheckingData implements ShouldQueue
 {
@@ -130,15 +128,17 @@ class CheckingData implements ShouldQueue
 
 //        $email_token = Websetting::where('key','email_api')->first()->value;
 //        if(isset($email_token)){
-//
-//            $mgClient = new Mailgun($email_token);
-//            $domain = "sandboxb3d4f76588ab418baeb8fdd337b9e074.mailgun.org";
-//            $result = $mgClient->sendMessage($domain, array(
-//                'from'    => 'Excited User <postmaster@sandboxb3d4f76588ab418baeb8fdd337b9e074.mailgun.org>',
-//                'to'      => 'Baz <img2126@gmail.com>',
-//                'subject' => 'Hello',
-//                'text'    => 'Testing some Mailgun awesomness!'
-//            ));
+//            $client = new \GuzzleHttp\Client([
+//                'verify' => false,
+//            ]);
+//            $adapter = new \Http\Adapter\Guzzle6\Client($client);
+//            $domain = 'sandboxb3d4f76588ab418baeb8fdd337b9e074.mailgun.org';
+//            $mgClient = new Mailgun('key-a0b8a600707180e7995561cd674c33dc',$adapter);
+//            $result = $mgClient->sendMessage($domain,
+//                array('from'    => 'Excited User <excited@samples.mailgun.org>',
+//                    'to'      => 'Mailgun Devs <devs@mailgun.net>',
+//                    'subject' => 'Hello',
+//                    'text'    => 'Testing some Mailgun awesomeness!'));
 //        }
 
     }
