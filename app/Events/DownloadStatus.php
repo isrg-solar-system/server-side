@@ -16,7 +16,7 @@ class DownloadStatus implements ShouldBroadcast
 
     protected $user;
     protected $data;
-//    public $broadcastQueue = 'broadcastQueue';
+    public $broadcastQueue = 'work';
 
     public function __construct($user,$data)
     {

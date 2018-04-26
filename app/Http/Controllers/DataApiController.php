@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CacheDownload;
 use App\Events\InputData;
+use App\Events\Realtime;
 use App\Events\WarningBroadcast;
 use App\Jobs\AlertingToLine;
 use App\Jobs\CheckingData;
@@ -28,9 +29,10 @@ class DataApiController extends Controller
 //        print_r($data);
 //
 //        // 資料EXAMPLE : {"battery_charging_current":21,"grid_voltage":110}
-//        event(new InputData(json_encode($data)));
-        $this->dispatch(new SaveDataToInflux($data));
-        $this->dispatch(new CheckingData($data));
+        event(new Realtime('asd'));
+//        $this->dispatch(new SaveDataToInflux($data));
+//        $this->dispatch(new CheckingData($data));
+        return 1;
     }
 
     public function getData(Request $request){

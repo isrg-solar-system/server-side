@@ -10,18 +10,12 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class InputData implements ShouldBroadcast
-
+class Realtime implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
     public $data;
-//    public $broadcastQueue = 'broadcastQueue';
+    public $broadcastQueue = 'realtime';
 
     public function __construct($data)
     {
@@ -32,7 +26,7 @@ class InputData implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        return $this->data;
+        return [$this->data];
     }
 
 
@@ -48,6 +42,6 @@ class InputData implements ShouldBroadcast
     }
 
     public function broadcastAs() {
-        return 'data';
+        return 'realtime';
     }
 }

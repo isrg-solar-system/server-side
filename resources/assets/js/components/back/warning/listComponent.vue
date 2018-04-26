@@ -66,10 +66,12 @@
                 axios.get('/api/get/status')
                     .then(response => {
                         // JSON responses are automatically parsed.
+
                         $.each(response.data, (key, data) => {
-                            console.log(key,data)
-                            Vue.set(this.datas[key], "status",data);
+                            let index =  this.datas.find(f => f.name == key)
+                            Vue.set(index, "status",data);
                         })
+                        this.loading = false
                     })
                     .catch(e => {
                         console.log(e)

@@ -27,6 +27,15 @@ Vue.component('showreport', require('./components/back/report/ShowReportComponen
 const app = new Vue({
     el: '#app',
     mounted(){
+        window.Echo.channel('publicchannel')
+            .listen('.warning', (data) => {
+                if(data.status){
+                    this.$notify("Data name ："+data.dataname + "<br>Data Value:" + data.value + "<br>is safe now ", 'info', {mode: 'html'})
+                }else{
+                    this.$notify("Data name ："+data.dataname + "<br>Data Value:" + data.value + "<br>is out of range ", 'warning', {mode: 'html'})
+
+                }
+            })
         // this.$layer.iframe({
         //     content: {
         //         content: VueWeatherWidget, //传递的组件对象

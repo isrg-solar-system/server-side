@@ -107,7 +107,7 @@ class CheckingData implements ShouldQueue
     public function alert($dataname,$status,$value){
         $line_token = Websetting::where('key','line_api')->first()->value;
 
-        $message = Websetting::where('key','alert_format')->first()->value;
+        $message = Websetting::where('key','line_format')->first()->value;
         if($status){
             $status = '狀況正常';
         }else{
