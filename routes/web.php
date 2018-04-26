@@ -25,6 +25,7 @@ Route::get('/back', 'Back\HomeController@index')->name('BackIndex');
 Route::get('/api/server/data', 'Back\HomeController@getServer')->name('getServerData');
 
 Route::get('/back/setting', 'Back\SettingController@index')->name('SettingIndex');
+Route::post('/back/setting/update', 'Back\SettingController@update')->name('SettingUpdate');
 
 Route::get('/back/member', 'Back\MemberController@index')->name('MemberIndex');
 Route::get('/api/member/lists', 'Back\MemberController@lists')->name('MemberList');
@@ -70,7 +71,7 @@ Route::get('/api/db/measurement', 'DataApiController@getMeasurement')->name('get
 // show first data time and last data time (for select)
 Route::get('/api/db/datatime', 'DataApiController@getDataTime')->name('getDataTime');
 Route::post('/api/get/data', 'DataApiController@getData')->name('getData');
-Route::get('/api/get/{name}', 'DataApiController@getDataStatus')->name('getDataStatus');
+Route::get('/api/get/status', 'DataApiController@getDataStatus')->name('getDataStatus');
 //
 Auth::routes();
 //

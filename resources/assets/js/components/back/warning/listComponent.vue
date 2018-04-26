@@ -63,21 +63,18 @@
                     })
             },
             getdatastatus(){
-                let count = this.datas.length
-                $.each( this.datas, ( key, value )=>{
-                    axios.get('/api/get/'+value.name)
-                        .then(response => {
-                            // JSON responses are automatically parsed.
-                            Vue.set(this.datas[key], "status", response.data);
-                            if(count == (key+1)){
-                                this.loading = false
-                            }
+                axios.get('/api/get/status')
+                    .then(response => {
+                        // JSON responses are automatically parsed.
+                        $.each(response.data, (key, data) => {
+                            console.log(key,data)
+                            Vue.set(this.datas[key], "status",data);
                         })
-                        .catch(e => {
-                            console.log(e)
-                        })
+                    })
+                    .catch(e => {
+                        console.log(e)
+                    })
 
-                })
             },
 
         },

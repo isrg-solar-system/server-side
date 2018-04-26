@@ -167,13 +167,19 @@ class DataApiController extends Controller
         return json_encode(['first'=>$first->format('Y-m-d'),'last'=>$last->format('Y-m-d')]);
     }
 
-    public function getDataStatus($name){
-        $lastcheck = Warning::where('dataname',$name)->orderBy('id','desc')->first();
-        if(is_null($lastcheck)){
-            return 1;
-        }else{
-            return $lastcheck->status;
+    public function getDataStatus(){
+        $measures = json_decode($this->getMeasurement());
+        $arr = [];
+        foreach ($measures as $measure ){
+            $lastcheck = Warning::where('dataname',$measure->name)->orderBy('id','desc')->first();
+            if(is_null($lastcheck)){
+                $arr[$measure->name] = 1;
+            }else{
+                $arr[$measure->name] = 0;
+            }
         }
+        return json_encode($arr);
+
     }
 
 

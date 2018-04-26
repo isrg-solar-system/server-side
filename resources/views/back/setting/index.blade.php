@@ -9,9 +9,13 @@
 @section('content')
 
         <div id="app">
+
             <div class="row">
 
                 <div class="col-md-8">
+                    <div class="col-xs-1"  v-if="loading">
+                        <v-spin size="large" ></v-spin>
+                    </div>
                     {{--<div class="col-md-12">--}}
                         {{--<div class="card">--}}
                             {{--<div class="header">--}}
@@ -75,18 +79,18 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Line Api Key</label>
-                                            <input type="text" class="form-control border-input" placeholder="" value="{{$setting->where('key','line_api')->first()->value}}">
+                                            <input type="text"  id="line_api" class="form-control border-input" placeholder="" v-model="line_api" value="{{$setting->where('key','line_api')->first()->value}}">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Format</label>
-                                            <textarea class="form-control  border-input" rows="3" placeholder="You can use the key word 'value','status','dataname','datetime' in the Format &#10; by adding '@' &#10; example: the value is @value">  {!! $setting->where('key','line_format')->first()->value !!}  </textarea>
+                                            <textarea id="line_format" class="form-control  border-input" rows="3" placeholder="You can use the key word 'value','status','dataname','datetime' in the Format &#10; by adding '@' &#10; example: the value is @value" v-model="line_format" value="{!! $setting->where('key','line_format')->first()->value !!}  "></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-12 text-right">
                                         {{--<button type="button" class="btn btn-secondary">Send test message</button>--}}
-                                        <button type="button" class="btn btn-success">Save</button>
+                                        <button type="button" class="btn btn-success" @click="save('line')">Save</button>
                                     </div>
                                 </div>
                             </div>
@@ -104,11 +108,11 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Store Data Limit(second)</label>
-                                            <input type="text" class="form-control border-input" placeholder="5" value="{{$setting->where('key','data_limit')->first()->value}}">
+                                            <input id='data_limit' type="text" class="form-control border-input" placeholder="5" value="{{$setting->where('key','data_limit')->first()->value}}" v-model="data_limit">
                                         </div>
                                     </div>
                                     <div class="col-md-12 text-right">
-                                        <button type="button" class="btn btn-success">Save</button>
+                                        <button type="button" class="btn btn-success" @click="save('datalimit')">Save</button>
                                     </div>
                                 </div>
 
@@ -121,7 +125,7 @@
             </div>
         </div>
 @endsection
-
+@section('js',asset('js/websetting.js'))
 @section('include-javascript')
     {{--<script src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js'></script>--}}
     {{--<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js'></script>--}}

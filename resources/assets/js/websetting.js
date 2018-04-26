@@ -19,7 +19,10 @@ const app = new Vue({
     el: '#app',
     data(){
         return {
-
+            data_limit:"",
+            line_api:"",
+            line_format:"",
+            loading:true,
         }
 
     },
@@ -32,11 +35,39 @@ const app = new Vue({
                     this.$notify("Data name ："+data.dataname + "<br>Data Value:" + data.value + "<br>is out of range ", 'warning', {mode: 'html'})
                 }
             })
+        this.line_api = $('#line_api').attr('value')
+        this.data_limit = $('#data_limit').attr('value')
+        this.line_format = $('textarea#line_format').attr('value')
+        this.loading = false
     },
     created(){
     },
     methods:{
-
+        save(key){
+            this.loading = true
+            let senddata
+            switch(key) {
+                case 'line':
+                    senddata = {line_api:this.line_api,line_format:this.line_format}
+                    break;
+                case 'datalimit':
+                    senddata = {data_limit:this.data_limit}
+                    break;
+            }
+            axios.post('/back/setting/update',
+                senddata
+            )
+                .then(response => {
+                    if(response.data){
+                        this.$notify("Updata Web Setting Success", 'success', {mode: 'html'})
+                    }
+                    this.loading = false
+                })
+                .catch(function (error) {
+                    console.log(error)
+                    this.loading = false
+                });
+        }
     }
 });
 
