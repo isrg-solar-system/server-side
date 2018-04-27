@@ -31,9 +31,11 @@ Vue.component('frontindexcam', require('./components/front/index/camComponent.vu
 const app = new Vue({
     el: '#app',
     data:{
-        voltage:0,
-        current:0,
-        power:0,
+        realtime:{
+            pv_input_voltage:0,
+            pv_input_current_for_battery:0,
+            pv_charging_power:0,
+        },
         lastupdatetime:0,
         today:0,
         week:0,
@@ -47,6 +49,10 @@ const app = new Vue({
     },
     mounted() {
         this.gettimenow();
+        window.Echo.channel('publicchannel')
+            .listen('.realtime', (data) => {
+                console.log(data)
+            })
     },
     computed: {
 

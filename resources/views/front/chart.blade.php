@@ -100,35 +100,8 @@
     <script src='http://img.hcharts.cn/highcharts/themes/dark-unica.js'></script>
     <script>
         var dataname_ = '{{ $dataname }}';
-        $.post("http://60.249.6.104:8187/api/get/data",
-            {
-                dateto:"2017-01-10",
-                datefrom:"2017-01-31", //not change is fine
-                dataname:dataname_,
-                group:"todayofhour"
-            },
-            function(data, status) {
-                dataS = JSON.parse(data);
-                var dataSDict = [];
-                for (b = 0; b < dataS.length; b++) {
-                    dataSDict.push({
-                        name: dataS[b]['time'],
-                        y: dataS[b]['mean'],
-                    })
-                }
-                Startrarr = []
-                for (var w = 0; w < dataSDict.length; w++) {
-                    Startrarr.push(parseFloat(dataSDict[w]['y'].toFixed(1)))
-                }
-                Start_avg = parseFloat(SumData(Startrarr) / Startrarr.length).toFixed(1)
-                Start_min = Math.min.apply(null, Startrarr)
-                Start_max = Math.max.apply(null, Startrarr)
-                $(document).ready(function(){
-                    $(".valn").text(''+Start_min);
-                    $(".vala").text(''+Start_avg);
-                    $(".valx").text(''+Start_max);
-                });
-            })
+
+
 
 
         function SumData(arr){ //arr total
@@ -207,10 +180,11 @@
                 var dataDict = [];
                 for(a=0;a<dataJ.length;a++){
                     dataDict.push({
-                        name: dataJ[a]['time'].substr(0,10),
+                        name: dataJ[a]['time'].substr(11,18),
                         y:dataJ[a]['mean'],
                     })
                 }
+                console.log(dataDict)
                 dayarr = []
                 for(var w=0;w<dataDict.length;w++){
                     dayarr.push(parseFloat(dataDict[w]['y'].toFixed(1)))
@@ -225,7 +199,7 @@
                             '#fff'
                         ],
                         title: {
-                            text: 'Test Title'
+                            text: dataname_
                         },
                         subtitle: {
                             text: 'Day'
@@ -265,12 +239,13 @@
 
         $.post("/api/get/data",
             {
-                dateto:"{{$now->startOfMonth()->toDateString()}}",
-                datefrom:"{{$now->endOfMonth()->toDateString()}}",
+                datefrom:"{{$now->startOfMonth()->toDateString()}}",
+                dateto:"{{$now->endOfMonth()->toDateString()}}",
                 dataname:dataname_,
                 group:"allofday"
             },
             function(data, status) {
+
                 dataM = JSON.parse(data);
                 var dataMDict = [];
                 for (b = 0; b < dataM.length; b++) {
@@ -283,6 +258,7 @@
                 for(var w=0;w<dataMDict.length;w++){
                     monarr.push(parseFloat(dataMDict[w]['y'].toFixed(1)))
                 }
+                console.log(dataMDict)
                 $(function () {
                     // Create the chart
                     Highcharts.chart('month', {
@@ -293,7 +269,7 @@
                             '#fff'
                         ],
                         title: {
-                            text: 'Test Title'
+                            text: dataname_
                         },
                         subtitle: {
                             text: 'Month'
@@ -333,8 +309,8 @@
 
         $.post("/api/get/data",
             {
-                dateto:"{{$now->startOfYear()->toDateString()}}",
-                datefrom:"{{$now->endOfYear()->toDateString()}}",
+                datefrom:"{{$now->startOfYear()->toDateString()}}",
+                dateto:"{{$now->endOfYear()->toDateString()}}",
                 dataname:dataname_,
                 group:"allofmonth"
             },
@@ -361,7 +337,7 @@
                             '#fff'
                         ],
                         title: {
-                            text: 'Test Title'
+                            text: dataname_
                         },
                         subtitle: {
                             text: 'Year'

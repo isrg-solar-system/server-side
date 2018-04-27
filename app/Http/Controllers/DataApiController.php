@@ -10,6 +10,7 @@ use App\Jobs\AlertingToLine;
 use App\Jobs\CheckingData;
 use App\Jobs\SaveDataToInflux;
 use App\Warning;
+use App\Websetting;
 use DateTime;
 use DateTimeZone;
 use http\Exception;
@@ -26,12 +27,10 @@ class DataApiController extends Controller
     //
     public function input(Request $request){
         $data = $request->get('data');
-//        print_r($data);
-//
 //        // 資料EXAMPLE : {"battery_charging_current":21,"grid_voltage":110}
-        event(new Realtime('asd'));
-//        $this->dispatch(new SaveDataToInflux($data));
-//        $this->dispatch(new CheckingData($data));
+        event(new Realtime(json_decode($data)));
+        $this->dispatch(new SaveDataToInflux($data));
+        $this->dispatch(new CheckingData($data));
         return 1;
     }
 
@@ -77,6 +76,8 @@ class DataApiController extends Controller
                 return json_encode($re);
                 break;
             case 'allofday':
+//                dd("select MEAN(value) from " . $request->dataname . " where time >= '".$datefrom."' AND time <= '". $dateto."' group by time(1d)");
+
                 $result = InfluxDB::query("select MEAN(value) from " . $request->dataname . " where time >= '".$datefrom."' AND time <= '". $dateto."' group by time(1d)");
                 $points = $result->getPoints();
                 $re = [];

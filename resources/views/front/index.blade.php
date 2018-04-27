@@ -17,7 +17,7 @@
                     <div class="cubeblock first-line-cubecontent-block row col-md-12 pb-3 pt-2 mr-0 mp-0 ">
                         <div class="voltage-image col-md-3 col-6 ml-3 mr-0"></div>
                         <div class="first-line-block-content col-md-9 col-6 row pt-1">
-                            <div class="blockvalue col-md-12 mt-2">@{{voltage}} <span>V</span></div>
+                            <div class="blockvalue col-md-12 mt-2">@{{realtime.pv_input_voltage}} <span>V</span></div>
                             <!--               <div class="blocktitle col-md-12"></div> -->
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                     <div class="cubeblock first-line-cubecontent-block row col-md-12 pb-3 pt-2 mr-0 mp-0">
                         <div class="current-image col-md-3 col-6 ml-3 mr-0"></div>
                         <div class="first-line-block-content col-md-9 col-6 row pt-1">
-                            <div class="blockvalue col-md-12 mt-2">@{{current}} <span>A</span></div>
+                            <div class="blockvalue col-md-12 mt-2">@{{realtime.pv_input_current_for_battery}} <span>A</span></div>
                             <!--               <div class="blocktitle col-md-12"></div> -->
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                     <div class="cubeblock first-line-cubecontent-block row col-md-12 pb-3 pt-2 mr-0 mp-0">
                         <div class="power-image col-md-3 col-6 ml-3 mr-0"></div>
                         <div class="first-line-block-content col-md-9 col-6 row pt-1">
-                            <div class="blockvalue col-md-12 mt-2">@{{power}} <span>W</span></div>
+                            <div class="blockvalue col-md-12 mt-2">@{{realtime.pv_charging_power}} <span>W</span></div>
                             <!--               <div class="blocktitle col-md-12"></div> -->
                         </div>
                     </div>

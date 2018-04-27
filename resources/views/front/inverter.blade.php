@@ -27,30 +27,30 @@
                 <div class="col-md-3" onclick="location.href = '{{route('FrontChart','battery_voltage')}}'">
                     <a href="#" class="cubeblock battery-block" >
                         <div class="blocktitle">Battery voltage</div>
-                        <div class="blocktitle">527</div>
-                        <frontguage :max="100" :min="0" :value="value" :angle="-0.1" :linewidth="0.23" :width="200" :height="100"></frontguage>
+                        <div class="blocktitle">@{{realtime.battery_voltage}}</div>
+                        <frontguage :max="100" :min="0" :value="realtime.battery_voltage" :angle="-0.1" :linewidth="0.23" :width="200" :height="100"></frontguage>
                     </a>
                 </div>
                 <div class="col-md-3" onclick="location.href = '{{route('FrontChart','battery_charging_current')}}'">
                     <a href="#" class="cubeblock battery-block">
                         <div class="blocktitle">Battery Charging Current</div>
-                        <div class="blocktitle">527</div>
-                        <frontguage :max="100" :min="0" :value="value" :angle="-0.1" :linewidth="0.23" :width="200" :height="100"></frontguage>
+                        <div class="blocktitle">@{{realtime.battery_charging_current}}</div>
+                        <frontguage :max="100" :min="0" :value="realtime.battery_charging_current" :angle="-0.1" :linewidth="0.23" :width="200" :height="100"></frontguage>
                     </a>
                 </div>
                 <div class="col-md-3" onclick="location.href = '{{route('FrontChart','battery_discharge_current')}}'">
                     <a href="#" class="cubeblock battery-block">
                         <div class="blocktitle">Battery Discharge Current</div>
-                        <div class="blocktitle">527</div>
-                        <frontguage :max="100" :min="0" :value="value" :angle="-0.1" :linewidth="0.23" :width="200" :height="100"></frontguage>
+                        <div class="blocktitle">@{{realtime.battery_discharge_current}}</div>
+                        <frontguage :max="100" :min="0" :value="realtime.battery_discharge_current" :angle="-0.1" :linewidth="0.23" :width="200" :height="100"></frontguage>
 
                     </a>
                 </div>
                 <div class="col-md-3" onclick="location.href = '{{route('FrontChart','battery_capacity')}}'">
                     <a href="#" class="cubeblock battery-block">
                         <div class="blocktitle">Battery Capacity</div>
-                        <div class="blocktitle">527</div>
-                        <frontguage :max="100" :min="0" :value="value" :angle="-0.1" :linewidth="0.23" :width="200" :height="100"></frontguage>
+                        <div class="blocktitle">@{{realtime.battery_capacity}}</div>
+                        <frontguage :max="100" :min="0" :value="realtime.battery_capacity" :angle="-0.1" :linewidth="0.23" :width="200" :height="100"></frontguage>
                     </a>
                 </div>
             </div>
@@ -78,7 +78,7 @@
                             <a href="#" class="cubeblock fan-block">
                                 <div class="cores-circle">
                                     <div class="cores-circle-inner">
-                                        100%
+                                        @{{realtime.output_load_percent}} %
                                     </div>
                                 </div>
                                 <div class="fan-blocktitle">Output Load</div>
@@ -87,7 +87,7 @@
                             <a href="#" class="cubeblock fan-block">
                                 <div class="cores-circle">
                                     <div class="cores-circle-inner">
-                                        10V
+                                        @{{realtime.bus_voltage}}
                                     </div>
                                 </div>
                                 <div class="fan-blocktitle">BUS voltage</div>
@@ -97,7 +97,7 @@
                             <a href="#" class="cubeblock fan-block">
                                 <div class="cores-circle">
                                     <div class="cores-circle-inner">
-                                        2
+                                        @{{realtime.device_status}}
                                     </div>
                                 </div>
                                 <div class="fan-blocktitle">Device status</div>
@@ -106,7 +106,7 @@
                             <a href="#" class="cubeblock fan-block">
                                 <div class="cores-fan-circle">
                                     <div class="cores-fan-circle-inner">
-                                        OFF
+                                        @{{realtime.battery_voltage_offset_for_fans_on}}
                                     </div>
                                 </div>
                                 <div class="fan-blocktitle">Fan</div>
@@ -131,7 +131,7 @@
                             <div class="use-overallleft" onclick="location.href = '{{route('FrontChart','inverter_heat_sink_temperature')}}'">
                                 <a href="#" class="cubeblock percent-block">
 
-                                    <div class="tempGauge-demo">35&deg;C</div>
+                                    <div class="tempGauge-demo">@{{realtime.inverter_heat_sink_temperature}}</div>
 
                                     <div class="blocktitle">Heat Sink Temperature</div>
                                 </a>
@@ -143,7 +143,7 @@
                                 <a href="#" class="cubeblock grid-block">
                                     <div class="cores-circle">
                                         <div class="cores-circle-inner">
-                                            10V
+                                            @{{realtime.grid_voltage}}
                                         </div>
                                     </div>
                                     <div class="blocktitle">Grid Voltage</div>
@@ -153,7 +153,7 @@
                                 <a href="#" class="cubeblock grid-block" onclick="location.href = '{{route('FrontChart','grid_frequency')}}'">
                                     <div class="cores-circle">
                                         <div class="cores-circle-inner">
-                                            90&#37;
+                                            @{{realtime.grid_frequency}}
                                         </div>
                                     </div>
                                     <div class="blocktitle">Grid Frequency</div>
@@ -187,31 +187,31 @@
                         <div class="col-md-6" style=" padding-left: 18px;" onclick="location.href = '{{route('FrontChart','ac_output_voltage')}}'">
                             <a href="#" class="cubeblock ACcubecontent-block-top">
                                 <div class="blocktitle AC-blocktitle">AC output voltage</div>
-                                <div class="AC-blocktitle">527</div>
-                                <frontguage :max="100" :min="0" :value="value" :angle="0.25" :linewidth="0.10" :width="150" :height="100"></frontguage>
+                                <div class="AC-blocktitle">@{{realtime.ac_output_voltage}}</div>
+                                <frontguage :max="100" :min="0" :value="realtime.ac_output_voltage" :angle="0.25" :linewidth="0.10" :width="150" :height="100"></frontguage>
                             </a>
                         </div>
                         <div class="col-md-6" onclick="location.href = '{{route('FrontChart','ac_output_frequency')}}'">
                             <a href="#" class="cubeblock ACcubecontent-block-top">
                                 <div class="blocktitle AC-blocktitle">AC output frequency</div>
-                                <div class="AC-blocktitle">527</div>
-                                <frontguage :max="100" :min="0" :value="value" :angle="0.25" :linewidth="0.10" :width="150" :height="100"></frontguage>
+                                <div class="AC-blocktitle">@{{realtime.ac_output_frequency}}</div>
+                                <frontguage :max="100" :min="0" :value="realtime.ac_output_frequency" :angle="0.25" :linewidth="0.10" :width="150" :height="100"></frontguage>
 
                             </a>
                         </div>
                         <div class="col-md-6" style=" padding-left: 18px;" onclick="location.href = '{{route('FrontChart','grid_frequency')}}'">
                             <a href="#" class="cubeblock ACcubecontent-block-top">
                                 <div class="blocktitle AC-blocktitle">AC output apparent power</div>
-                                <div class="AC-blocktitle">527</div>
-                                <frontguage :max="100" :min="0" :value="value" :angle="0.25" :linewidth="0.10" :width="150" :height="100"></frontguage>
+                                <div class="AC-blocktitle">@{{realtime.ac_output_frequency}}</div>
+                                <frontguage :max="100" :min="0" :value="realtime.ac_output_frequency" :angle="0.25" :linewidth="0.10" :width="150" :height="100"></frontguage>
 
                             </a>
                         </div>
                         <div class="col-md-6" onclick="location.href = '{{route('FrontChart','ac_output_active_power')}}'">
                             <a href="#" class="cubeblock ACcubecontent-block-top">
-                                <div class="blocktitle AC-blocktitle"> 　AC output active　　power</div>
-                                <div class="AC-blocktitle">527</div>
-                                <frontguage :max="100" :min="0" :value="value" :angle="0.25" :linewidth="0.10" :width="150" :height="100"></frontguage>
+                                <div class="blocktitle AC-blocktitle"> 　AC output active power</div>
+                                <div class="AC-blocktitle">@{{realtime.ac_output_active_power}}</div>
+                                <frontguage :max="100" :min="0" :value="realtime.ac_output_active_power" :angle="0.25" :linewidth="0.10" :width="150" :height="100"></frontguage>
 
                             </a>
                         </div>

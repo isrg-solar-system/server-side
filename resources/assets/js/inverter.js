@@ -23,7 +23,12 @@ Vue.component('frontguage', require('./components/front/inverter/GuagueComponent
 const app = new Vue({
     el: '#app',
     data:{
-        value:20,
+        realtime:{
+
+        },
+    },
+    mounted(){
+
     },
     methods: {
         chan(){
