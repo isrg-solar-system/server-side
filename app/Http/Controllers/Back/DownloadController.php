@@ -44,6 +44,8 @@ class DownloadController extends BackController
     }
 
     public function makedownload(Request $request){
+
+//         session(['downloadstatus' => [ 'status'=>'Finished','val'=> 100 ,'filename'=>'2018-04-271R1dONUM.csv']]);
         $bkey = Session('downloadbroadkey');
         $sql = CacheDownload::where('key', json_encode($request->all()))->first();
         if(!is_null($sql)){

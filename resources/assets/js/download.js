@@ -70,7 +70,7 @@ const app = new Vue({
                 this.downloadstatus.progress = data.downloadstatus.val
                 this.downloadstatus.desc = data.downloadstatus.status
                 if( this.downloadstatus.progress == 100){
-                    console.log(data.downloadstatus)
+                    // console.log(data.downloadstatus)
                     this.downloadstatus.status = true
                     //this.downloadstatus.timer = setInterval(this.checkdownload,500)
                     this.downloadstatus.progress = 0
