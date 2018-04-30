@@ -48,10 +48,11 @@ const app = new Vue({
         windspeed:0,
     },
     mounted() {
-        this.gettimenow();
+
         window.Echo.channel('publicchannel')
-            .listen('.realtime', (data) => {
-                console.log(data)
+            .listen('.realtime', (res) => {
+                this.realtime =  (res[0])
+                this.gettimenow();
             })
     },
     computed: {

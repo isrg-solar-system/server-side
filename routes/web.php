@@ -14,6 +14,8 @@
 //Route::get('/{blade}', function ($blade) {
 //    return view('front.'.$blade);
 //});
+Route::get('power', 'DataApiController@getPower');
+
 Route::get('/', 'FrontController@index')->name('FrontIndex');
 Route::get('/inverter', 'FrontController@inverter')->name('FrontInverter');
 Route::get('/ipcam', 'FrontController@ipcam')->name('FrontIpcam');

@@ -34,6 +34,17 @@ class DataApiController extends Controller
         return 1;
     }
 
+    public function getPower(){
+        $query = sprintf("select MEAN(value) from pv_charging_power  where time > %s AND time < %s group by time(1h) ","'".Carbon::yesterday()->addHour(16)->toDateTimeString()."'","'".Carbon::today()->addHour(16)->toDateTimeString()."'");
+        $result = InfluxDB::query($query);
+        $today = 0;
+        foreach ($result->getPoints() as $point){
+            if(!is_null($point['mean'])){
+                $today += $point['mean'];
+            }
+        }
+    }
+
     public function getData(Request $request){
         /*
          *   datefrom = 2017/12/31
@@ -150,7 +161,6 @@ class DataApiController extends Controller
                 break;
         }
     }
-
 
     public function getMeasurement(){
         $result = InfluxDB::query('SHOW MEASUREMENTS');

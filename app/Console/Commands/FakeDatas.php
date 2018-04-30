@@ -42,16 +42,16 @@ class FakeDatas extends Command
     {
         //
         ini_set('memory_limit', '-1');
-        ini_set('max_execution_time', 300); //300 seconds = 5 minutes
+        ini_set('max_execution_time', 1800); //300 seconds = 5 minutes
 
         $points = json_decode('[{"name":"ac_output_active_power"},{"name":"ac_output_frequency"},{"name":"ac_output_voltage"},{"name":"battery_capacity"},{"name":"battery_charging_current"},{"name":"battery_discharge_current"},{"name":"battery_voltage"},{"name":"battery_voltage_offset_for_fans_on"},{"name":"bus_voltage"},{"name":"device_status"},{"name":"eeprom_version"},{"name":"grid_frequency"},{"name":"grid_voltage"},{"name":"inverter_heat_sink_temperature"},{"name":"output_load_percent"},{"name":"pv_charging_power"},{"name":"pv_input_current_for_battery"},{"name":"pv_input_voltage"},{"name":"test"}]');
 
         foreach ($points as $point){
-            $insert = [];
             for($y = 2015 ; $y <= 2018 ; $y ++){ //年
                 for ($i=1; $i<=12 ;$i++){  //月
                     $dt = Carbon::create($y, $i, 1, 0, 0, 0, 'Asia/Taipei');
                     for($d = 1 ;$d <= $dt->endOfMonth()->day;$dt++){ //日
+                        $insert = [];
                         for($h = 1 ;$h<=24 ;$h ++){
                             $val = $this->fake($point->name);
                             $insert[] =  new Point(
@@ -62,9 +62,10 @@ class FakeDatas extends Command
                                 Carbon::create($y, $i, $d, $h, 0, 0,'Asia/Taipei')->getTimestamp()
                             );
                         }
+                        $result = InfluxDB::writePoints($insert, \InfluxDB\Database::PRECISION_SECONDS);
+                        print_r($result);
                     }
-                    $result = InfluxDB::writePoints($points, \InfluxDB\Database::PRECISION_SECONDS);
-                    print_r($result);
+
                 }
 
             }

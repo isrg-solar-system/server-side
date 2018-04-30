@@ -82,19 +82,19 @@
     <div class="col-md-12  mt-2 pl-4 text-white ">
         <div class="inner-box row p-4">
             <div class="second-line-block power-day col-md-3 col-6 pl-3 pr-0 m-0">
-                <span class="second-line-value ml-4">@{{today}}W</span><br>
+                <span class="second-line-value ml-4">{{$today}}W</span><br>
                 <span class="second-line-words ml-4">本日發電量</span>
             </div>
             <div class="second-line-block power-week col-md-3 col-6 pl-3 pr-0 m-0">
-                <span class="second-line-value ml-4">@{{week}}W</span><br>
+                <span class="second-line-value ml-4">{{$week}}W</span><br>
                 <span class="second-line-words ml-4">本週發電量</span>
             </div>
             <div class="second-line-block power-month col-md-3 col-6 pl-3 m-0">
-                <span class="second-line-value ml-4">@{{month}}W</span><br>
+                <span class="second-line-value ml-4">{{$month}}W</span><br>
                 <span class="second-line-words ml-4">本月發電量</span>
             </div>
             <div class="second-line-block power-year col-md-3 col-6 pl-3 m-0">
-                <span class="second-line-value ml-4">@{{year}}W</span><br>
+                <span class="second-line-value ml-4">{{$year}}W</span><br>
                 <span class="second-line-words ml-4">本年發電量</span>
             </div>
             <div class="third-line-block sun-power col-md-3 col-6 pl-3 m-0 mt-3">
@@ -143,7 +143,7 @@
                     <i class="fa fa-spinner" aria-hidden="true"></i> 即時發電量
                 </div>
                 <div class="cubecontent four-line-cubecontent">
-                    <frontindexchart :test="'rrrr'" :height="300"></frontindexchart>
+                    <frontindexchart ></frontindexchart>
                 </div>
             </div>
         </div>
