@@ -70221,8 +70221,14 @@ var MenuButton = function (_Component) {
    */
 
 
+<<<<<<< HEAD
+Vue.component('frontindexchart', __webpack_require__(235));
+Vue.component('frontindexcam', __webpack_require__(287));
+Vue.component('realtime', __webpack_require__(309));
+=======
   MenuButton.prototype.disable = function disable() {
     this.unpressButton();
+>>>>>>> 333850c41c58f302d9717549fbf0e3b35a28579a
 
     this.enabled_ = false;
     this.addClass('vjs-disabled');
@@ -70279,9 +70285,45 @@ var TrackButton = function (_MenuButton) {
       _this.hide();
     }
 
+<<<<<<< HEAD
+/***/ }),
+/* 237 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export VueCharts */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_index_js__ = __webpack_require__(238);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BaseCharts__ = __webpack_require__(239);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_1__BaseCharts__["a"]; });
+/* unused harmony reexport HorizontalBar */
+/* unused harmony reexport Doughnut */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__BaseCharts__["e"]; });
+/* unused harmony reexport Pie */
+/* unused harmony reexport PolarArea */
+/* unused harmony reexport Radar */
+/* unused harmony reexport Bubble */
+/* unused harmony reexport Scatter */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_0__mixins_index_js__["a"]; });
+
+
+var VueCharts = {
+  Bar: __WEBPACK_IMPORTED_MODULE_1__BaseCharts__["a" /* Bar */],
+  HorizontalBar: __WEBPACK_IMPORTED_MODULE_1__BaseCharts__["d" /* HorizontalBar */],
+  Doughnut: __WEBPACK_IMPORTED_MODULE_1__BaseCharts__["c" /* Doughnut */],
+  Line: __WEBPACK_IMPORTED_MODULE_1__BaseCharts__["e" /* Line */],
+  Pie: __WEBPACK_IMPORTED_MODULE_1__BaseCharts__["f" /* Pie */],
+  PolarArea: __WEBPACK_IMPORTED_MODULE_1__BaseCharts__["g" /* PolarArea */],
+  Radar: __WEBPACK_IMPORTED_MODULE_1__BaseCharts__["h" /* Radar */],
+  Bubble: __WEBPACK_IMPORTED_MODULE_1__BaseCharts__["b" /* Bubble */],
+  Scatter: __WEBPACK_IMPORTED_MODULE_1__BaseCharts__["i" /* Scatter */],
+  mixins: __WEBPACK_IMPORTED_MODULE_0__mixins_index_js__["a" /* default */]
+};
+/* unused harmony default export */ var _unused_webpack_default_export = (VueCharts);
+=======
     if (!tracks) {
       return possibleConstructorReturn(_this);
     }
+>>>>>>> 333850c41c58f302d9717549fbf0e3b35a28579a
 
     var updateHandler = bind(_this, _this.update);
 
@@ -105566,6 +105608,101 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-5d235822", module.exports)
   }
 }
+
+/***/ }),
+/* 309 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(42)
+/* script */
+var __vue_script__ = __webpack_require__(310)
+/* template */
+var __vue_template__ = null
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\front\\index\\realtimeComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-29907c4e", Component.options)
+  } else {
+    hotAPI.reload("data-v-29907c4e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 310 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__ = __webpack_require__(237);
+
+//Importing Line class from the vue-chartjs wrapper
+
+var reactiveData = __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__["c" /* mixins */].reactiveData;
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    extends: __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__["b" /* Line */],
+    mixins: [reactiveData],
+    data: function data() {
+        return {
+            chartData: '',
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        };
+    },
+    created: function created() {
+        this.fillData();
+    },
+    mounted: function mounted() {
+        this.renderChart(this.chartData, this.options);
+        window.Echo.channel('publicchannel').listen('.realtime', function (data) {});
+    },
+
+
+    methods: {
+        fillData: function fillData() {
+            this.chartData = {
+                labels: ['January' + this.getRandomInt(), 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                datasets: [{
+                    label: 'Data One',
+                    backgroundColor: '#f87979',
+                    data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
+                }]
+            };
+        }
+    }
+});
 
 /***/ })
 /******/ ]);
