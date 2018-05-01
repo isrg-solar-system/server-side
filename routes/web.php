@@ -14,6 +14,9 @@
 //Route::get('/{blade}', function ($blade) {
 //    return view('front.'.$blade);
 //});
+Route::get('/user/logout', 'AuthController@logout')->name('UserLogout');
+
+
 Route::get('power', 'DataApiController@getPower');
 
 Route::get('/', 'FrontController@index')->name('FrontIndex');

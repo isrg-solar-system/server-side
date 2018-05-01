@@ -8,6 +8,7 @@ use App\Websetting;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use InfluxDB\Point;
 use TrayLabs\InfluxDB\Facades\InfluxDB;
 use Ixudra\Curl\Facades\Curl;
@@ -60,26 +61,26 @@ class FrontController extends Controller
                 $year += $point['mean'];
             }
         }
-        return view('front.index')->with('place',$place)->with('today',round($today,2))->with('week',round($week,2))->with('month',round($month,2))->with('year',round($year,2));
+        return view('front.index')->with('place',$place)->with('today',round($today,2))->with('week',round($week,2))->with('month',round($month,2))->with('year',round($year,2))->with('user',Auth::user());
     }
 
     public function inverter(){
         $place = 'inverter';
-        return view('front.inverter')->with('place',$place);
+        return view('front.inverter')->with('place',$place)->with('user',Auth::user());
     }
 
     public function log(){
-        return view('front.log');
+        return view('front.log')->with('user',Auth::user());
     }
 
     public function chart($dataname){
         $place = 'chart';
         $now = Carbon::now();
-        return view('front.chart')->with('place',$place)->with('dataname',$dataname)->with('now',$now);
+        return view('front.chart')->with('place',$place)->with('dataname',$dataname)->with('now',$now)->with('user',Auth::user());
     }
 
     public function ipcam(){
         $place = 'ipcam';
-        return view('front.ipcam')->with('place',$place);
+        return view('front.ipcam')->with('place',$place)->with('user',Auth::user());
     }
 }

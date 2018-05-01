@@ -80,9 +80,9 @@
 
 
     <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
-    <link rel='stylesheet prefetch' href='css/front/master.css'>
+    <link rel='stylesheet prefetch' href='{{asset('css/front/master.css')}}'>
 
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="{{asset('css/login.css')}}">
 
 
 </head>
@@ -102,17 +102,30 @@
         </div>
     </div>
     <div class="row text-white ml-2 mr-2 p-2">
-        <form>
-            <div class="form-group row">
+        <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+            {{ csrf_field() }}
+            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }} row">
                 <label for="inputEmail3" class="col-sm-4 col-form-label">Account</label>
                 <div class="col-sm-8">
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+
+                    @if ($errors->has('email'))
+                        <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                    @endif
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} row">
                 <label for="inputPassword3" class="col-sm-4 col-form-label">Password</label>
                 <div class="col-sm-8">
-                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                    <input id="password" type="password" class="form-control" name="password" required>
+
+                    @if ($errors->has('password'))
+                        <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                    @endif
                 </div>
             </div>
 
@@ -121,7 +134,7 @@
                 <div class="col-sm-8">
                     <div class="form-check">
                         <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox"> remenber me
+                            <input class="form-check-input" name="remember" {{ old('remember') ? 'checked' : '' }} type="checkbox"> remenber me
                         </label>
                     </div>
                 </div>

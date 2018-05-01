@@ -52,8 +52,13 @@
                     </li>
                 </ul>
                 <span class="navbar-text">
-            <a href="#">登入</a>
-          </span>
+                    @if(!isset($user->id))
+                        <a href="{{route('login')}}">登入</a>
+                    @else
+                        <a href="{{route('login')}}">後台</a>
+                        <a href="{{route('UserLogout')}}">登出</a>
+                    @endif
+                </span>
             </div>
         </nav>
     </div>
