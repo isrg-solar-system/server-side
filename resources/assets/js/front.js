@@ -21,6 +21,7 @@ window.Vue = require('vue');
 
 Vue.component('frontindexchart', require('./components/front/index/chartComponent.vue'));
 Vue.component('frontindexcam', require('./components/front/index/camComponent.vue'));
+Vue.component('realtime', require('./components/front/index/realtimeComponent.vue'));
 
 // Vue.component('frontindexfirst', require('./components/front/index/firstComponent.vue'));
 
@@ -53,6 +54,7 @@ const app = new Vue({
             .listen('.realtime', (data) => {
                 console.log(data)
             })
+
     },
     computed: {
 

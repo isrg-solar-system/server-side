@@ -1,11 +1,10 @@
 <script>
     //Importing Line class from the vue-chartjs wrapper
     import { Line,mixins  } from 'vue-chartjs'
-    import { Bar } from 'vue-chartjs'
     let { reactiveData } = mixins
 
     export default {
-        extends: Bar,
+        extends: Line,
         mixins: [reactiveData],
         data: () => ({
             chartData: '',
@@ -20,10 +19,10 @@
 
         mounted () {
             this.renderChart(this.chartData, this.options)
+            window.Echo.channel('publicchannel')
+                .listen('.realtime', (data) => {
 
-            setInterval(() => {
-                this.fillData()
-            }, 5000)
+                })
         },
 
         methods: {
@@ -39,10 +38,6 @@
                     ]
                 }
             },
-
-            getRandomInt () {
-                return Math.floor(Math.random() * (50 - 5 + 1)) + 5
-            }
         }
     }
 </script>

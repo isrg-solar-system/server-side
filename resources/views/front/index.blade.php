@@ -143,7 +143,7 @@
                     <i class="fa fa-spinner" aria-hidden="true"></i> 即時發電量
                 </div>
                 <div class="cubecontent four-line-cubecontent">
-                    <frontindexchart :test="'rrrr'" :height="300"></frontindexchart>
+                    <realtime :height="300"></realtime>
                 </div>
             </div>
         </div>
@@ -154,7 +154,7 @@
                 </div>
                 <div class="cubecontent four-line-cubecontent">
                     <div class="col-md-12">
-                        <frontindexchart :test="'rrrr'"  :height="300"></frontindexchart>
+                        <frontindexchart :height="300"></frontindexchart>
                     </div>
                 </div>
             </div>
