@@ -28,7 +28,10 @@ const app = new Vue({
         },
     },
     mounted(){
-
+        window.Echo.channel('publicchannel')
+            .listen('.realtime', (res) => {
+                this.realtime =  (res[0])
+            })
     },
     methods: {
         chan(){

@@ -22,7 +22,7 @@ body {
     .container {
         width: 1000px;
         min-height: 870px;
-        height:870px;
+        max-height: 1600px;
         margin: 15px auto 30px auto;
         padding: 5px 15px 15px 15px;
         background-color: #121212;
@@ -2394,6 +2394,9 @@ input:checked + .slider:before {
         font-size: 1em;
     }
 
+    .vue-highcharts{
+        margin: 0;
+    }
     /* show3x1fan */
 }
 /*Max-width 580px */

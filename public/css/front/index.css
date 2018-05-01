@@ -111,3 +111,8 @@
     margin-top:18px;
 
 }
+@media (min-width: 1200px) {
+    .container {
+        min-height: 1010px !important;
+    }
+}

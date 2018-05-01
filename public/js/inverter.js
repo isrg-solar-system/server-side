@@ -56289,7 +56289,13 @@ var app = new Vue({
     data: {
         realtime: {}
     },
-    mounted: function mounted() {},
+    mounted: function mounted() {
+        var _this = this;
+
+        window.Echo.channel('publicchannel').listen('.realtime', function (res) {
+            _this.realtime = res[0];
+        });
+    },
 
     methods: {
         chan: function chan() {
