@@ -51,7 +51,7 @@
       </div>
       <div class="col-md-4">
         <div class="row ">
-          <div class="col-md-6 first-line member-box" onclick="location.href = ('{{route('MemberList')}}')">
+          <div class="col-md-6 first-line member-box" onclick="location.href = ('{{route('MemberIndex')}}')">
             <div class="member-icon"></div>
             <div class="member-word">Member Manager</div>
           </div>
@@ -65,15 +65,15 @@
         </div>
       </div>
       <div class="col-md-4">
-        <div class="col-md-12 third-row-box table-box">
+        <div class="col-md-12 third-row-box table-box" onclick="location.href = ('{{route('ReportIndex')}}')">
           <div class="table-icon"></div>
           <div class="table-word">Report View</div>
         </div>
-        <div class="col-md-12 third-row-box download-box">
+        <div class="col-md-12 third-row-box download-box" onclick="location.href = ('{{route('DownloadIndex')}}')">
            <div class="download-icon"></div>
           <div class="download-word">Data Download</div>
         </div>
-        <div class="col-md-12 third-row-box log-box">
+        <div class="col-md-12 third-row-box log-box" onclick="location.href = ('{{route('MemberIndex')}}')">
           <div class="log-icon"></div>
           <div class="log-word">System Log</div>
         </div>
@@ -91,7 +91,7 @@
         </div>
       </div>
         <div class="col-md-4">
-        <div class="col-md-12 second-line-third-box warm-box">
+        <div class="col-md-12 second-line-third-box warm-box" onclick="location.href = ('{{route('WarningIndex')}}')">
          <div class="warm-icon"></div>
           <div class="warm-word">Warning Setting</div>
           </div>

@@ -53,8 +53,8 @@ class DownloadController extends BackController
             event(new DownloadStatus($bkey,['downloadstatus' => [ 'status'=>'Finished(From Cache)','val'=> 100 ,'filename'=>$filename]]));
 //            session(['downloadstatus' => [ 'status'=>'Finished','val'=> 100 ,'filename'=>$filename]]);
         }else{
-            ini_set('memory_limit', '-1');
-            ini_set('max_execution_time', 300); //300 seconds = 5 minutes
+            ini_set('memory_limit', '1024M');
+            ini_set('max_execution_time', -1); //300 seconds = 5 minutes
             $total_datas = count($request->datas);
             $colect_status = 0;
             $re = [];

@@ -55,7 +55,7 @@
                     @if(!isset($user->id))
                         <a href="{{route('login')}}">登入</a>
                     @else
-                        <a href="{{route('login')}}">後台</a>
+                        <a href="{{route('BackIndex')}}">後台</a>
                         <a href="{{route('UserLogout')}}">登出</a>
                     @endif
                 </span>
