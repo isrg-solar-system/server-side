@@ -144,14 +144,13 @@
                 </div>
                 <div class="cubecontent four-line-cubecontent">
                     <realtime :height="300"></realtime>
-
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="cube">
                 <div class="head">
-                    <i class="fa fa-spinner" aria-hidden="true"></i> 本周發電量
+                    <i class="fa fa-spinner" aria-hidden="true"></i> 本日發電量
                 </div>
                 <div class="cubecontent four-line-cubecontent">
                     <div class="col-md-12">

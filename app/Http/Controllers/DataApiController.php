@@ -82,6 +82,13 @@ class DataApiController extends Controller
                         $arr['time'] =  $time->toDateTimeString();
                         $arr['mean'] =  $point['mean'];
                         $re[] = $arr;
+                    }else{
+                        $arr = [];
+                        $time = new Carbon($point['time']);
+                        $time->timezone = new DateTimeZone('Asia/Taipei');
+                        $arr['time'] =  $time->toDateTimeString();
+                        $arr['mean'] = 0;
+                        $re[] = $arr;
                     }
                 }
                 return json_encode($re);

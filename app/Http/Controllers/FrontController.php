@@ -19,16 +19,22 @@ class FrontController extends Controller
     public function index(){
         $place = 'index';
 
-        $query = sprintf("select MEAN(value) from pv_charging_power  where time > %s AND time < %s group by time(1h) ","'".Carbon::yesterday()->addHour(16)->toDateTimeString()."'","'".Carbon::today()->addHour(16)->toDateTimeString()."'");
+        $dataname = 'pv_charging_power';
+        $carbonyes = Carbon::yesterday()->addHour(16);
+        $carbontod = Carbon::today()->addHour(16);
+        $query = sprintf("select MEAN(value) from %s where time > %s AND time < %s group by time(1h)",$dataname,"'".$carbonyes->toDateTimeString()."'","'".$carbontod->toDateTimeString()."'");
         $result = InfluxDB::query($query);
+        $points = $result->getPoints();
         $today = 0;
-        foreach ($result->getPoints() as $point){
-            if(!is_null($point['mean'])){
+        foreach ($points as $point){
+            if(!is_null($point['mean'])) {
                 $today += $point['mean'];
             }
         }
 
-        $query = sprintf("select MEAN(value) from pv_charging_power  where time > %s AND time < %s group by time(1h) ","'".Carbon::now()->startOfWeek()->toDateTimeString()."'","'".Carbon::today()->endOfWeek()->toDateTimeString()."'");
+
+
+        $query = sprintf("select MEAN(value) from pv_charging_power  where time > %s AND time < %s group by time(1h) ","'".Carbon::now()->startOfWeek()->yesterday()->addHour(16)->toDateTimeString()."'","'".Carbon::today()->endOfWeek()->addHour(16)->toDateTimeString()."'");
         $result = InfluxDB::query($query);
         $week = 0;
         foreach ($result->getPoints() as $point){

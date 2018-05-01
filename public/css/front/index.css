@@ -104,15 +104,15 @@
     font-size:16px;
 }
 .third-line-words > span:last-child{
-    margin-left: 52x;
+    margin-left: 52px;
 }
 
 .four-line > .col-md-6 {
     margin-top:18px;
 
 }
-@media (min-width: 1200px) {
-    .container {
-        min-height: 1010px !important;
-    }
-}
+/*@media (min-width: 1200px) {*/
+    /*.container {*/
+        /*min-height: 1010px !important;*/
+    /*}*/
+/*}*/

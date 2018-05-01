@@ -1,73 +1,74 @@
-<template>
-    <div>
-        <vue-highcharts :options="options" ref="lineCharts"></vue-highcharts>
-    </div>
-</template>
-
 <script>
-    import VueHighcharts from 'vue2-highcharts'
-    const asyncData = {
-        name: 'data',
-        marker: {
-            symbol: 'square'
-        },
-        data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 23.3, 18.3, 13.9, 9.6]
-    }
-    export default{
-        components: {
-            VueHighcharts
-        },
-        data(){
-            return{
+    //Importing Line class from the vue-chartjs wrapper
+    import { Bar } from 'vue-chartjs'
+    //Exporting this so it can be used in other components
+    export default ({
+        extends: Bar,
+        data () {
+            return {
+                datacollection: {
+                    //Data to be represented on x-axis
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'Power',
+                            backgroundColor: '#2B91D5',
+                            pointBackgroundColor: 'white',
+                            borderWidth: 1,
+                            pointBorderColor: '#ffff',
+                            //Data to be represented on y-axis
+                            data: []
+                        }
+                    ]
+                },
+                //Chart.js options that controls the appearance of the chart
                 options: {
-                    chart: {
-                        height: 300,
-                        type: 'line',
-                    },
-                    title: {
-                        text: ''
-                    },
-                    xAxis: {
-                        categories: []
-                    },
-                    yAxis: {
-                        title: {
-                            text: ''
-                        },
-                        labels: {
-                            formatter: function () {
-                                return this.value + '°';
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            },
+                            gridLines: {
+                                display: true
                             }
-                        }
-                    },
-                    tooltip: {
-                        crosshairs: true,
-                        shared: true
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    plotOptions: {
-                        spline: {
-                            marker: {
-                                radius: 4,
-                                lineColor: '#666666',
-                                lineWidth: 1
+                        }],
+                        xAxes: [ {
+                            gridLines: {
+                                display: false
                             }
-                        }
+                        }]
                     },
-                    series: []
+                    legend: {
+                        display: true
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false
                 }
             }
         },
-        mounted(){
-            let lineCharts = this.$refs.lineCharts;
-            lineCharts.addSeries(asyncData);
-        },
-        methods: {
-            load(){
+        mounted () {
 
-            }
+            axios.post('/api/get/data',
+                {dataname:'pv_charging_power',group:'todayofhour'}
+            )
+                .then(response => {
+                    response.data.map((value, key)=>{
+//                        console.log(value.mean,"key:"+key);
+                        this.datacollection.labels.push(key+1)
+                        this.datacollection.datasets[0].data.push(value.mean)
+
+                        if(response.data.length == key+1){
+                            this.renderChart(this.datacollection, this.options)
+                        }
+                    });
+
+                })
+                .catch(function (error) {
+                    console.log(error)
+                });
+            //renderChart function renders the chart with the datacollection and options object.
+
+
         }
-    }
+    })
 </script>
