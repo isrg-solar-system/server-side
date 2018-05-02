@@ -68,8 +68,8 @@ class DataApiController extends Controller
         }
         switch ($request->group) {
             case 'todayofhour':
-                $carbonyes = Carbon::yesterday()->addHour(16);
-                $carbontod = Carbon::today()->addHour(16);
+                $carbonyes = Carbon::parse($request->datefrom, 'Asia/Taipei')->addHour(-8);
+                $carbontod = Carbon::parse($request->datefrom, 'Asia/Taipei')->addHour(16);
                 $query = sprintf("select MEAN(value) from %s where time > %s AND time < %s group by time(1h)",$request->dataname,"'".$carbonyes->toDateTimeString()."'","'".$carbontod->toDateTimeString()."'");
                 $result = InfluxDB::query($query);
                 $points = $result->getPoints();
@@ -101,13 +101,19 @@ class DataApiController extends Controller
                 $re = [];
                 foreach ($points as $point){
                     if(!is_null($point['mean'])){
-                        $re[] = $point;
+                        $arr = [];
+                        $time = new Carbon($point['time']);
+                        $time->timezone = new DateTimeZone('Asia/Taipei');
+                        $arr['time'] =  substr($time->toDateTimeString(),0,10);
+                        $arr['mean'] =  $point['mean'];
+                        $re[] = $arr;
                     }
                 }
                 return json_encode($re);
                 break;
             case 'allofmonth':
                 $re = [];
+                //2016-01-01T00:00:00
                 for($year = $fyear; $year <= $tyear ;$year++){
                    if($year == $fyear){
                        for ($month= $fmonth;$month <= 12;$month++){
@@ -118,7 +124,12 @@ class DataApiController extends Controller
                            $result = InfluxDB::query($query);
                            $points = $result->getPoints();
                            if(isset($points[0])){
-                               $re[] = $points[0];
+                               $arr = [];
+                               $time = new Carbon(substr ($points[0]['time'],0,19));
+                               $time->timezone = new DateTimeZone('Asia/Taipei');
+                               $arr['time'] =  substr($time->toDateTimeString(),0,7);
+                               $arr['mean'] =  $points[0]['mean'];
+                               $re[] = $arr;
                            }
                        }
                    }elseif($year == $tyear){
@@ -130,7 +141,12 @@ class DataApiController extends Controller
                            $result = InfluxDB::query($query);
                            $points = $result->getPoints();
                            if(isset($points[0])){
-                               $re[] = $points[0];
+                               $arr = [];
+                               $time = new Carbon(substr ($points[0]['time'],0,19));
+                               $time->timezone = new DateTimeZone('Asia/Taipei');
+                               $arr['time'] =  substr($time->toDateTimeString(),0,7);
+                               $arr['mean'] =  $points[0]['mean'];
+                               $re[] = $arr;
                            }
                        }
                    }else{
@@ -142,7 +158,12 @@ class DataApiController extends Controller
                            $result = InfluxDB::query($query);
                            $points = $result->getPoints();
                            if(isset($points[0])){
-                               $re[] = $points[0];
+                               $arr = [];
+                               $time = new Carbon(substr ($points[0]['time'],0,19));
+                               $time->timezone = new DateTimeZone('Asia/Taipei');
+                               $arr['time'] =  substr($time->toDateTimeString(),0,7);
+                               $arr['mean'] =  $points[0]['mean'];
+                               $re[] = $arr;
                            }
                        }
                    }
@@ -161,7 +182,12 @@ class DataApiController extends Controller
                     $result = InfluxDB::query($query);
                     $points = $result->getPoints();
                     if(isset($points[0])){
-                        $re[] = $points[0];
+                        $arr = [];
+                        $time = new Carbon(substr ($points[0]['time'],0,19));
+                        $time->timezone = new DateTimeZone('Asia/Taipei');
+                        $arr['time'] =  substr($time->toDateTimeString(),0,4);
+                        $arr['mean'] =  $points[0]['mean'];
+                        $re[] = $arr;
                     }
                 }
                 return json_encode($re);
