@@ -51,6 +51,7 @@ class DataApiController extends Controller
          *   dateto   = 2018/12/31
          */
 //        dd($request->all());
+//        dd($request);
         if(env('APP_DEBUG')){
             header('Access-Control-Allow-Origin: *');
         }
@@ -67,7 +68,7 @@ class DataApiController extends Controller
 
         }
         switch ($request->group) {
-            case 'todayofhour':
+            case 'dayofhour':
                 $carbonyes = Carbon::parse($request->datefrom, 'Asia/Taipei')->addHour(-8);
                 $carbontod = Carbon::parse($request->datefrom, 'Asia/Taipei')->addHour(16);
                 $query = sprintf("select MEAN(value) from %s where time > %s AND time < %s group by time(1h)",$request->dataname,"'".$carbonyes->toDateTimeString()."'","'".$carbontod->toDateTimeString()."'");
@@ -78,19 +79,20 @@ class DataApiController extends Controller
                     if(!is_null($point['mean'])){
                         $arr = [];
                         $time = new Carbon($point['time']);
-                        $time->timezone = new DateTimeZone('Asia/Taipei');
+//                        $time->timezone = new DateTimeZone('Asia/Taipei');
                         $arr['time'] =  $time->toDateTimeString();
                         $arr['mean'] =  $point['mean'];
                         $re[] = $arr;
                     }else{
                         $arr = [];
                         $time = new Carbon($point['time']);
-                        $time->timezone = new DateTimeZone('Asia/Taipei');
+//                        $time->timezone = new DateTimeZone('Asia/Taipei');
                         $arr['time'] =  $time->toDateTimeString();
                         $arr['mean'] = 0;
                         $re[] = $arr;
                     }
                 }
+//                dd($re);
                 return json_encode($re);
                 break;
             case 'allofday':
@@ -103,7 +105,7 @@ class DataApiController extends Controller
                     if(!is_null($point['mean'])){
                         $arr = [];
                         $time = new Carbon($point['time']);
-                        $time->timezone = new DateTimeZone('Asia/Taipei');
+//                        $time->timezone = new DateTimeZone('Asia/Taipei');
                         $arr['time'] =  substr($time->toDateTimeString(),0,10);
                         $arr['mean'] =  $point['mean'];
                         $re[] = $arr;
@@ -126,7 +128,7 @@ class DataApiController extends Controller
                            if(isset($points[0])){
                                $arr = [];
                                $time = new Carbon(substr ($points[0]['time'],0,19));
-                               $time->timezone = new DateTimeZone('Asia/Taipei');
+//                               $time->timezone = new DateTimeZone('Asia/Taipei');
                                $arr['time'] =  substr($time->toDateTimeString(),0,7);
                                $arr['mean'] =  $points[0]['mean'];
                                $re[] = $arr;
@@ -143,7 +145,7 @@ class DataApiController extends Controller
                            if(isset($points[0])){
                                $arr = [];
                                $time = new Carbon(substr ($points[0]['time'],0,19));
-                               $time->timezone = new DateTimeZone('Asia/Taipei');
+//                               $time->timezone = new DateTimeZone('Asia/Taipei');
                                $arr['time'] =  substr($time->toDateTimeString(),0,7);
                                $arr['mean'] =  $points[0]['mean'];
                                $re[] = $arr;
@@ -160,7 +162,7 @@ class DataApiController extends Controller
                            if(isset($points[0])){
                                $arr = [];
                                $time = new Carbon(substr ($points[0]['time'],0,19));
-                               $time->timezone = new DateTimeZone('Asia/Taipei');
+//                               $time->timezone = new DateTimeZone('Asia/Taipei');
                                $arr['time'] =  substr($time->toDateTimeString(),0,7);
                                $arr['mean'] =  $points[0]['mean'];
                                $re[] = $arr;
@@ -184,7 +186,7 @@ class DataApiController extends Controller
                     if(isset($points[0])){
                         $arr = [];
                         $time = new Carbon(substr ($points[0]['time'],0,19));
-                        $time->timezone = new DateTimeZone('Asia/Taipei');
+//                        $time->timezone = new DateTimeZone('Asia/Taipei');
                         $arr['time'] =  substr($time->toDateTimeString(),0,4);
                         $arr['mean'] =  $points[0]['mean'];
                         $re[] = $arr;

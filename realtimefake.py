@@ -41,7 +41,7 @@ def dval(data):
     if (data == 'pv_input_voltage'):
         return randint(0, 800) / 10
 
-HOST = 'http://127.0.0.1:8000'
+HOST = 'http://60.249.6.104:8187/'
 
 
 points = json.loads('[{"name":"ac_output_active_power"},{"name":"ac_output_frequency"},{"name":"ac_output_voltage"},{"name":"battery_capacity"},{"name":"battery_charging_current"},{"name":"battery_discharge_current"},{"name":"battery_voltage"},{"name":"battery_voltage_offset_for_fans_on"},{"name":"bus_voltage"},{"name":"device_status"},{"name":"eeprom_version"},{"name":"grid_frequency"},{"name":"grid_voltage"},{"name":"inverter_heat_sink_temperature"},{"name":"output_load_percent"},{"name":"pv_charging_power"},{"name":"pv_input_current_for_battery"},{"name":"pv_input_voltage"}]')

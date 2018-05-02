@@ -22,7 +22,7 @@ class WarningBroadcast implements ShouldBroadcast
     protected $dataname;
     protected $status;
     protected $value;
-    public $broadcastQueue = 'work';
+//    public $broadcastQueue = 'work';
 
     public function __construct($dataname,$status,$value)
     {

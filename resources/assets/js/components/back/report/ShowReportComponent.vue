@@ -85,9 +85,9 @@
                                     <!--</div>-->
 
                                     <div class="pretty p-default p-round">
-                                        <input type="radio" name="group" value="todayofhour"  v-model="edit.group">
+                                        <input type="radio" name="group" value="dayofhour"  v-model="edit.group">
                                         <div class="state">
-                                            <label>todayofhour</label>
+                                            <label>dayofhour</label>
                                         </div>
                                     </div>
 

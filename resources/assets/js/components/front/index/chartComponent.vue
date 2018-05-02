@@ -47,9 +47,9 @@
             }
         },
         mounted () {
-
+            let today = new Date();
             axios.post('/api/get/data',
-                {dataname:'pv_charging_power',group:'todayofhour'}
+                {dataname:'pv_charging_power',group:'dayofhour',datefrom:today.getFullYear()+"-"+(today.getMonth()+1)+"-"+today.getDate()}
             )
                 .then(response => {
                     response.data.map((value, key)=>{
