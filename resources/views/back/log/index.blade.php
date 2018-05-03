@@ -43,16 +43,28 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Description</th>
+                            <th>Data Name</th>
+                            <th>Status</th>
                             <th>Date time</th>
                         </tr>
+
                     </thead>
+                    @foreach($log as $l)
+                        <tr>
+                            <td>{{$l->id}}</td>
+                            <td>{{$l->dataname}}</td>
+                            <td>@if($l->status) 狀況回復穩定 @else 狀況超出安全範圍 @endif</td>
+                            <td>{{$l->created_at}}</td>
+                        </tr>
+                    @endforeach
                     <tbody>
 
                     </tbody>
                 </table>
 
             </div>
+            <center>{{ $log->links() }}</center>
+
         </div>
     </div>
 @endsection
