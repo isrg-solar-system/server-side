@@ -48,6 +48,8 @@ Route::get('/api/download/status', 'Back\DownloadController@downloadstatus')->na
 
 
 Route::get('/back/log', 'Back\LogController@index')->name('LogList');
+Route::get('/back/log/search/', 'Back\LogController@search')->name('LogSearch');
+
 
 
 

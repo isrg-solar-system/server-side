@@ -20,19 +20,22 @@
                         {{--</div>--}}
 
                     {{--</div>--}}
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <label>Date</label>
-                            <input type="text" class="form-control border-input" placeholder="2017/1/1" value="">
+                    <form method="get" action="{{route('LogSearch')}}">
+                        {{ csrf_field() }}
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label>Dataname and Date</label>
+                                <input type="text" name="key" class="form-control border-input" placeholder="battery_voltage , 2017/1/1" value="">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>　</label>
-                            <button type="submit" class="btn btn-secondary form-control border-input ">Search</button>
-                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>　</label>
+                                <button type="submit" class="btn btn-secondary form-control border-input ">Search</button>
+                            </div>
 
-                    </div>
+                        </div>
+                    </form>
                 </div>
 
                 {{--<h4 class="title"></h4>--}}
@@ -63,7 +66,9 @@
                 </table>
 
             </div>
-            <center>{{ $log->links() }}</center>
+            @if($page)
+                <center>{{ $log->links() }}</center>
+            @endif
 
         </div>
     </div>
