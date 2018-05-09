@@ -1,4 +1,4 @@
-from influxdb import InfluxDBClient
+#from influxdb import InfluxDBClient
 import datetime,time,json,requests
 from random import randint
 import calendar
