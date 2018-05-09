@@ -47,7 +47,7 @@ class SaveDataToInflux implements ShouldQueue
             $last = new Carbon($result->getPoints()[0]['time']);
             $last = $last->timestamp;
             $limit = Websetting::where('key','data_limit')->first()->value;
-//            if(($time - $last) > $limit){
+            if(($time - $last) > $limit){
                 $points[] =  new Point(
                     $key, // name of the measurement
                     (float) $data, // the measurement value
@@ -56,7 +56,7 @@ class SaveDataToInflux implements ShouldQueue
                     $time
                 );
                 $arr[] = $key;
-//            }
+            }
 
         }
 

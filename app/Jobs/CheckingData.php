@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Events\WarningBroadcast;
+use App\Log;
 use App\SettingWarning;
 use App\Warning;
 use App\Websetting;
@@ -11,7 +12,10 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Carbon;
+use InfluxDB\Point;
 use Ixudra\Curl\Facades\Curl;
+use TrayLabs\InfluxDB\Facades\InfluxDB;
 
 class CheckingData implements ShouldQueue
 {
@@ -72,6 +76,7 @@ class CheckingData implements ShouldQueue
                     }elseif ($lastcheck->status == false && $status == true){ //資料庫:有狀況 實際:無狀況 , 新增至資料庫"無狀況"
                         print_r("資料庫:有狀況 實際:無狀況 , 新增至資料庫無狀況\n");
                         $this->alert($key,1,$data);
+
                         $warning = new Warning();
                         $warning->dataname = $key;
                         $warning->status = true;
@@ -79,6 +84,7 @@ class CheckingData implements ShouldQueue
                     }elseif ($lastcheck->status == true && $status == false) { //資料庫:沒狀況 實際:有狀況 , 新增至資料庫"有狀況"
                         print_r("資料庫:沒狀況 實際:有狀況 , 新增至資料庫\"有狀況\"\n");
                         $this->alert($key,0,$data);
+
                         $warning = new Warning();
                         $warning->dataname = $key;
                         $warning->status = false;
@@ -90,6 +96,7 @@ class CheckingData implements ShouldQueue
                     if($status==false){
                         print_r("資料庫:未寫入 實際:有狀況 , 新增至資料庫\"有狀況\"\n");
                         $this->alert($key,0,$data);
+
                         $warning = new Warning();
                         $warning->dataname = $key;
                         $warning->status = false;
@@ -104,7 +111,10 @@ class CheckingData implements ShouldQueue
         }
     }
 
+
+
     public function alert($dataname,$status,$value){
+
         $line_token = Websetting::where('key','line_api')->first()->value;
 
         $message = Websetting::where('key','line_format')->first()->value;
