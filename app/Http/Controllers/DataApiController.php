@@ -234,6 +234,7 @@ class DataApiController extends Controller
         $token = Websetting::where('key','camera_token')->first();
         $token->value = $request->key;
         $token->save();
+        return 1;
     }
 
 }
