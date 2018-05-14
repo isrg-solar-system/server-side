@@ -61,5 +61,10 @@ class WebsettingTableSeeder extends Seeder
 狀況:@status';
         $datalimit->save();
 
+        $datalimit = new \App\Websetting();
+        $datalimit->key = 'camera_token' ;
+        $datalimit->value = null;
+        $datalimit->save();
+
     }
 }

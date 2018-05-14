@@ -2,9 +2,6 @@
     <div>
             <div class="row" style="width: 490px;margin-bottom:4px;">
                 <div class="col-xs-1">
-                    <v-spin size="large"  v-if="loading"></v-spin>
-                </div>
-                <div class="col-xs-1">
                     <button class="btn btn-sm btn-warning btn-icon" @click="add" ><i class="fa ti-plus"></i></button>
                 </div>
 
@@ -19,6 +16,9 @@
                 </div>
                 <div class="col-xs-1">
                     <button class="btn btn-sm btn-warning btn-icon" ><i class="fa ti-printer"></i></button>
+                </div>
+                <div class="col-xs-1">
+                    <v-spin size="large"  v-if="loading"></v-spin>
                 </div>
             </div>
         <div class="clearFix"></div>

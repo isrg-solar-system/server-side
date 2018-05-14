@@ -20,7 +20,7 @@ body {
 }
 @media (min-width: 1200px) {
     .container {
-        width: 1000px;
+        width: 1140px;
         min-height: 870px;
         max-height: 1600px;
         margin: 15px auto 30px auto;
@@ -39,7 +39,7 @@ body {
 
 @media (min-width: 768px) {
     .container {
-        width: 1000px;
+        width: 1140px;
         min-height: 870px;
         height:870px;
         margin: 15px auto 30px auto;

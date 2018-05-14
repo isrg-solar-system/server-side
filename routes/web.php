@@ -72,6 +72,8 @@ Route::post('/api/report/delete', 'Back\ReportController@delete')->name('ReportD
 
 //input data this api
 Route::post('/api/input/data', 'DataApiController@input')->name('InputData');
+//update camera toeken
+Route::post('/api/camera/update', 'DataApiController@camera')->name('CameraUpdate');
 
 // SHOW MEASUREMENTS
 Route::get('/api/db/measurement', 'DataApiController@getMeasurement')->name('getMeasurement');

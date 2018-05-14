@@ -61,7 +61,7 @@ class FrontController extends Controller
                 $year += $point['mean'];
             }
         }
-        return view('front.index')->with('place',$place)->with('today',round($today,2))->with('week',round($week,2))->with('month',round($month,2))->with('year',round($year,2))->with('user',Auth::user());
+        return view('front.index')->with('place',$place)->with('today',round($today,2))->with('week',round($week,0))->with('month',round($month,0))->with('year',round($year,0))->with('user',Auth::user());
     }
 
     public function inverter(){
@@ -81,6 +81,7 @@ class FrontController extends Controller
 
     public function ipcam(){
         $place = 'ipcam';
-        return view('front.ipcam')->with('place',$place)->with('user',Auth::user());
+        $token = Websetting::where('key','camera_token')->first()->value;
+        return view('front.ipcam')->with('place',$place)->with('user',Auth::user())->with('token',$token);
     }
 }

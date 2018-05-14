@@ -78,9 +78,11 @@
 
 .sun-power-icon{
     background:url('https://i.imgur.com/fy8LsH9.png');
+    background-repeat: no-repeat;
 }
 .temperature-icon{
     background:url('https://i.imgur.com/u4KcCIK.png');
+    background-repeat: no-repeat;
 }
 .wind-power-icon{
     background:url('https://i.imgur.com/SB7U0iD.png');

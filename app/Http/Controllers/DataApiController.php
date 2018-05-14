@@ -79,14 +79,14 @@ class DataApiController extends Controller
                     if(!is_null($point['mean'])){
                         $arr = [];
                         $time = new Carbon($point['time']);
-//                        $time->timezone = new DateTimeZone('Asia/Taipei');
+                        $time->timezone = new DateTimeZone('Asia/Taipei');
                         $arr['time'] =  $time->toDateTimeString();
                         $arr['mean'] =  $point['mean'];
                         $re[] = $arr;
                     }else{
                         $arr = [];
                         $time = new Carbon($point['time']);
-//                        $time->timezone = new DateTimeZone('Asia/Taipei');
+                        $time->timezone = new DateTimeZone('Asia/Taipei');
                         $arr['time'] =  $time->toDateTimeString();
                         $arr['mean'] = 0;
                         $re[] = $arr;
@@ -230,5 +230,10 @@ class DataApiController extends Controller
 
     }
 
+    public function camera(Request $request){
+        $token = Websetting::where('key','camera_token')->first();
+        $token->value = $request->key;
+        $token->save();
+    }
 
 }
