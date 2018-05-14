@@ -80,7 +80,7 @@
     </div>
     <div class="clearFix"></div>
     <div class="col-md-12  mt-2 pl-4 text-white ">
-        <div class="inner-box row p-4">
+        <div class="inner-box row p-4" style="width: 1093px">
             <div class="second-line-block power-day col-md-3 col-6 pl-3 pr-0 m-0">
                 <span class="second-line-value ml-4">{{$today}}W</span><br>
                 <span class="second-line-words ml-4">本日發電量</span>
@@ -136,7 +136,7 @@
         </div>
         <div class="clearFix"></div>
     </div>
-    <div class="col-md-12 four-line row mt-3">
+    <div class="col-md-12 four-line row">
         <div class="col-md-6">
             <div class="cube">
                 <div class="head">
@@ -147,7 +147,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" style="padding-right: 1px;">
             <div class="cube">
                 <div class="head">
                     <i class="fa fa-spinner" aria-hidden="true"></i> 本日發電量

@@ -8,7 +8,7 @@
 
 
 @section('contentout')
-    <div class="container123 " style="background: #28282E;">
+    <div class="container123 " style="background: #28282E;width: 95%;margin-left: 12px;">
         <div class="side">
             <h1>{{ $dataname }}</h1>
             <ul class="links">
@@ -171,9 +171,9 @@
         $.post("/api/get/data",
             {
                 dateto:"2017-12-31",
-                datefrom:"2017-12-1",
+                datefrom:new Date().toJSON().slice(0,10).replace(/-/g,'-'),
                 dataname:dataname_,
-                group:"todayofhour"
+                group:"dayofhour"
             },
             function(data, status){
                 dataJ = JSON.parse(data);

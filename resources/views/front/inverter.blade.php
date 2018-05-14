@@ -182,7 +182,7 @@
     width: 100%;">  <!-- AC -->
                 <div class="head">
                     <i class="fa fa-thermometer-three-quarters" aria-hidden="true"></i> AC</div>
-                <div class="cubecontent atemp-cubecontent ">
+                <div class="cubecontent atemp-cubecontent " style="padding-top: 40px">
                     <div class="row">
                         <div class="col-md-6" style=" padding-left: 18px;" onclick="location.href = '{{route('FrontChart','ac_output_voltage')}}'">
                             <a href="#" class="cubeblock ACcubecontent-block-top">
