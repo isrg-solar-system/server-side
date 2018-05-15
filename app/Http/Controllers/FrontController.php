@@ -7,6 +7,7 @@ use App\SettingWarning;
 use App\Websetting;
 use Carbon\Carbon;
 use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use InfluxDB\Point;
@@ -21,9 +22,9 @@ class FrontController extends Controller
         $place = 'index';
 
         $dataname = 'pv_charging_power';
-        $carbonyes = Carbon::yesterday()->addHour(16);
-        $carbontod = Carbon::today()->addHour(16);
-        $query = sprintf("select MEAN(value) from %s where time > %s AND time < %s group by time(1h)",$dataname,"'".$carbonyes->toDateTimeString()."'","'".$carbontod->toDateTimeString()."'");
+        $carbon = Carbon::now(new DateTimeZone('Asia/Taipei'));
+
+        $query = sprintf("select MEAN(value) from %s where time > %s AND time < %s group by time(1h)",$dataname,"'".$carbon->startOfDay()->toDateTimeString()."'","'".$carbon->endOfDay()->toDateTimeString()."'");
         $result = InfluxDB::query($query);
         $points = $result->getPoints();
         $today = 0;
@@ -32,7 +33,6 @@ class FrontController extends Controller
                 $today += $point['mean'];
             }
         }
-
 
 
         $query = sprintf("select MEAN(value) from pv_charging_power  where time > %s AND time < %s group by time(1h) ","'".Carbon::now()->startOfWeek()->yesterday()->addHour(16)->toDateTimeString()."'","'".Carbon::today()->endOfWeek()->addHour(16)->toDateTimeString()."'");
