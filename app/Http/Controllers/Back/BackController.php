@@ -25,7 +25,7 @@ class BackController extends Controller
     function __construct()
     {
         $this->middleware(function ($request, $next) {
-            Auth::attempt(['email' => 'img21326@gmail.com', 'password' => 'password']); //測試用 自動登入
+//            Auth::attempt(['email' => 'img21326@gmail.com', 'password' => 'password']); //測試用 自動登入
 
             if(Auth::check()){
                 if(Auth::user()->level){
@@ -42,7 +42,7 @@ class BackController extends Controller
                     $this->list = [
                         'Report View' =>  ['url'=>'ReportIndex','icon'=>'ti-bar-chart-alt'],
                         'Data Download' =>  ['url'=>'DownloadIndex','icon'=>'ti-download'],
-                        'Warning Setting' => ['url'=>'WarningIndex','icon'=>'ti-comment'],
+                        'System Log' =>  ['url'=>'LogList','icon'=>'ti-clipboard'],
                     ];
                 }
                 View::share('lists', $this->list);
