@@ -10,7 +10,10 @@
 @section('contentout')
     <div class="container123 " style="background: #28282E;width: 95%;margin-left: 12px;">
         <div class="side">
-            <h1>{{ $dataname }}</h1>
+            <select id="select_name" name="select_name" style="width: 100%;">
+
+            </select>
+
             <ul class="links">
                 <li><a href="#" class="selected" data-metric="Year">Year</a></li>
                 <li><a href="#" data-metric="Month">Month</a></li>
@@ -102,8 +105,6 @@
         var dataname_ = '{{ $dataname }}';
 
 
-
-
         function SumData(arr){ //arr total
             var sum=0;
             for (var i = 0; i < arr.length; i++) {
@@ -184,7 +185,6 @@
                         y:dataJ[a]['mean'],
                     })
                 }
-                console.log(dataDict)
                 dayarr = []
                 for(var w=0;w<dataDict.length;w++){
                     dayarr.push(parseFloat(dataDict[w]['y'].toFixed(1)))
@@ -258,7 +258,6 @@
                 for(var w=0;w<dataMDict.length;w++){
                     monarr.push(parseFloat(dataMDict[w]['y'].toFixed(1)))
                 }
-                console.log(dataMDict)
                 $(function () {
                     // Create the chart
                     Highcharts.chart('month', {
@@ -539,6 +538,25 @@
         window.onload=function(){
             objLoad=document.getElementById('load')
             //objLoad.style.display='none';
+            $.ajax({
+                url: '/api/db/measurement',
+                type: 'GET',
+                dataType: 'json',
+                error: function(xhr) {
+                    alert('Ajax request 發生錯誤');
+                },
+                success: function(response) {
+                    $('#select_name').append("<option value=\""+"{{$dataname}}"+"\">"+"{{$dataname}}"+"</option>");
+                    $.each(response, function(i, name){
+                        $('#select_name').append("<option value=\""+name+"\">"+name.name+"</option>");
+                    });
+                }
+            });
+            $( "#select_name" ).change(function() {
+                $( "#select_name option:selected" ).each(function() {
+                    location.href='/chart/'+$(this).text();
+                });
+            });
         }
     </script>
 @endsection

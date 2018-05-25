@@ -99,7 +99,7 @@
             </div>
             <div class="third-line-block sun-power col-md-3 col-6 pl-3 m-0 mt-3">
                 <div class="third-line-block-content row">
-                    <div class="col-4 sun-power-icon mt-3"></div>
+                    <div class="col-md-4  col-4 sun-power-icon mt-3"></div>
                     <div class="col-8 third-line-words mt-3">
                         @{{sun}} <span>W/m</span> <br>
                         <span>日照</span>

@@ -11,17 +11,11 @@
             <ul class="list-unstyled team-members">
                 <li v-for="item in datas">
                     <div class="row">
-                        <div class="col-xs-6 col-6  text-center">
-                            {{item.name}}
+                        <div class="col-xs-12 col-12  text-center">
+                            <p class="text-success" v-if="item.status">{{item.name}}</p>
+                            <p class="text-success" v-if="!item.status">{{item.name}}</p>
                         </div>
-                        <div class="col-xs-4  col-4  text-center " >
-                            <p class="text-success" v-if="item.status">
-                                Safe
-                            </p>
-                            <p class="text-danger" v-if="!item.status">
-                                Data out of range
-                            </p>
-                        </div>
+
                     </div>
                 </li>
             </ul>

@@ -11,18 +11,18 @@
                 <div class="col-xs-1" v-if="configable == true">
                     <button class="btn btn-sm btn-warning btn-icon" @click="saveConfig"><i class="fa ti-save-alt"></i></button>
                 </div>
+                <!--<div class="col-xs-1">-->
+                    <!--<button class="btn btn-sm btn-warning btn-icon" ><i class="fa ti-import"></i></button>-->
+                <!--</div>-->
                 <div class="col-xs-1">
-                    <button class="btn btn-sm btn-warning btn-icon" ><i class="fa ti-import"></i></button>
-                </div>
-                <div class="col-xs-1">
-                    <button class="btn btn-sm btn-warning btn-icon" ><i class="fa ti-printer"></i></button>
+                    <button class="btn btn-sm btn-warning btn-icon" @click="print" ><i class="fa ti-printer"></i></button>
                 </div>
                 <div class="col-xs-1">
                     <v-spin size="large"  v-if="loading"></v-spin>
                 </div>
             </div>
         <div class="clearFix"></div>
-        <div :style="styleObject">
+        <div :style="styleObject" id="widgetbox">
             <vue-draggable-resizable v-for="(report,index) in reports" :key="report.id" :x="report.x" :y="report.y" :w="report.width" :h="report.height"  v-on:dragging="(x, y) => onDrag(report.id,x,y)" v-on:resizing="(x, y, width, height) => onResize(report.id,x, y, width, height)" :parent="true" :draggable="configable" :resizable="configable">
                 <div class="card" style="width: 100%;height: 105%">
                     <div class="header row">
@@ -381,6 +381,9 @@
             },
             handleCancel(){
                 this.addclick = false;
+            },
+            print(){
+                print()
             },
         },
         components: {
