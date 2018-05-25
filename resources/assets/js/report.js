@@ -23,7 +23,6 @@ import Chart from 'chart.js'
 Vue.use(VueChartkick, {adapter: Chart})
 Vue.component('showreport', require('./components/back/report/ShowReportComponent.vue'));
 
-
 const app = new Vue({
     el: '#app',
     mounted(){
