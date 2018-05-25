@@ -299,7 +299,11 @@
                     })
                     this.reports = reports
                     console.log(this.reports)
-                    this.getChartData()
+                    if(this.reports.length == 0){
+                        this.loading = false;
+                    }else{
+                        this.getChartData()
+                    }
                 })
             },
             getChartData(){
