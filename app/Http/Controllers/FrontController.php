@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\SaveDataToInflux;
 use App\SettingWarning;
+use App\Warning;
 use App\Websetting;
 use Carbon\Carbon;
 use DateTime;
@@ -66,7 +67,8 @@ class FrontController extends Controller
 
     public function inverter(){
         $place = 'inverter';
-        return view('front.inverter')->with('place',$place)->with('user',Auth::user());
+        $log = Warning::take(10)->get();
+        return view('front.inverter')->with('place',$place)->with('user',Auth::user())->with('warnings',$log);
     }
 
     public function log(){

@@ -168,9 +168,12 @@
                 <div class="col-12">
                     <div class="cube text-cube">  <!-- AC -->
                         <div class="head">
-                            <i class="fa fa-thermometer-three-quarters" aria-hidden="true"></i> text</div>
-                        <div class="cubecontent temp-cubecontent scrollbar scroll-temp" style="    height: 433px;">
+                            <i class="fa fa-thermometer-three-quarters" aria-hidden="true"></i> Log</div>
+                        <div class="cubecontent temp-cubecontent scrollbar scroll-temp" style=" height: 433px; padding-left:18px;">
                             <!--文字敘述-->
+                            @foreach($warnings as $warning)
+                                <a style="color:gray;">[ {{$warning->created_at}} ]</a>   {{$warning->dataname}} is @if($warning->status) safe now @else out of the range @endif <br>
+                            @endforeach
                         </div>  <!-- TEMP-Cubecontent -->
                     </div>    <!-- text-CUBE -->
                 </div>
