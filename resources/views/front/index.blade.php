@@ -83,26 +83,26 @@
         <div class="inner-box row p-4" style="width: 1093px">
             <div class="second-line-block power-day col-md-3 col-6 pl-3 pr-0 m-0">
                 <span class="second-line-value ml-4">{{$today}}W</span><br>
-                <span class="second-line-words ml-4">本日發電量</span>
+                <span class="second-line-words ml-4">Today Power</span>
             </div>
             <div class="second-line-block power-week col-md-3 col-6 pl-3 pr-0 m-0">
                 <span class="second-line-value ml-4">{{$week}}W</span><br>
-                <span class="second-line-words ml-4">本週發電量</span>
+                <span class="second-line-words ml-4">Week Power</span>
             </div>
             <div class="second-line-block power-month col-md-3 col-6 pl-3 m-0">
                 <span class="second-line-value ml-4">{{$month}}W</span><br>
-                <span class="second-line-words ml-4">本月發電量</span>
+                <span class="second-line-words ml-4">Month Power</span>
             </div>
             <div class="second-line-block power-year col-md-3 col-6 pl-3 m-0">
                 <span class="second-line-value ml-4">{{$year}}W</span><br>
-                <span class="second-line-words ml-4">本年發電量</span>
+                <span class="second-line-words ml-4">Year Power</span>
             </div>
             <div class="third-line-block sun-power col-md-3 col-6 pl-3 m-0 mt-3">
                 <div class="third-line-block-content row">
                     <div class="col-md-4  col-4 sun-power-icon mt-3"></div>
                     <div class="col-8 third-line-words mt-3">
                         @{{sun}} <span>W/m</span> <br>
-                        <span>日照</span>
+                        <span>Sun</span>
                     </div>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                     <div class="col-md-4 col-4 temperature-icon mt-3"></div>
                     <div class="col-md-8 col-8 third-line-words mt-3">
                         @{{temp}} <span>W/m</span> <br>
-                        <span>溫度</span>
+                        <span>Temp</span>
                     </div>
                 </div>
             </div>
@@ -120,7 +120,7 @@
                     <div class="col-md-4 col-4 wind-power-icon mt-3"></div>
                     <div class="col-md-8 col-8 third-line-words mt-3">
                     @{{wind}} <!--<span>(2級)</span>--> <br>
-                        <span>最大陣風</span>
+                        <span>Max Wind</span>
                     </div>
                 </div>
             </div>
@@ -129,7 +129,7 @@
                     <div class="col-md-4 col-4 wind-speed-icon mt-3"></div>
                     <div class="col-md-8 col-8 third-line-words mt-3">
                     @{{windspeed}} <!--<span>(2級)</span>--> <br>
-                        <span>目前風速</span>
+                        <span>Wind speed</span>
                     </div>
                 </div>
             </div>
@@ -140,7 +140,7 @@
         <div class="col-md-6">
             <div class="cube">
                 <div class="head">
-                    <i class="fa fa-spinner" aria-hidden="true"></i> 即時發電量
+                    <i class="fa fa-spinner" aria-hidden="true"></i>Realtime Power Chart
                 </div>
                 <div class="cubecontent four-line-cubecontent">
                     <realtime :height="300"></realtime>
@@ -150,7 +150,7 @@
         <div class="col-md-6" style="padding-right: 1px;">
             <div class="cube">
                 <div class="head">
-                    <i class="fa fa-spinner" aria-hidden="true"></i> 本日發電量
+                    <i class="fa fa-spinner" aria-hidden="true"></i>Today Power Chart
                 </div>
                 <div class="cubecontent four-line-cubecontent">
                     <div class="col-md-12">
