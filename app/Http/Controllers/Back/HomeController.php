@@ -34,7 +34,14 @@ class HomeController extends BackController
 
     protected function get_server_memory_usage(){
         //linux
-        if(env('SYSTEM_NAME') == 'linux'){
+        if(env('SYSTEM_NAME') == 'windows'){
+            exec('wmic memorychip get capacity', $totalMemory);
+            $total = (int) array_sum($totalMemory) / 1000;
+            exec('wmic OS get FreePhysicalMemory /Value 2>&1', $memory_used);
+            $memory_used = (int) substr($memory_used[2],19);
+            return  round( ($memory_used/$total),2 )*100 . "%";
+        }else{
+
             $free = shell_exec('free');
             $free = (string)trim($free);
             $free_arr = explode("\n", $free);
@@ -43,22 +50,18 @@ class HomeController extends BackController
             $mem = array_merge($mem);
             $memory_usage = $mem[2]/$mem[1]*100;
             return $memory_usage;
-        }else{
-            exec('wmic memorychip get capacity', $totalMemory);
-            $total = (int) array_sum($totalMemory) / 1000;
-            exec('wmic OS get FreePhysicalMemory /Value 2>&1', $memory_used);
-            $memory_used = (int) substr($memory_used[2],19);
-            return  round( ($memory_used/$total),2 )*100 . "%";
+
         }
     }
 
     protected function get_server_cpu_usage(){
-        if(env('SYSTEM_NAME') == 'linux'){
-            $load = sys_getloadavg();
-            return $load[0];
-        }else{
+        if(env('SYSTEM_NAME') == 'windows'){
             exec('wmic cpu get LoadPercentage', $p);
             return (int) $p[1];
+
+        }else{
+            $load = sys_getloadavg();
+            return $load[0];
         }
 
     }
