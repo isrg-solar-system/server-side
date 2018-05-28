@@ -75,6 +75,21 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">{{$title}}</a>
                 </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="{{route('FrontIndex')}}">
+                                <p>首頁</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{route('UserLogout')}}">
+                                <p>登出</p>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
 
             </div>
         </nav>
