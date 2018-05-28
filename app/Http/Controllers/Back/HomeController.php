@@ -49,7 +49,7 @@ class HomeController extends BackController
             $mem = array_filter($mem);
             $mem = array_merge($mem);
             $memory_usage = $mem[2]/$mem[1]*100;
-            return $memory_usage;
+            return round($memory_usage,2);
 
         }
     }
