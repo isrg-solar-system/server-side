@@ -14,6 +14,7 @@ class HomeController extends BackController
 
 
     public function getServer(){
+//        dd(env('SYSTEM_NAME'));
         $db_status = true;
         $diskspace = (int)  floor(disk_total_space("/")/1024/1024/1024);
         $diskfree = (int)  floor(disk_free_space("/")/1024/1024/1024);
