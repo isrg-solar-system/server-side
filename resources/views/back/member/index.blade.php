@@ -95,6 +95,7 @@
                     <form>
                         <div class="row">
                             <div class="col-md-12">
+                                <p v-if="error"  style="color:red;">Please complete input your value</p>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Email address</label>
                                     <input type="email" class="form-control border-input" placeholder="Email" v-model="edit.model.email">

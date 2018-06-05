@@ -50,10 +50,10 @@
                 </li>
                 <li v-if="config == 'create'">
                     <div class="row">
-                        <div class="col-xs-2  text-center">
-                            <span class="text-danger"></span>
-                        </div>
-                        <div class="col-xs-2  text-center">
+                        <!--<div class="col-xs-2  text-center">-->
+                            <!--<span class="text-danger"></span>-->
+                        <!--</div>-->
+                        <div class="col-xs-4  text-center">
                             <div class="form-group">
                                 <select class="form-control form-control-lg  border-input" v-model="userinput.name">
                                     <option v-for="data in datas">{{ data.name }}</option>
@@ -151,32 +151,36 @@
                 this.userinput.value = ''
             },
             save(){
-
-                this.loading = true
-                let url = ''
-                if(this.config != 'create'){
-                    url  = '/api/warning/update'
-                }else{
-                    url = '/api/warning/create'
-                }
-                axios.post(url, {
-                    id: this.userinput.id,
-                    name: this.userinput.name,
-                    value: this.userinput.value,
-                    operate:  this.userinput.operate,
-                })
-                    .then(response => {
-                        if(response.data.status){
-                            this.$notify.success('Success!')
-                            this.init()
-                            this.index = false
-                            this.config = false
-                            this.loading = false
-                        }
+                if(this.userinput.name!='' && this.userinput.operate != '' && this.userinput.value != ''){
+                    this.loading = true
+                    let url = ''
+                    if(this.config != 'create'){
+                        url  = '/api/warning/update'
+                    }else{
+                        url = '/api/warning/create'
+                    }
+                    axios.post(url, {
+                        id: this.userinput.id,
+                        name: this.userinput.name,
+                        value: this.userinput.value,
+                        operate:  this.userinput.operate,
                     })
-                    .catch(function (error) {
-                        console.log(error)
-                    });
+                        .then(response => {
+                            if(response.data.status){
+                                this.$notify.success('Success!')
+                                this.init()
+                                this.index = false
+                                this.config = false
+                                this.loading = false
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        });
+                }else{
+                    this.$notify.danger('Please complete input your value')
+                }
+
 
 
             },

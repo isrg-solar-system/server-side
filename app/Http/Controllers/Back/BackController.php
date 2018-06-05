@@ -47,8 +47,11 @@ class BackController extends Controller
                 }
                 View::share('lists', $this->list);
                 View::share('title', $this->title);
+                return $next($request);
+            }else{
+                return abort(404);
             }
-            return $next($request);
+
         });
     }
 }

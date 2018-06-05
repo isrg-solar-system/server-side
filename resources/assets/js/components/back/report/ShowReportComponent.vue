@@ -57,6 +57,7 @@
                         <form>
                             <div class="row" >
                                 <div class="col-md-12">
+                                    <p style="color:red;" v-if="error">Please complete input your value</p>
                                     <div class="form-group">
                                         <label for="widgetname">Widget Name</label>
                                         <input type="text" v-model="edit.widgetname" name="widgetname" class="form-control border-input" placeholder="First Chart 1 ...">
@@ -168,6 +169,7 @@
     export default {
         data: function () {
             return {
+                error:false,
                 reports:[],
                 measurement:[],
                 width: 0,
@@ -362,26 +364,39 @@
 
             },
             handleOk () {
-                this.loading = true;
-                axios.post('/api/report/create', {"title":this.edit.widgetname,"x":300,"y":300,"width":300,"height":300,"chart":"area","datefrom":this.edit.datefrom,"dateto":this.edit.dateto,"group":this.edit.group,"name":this.edit.name,"chart":this.edit.chart,})
-                    .then(response => {
-                    if(response.data.status == 1){
-                        this.$notification['success']({
-                            message: 'Success',
-                            description: 'Success to save the config in database'
-                        });
-                        this.edit = {
-                            widgetname:'',
-                            name:'',
-                            group:'',
-                            datefrom:'',
-                            dateto:'',
-                        }
+                let status = true
+                $.each(this.edit,function(key, data) {
+                    if(data == null || data == ''){
+                        status = false
                     }
-                    this.init()
-                    this.loading = false;
-                });
-                this.addclick = false;
+                })
+                if(status){
+                    this.loading = true;
+                    this.error = false
+                    axios.post('/api/report/create', {"title":this.edit.widgetname,"x":300,"y":300,"width":300,"height":300,"chart":"area","datefrom":this.edit.datefrom,"dateto":this.edit.dateto,"group":this.edit.group,"name":this.edit.name,"chart":this.edit.chart,})
+                        .then(response => {
+                            if(response.data.status == 1){
+                                this.$notification['success']({
+                                    message: 'Success',
+                                    description: 'Success to save the config in database'
+                                });
+                                this.edit = {
+                                    widgetname:'',
+                                    name:'',
+                                    group:'',
+                                    datefrom:'',
+                                    dateto:'',
+                                }
+                            }
+                            this.init()
+                            this.loading = false;
+                        });
+                    this.addclick = false;
+                }else{
+                    this.error = true
+                }
+
+
             },
             handleCancel(){
                 this.addclick = false;

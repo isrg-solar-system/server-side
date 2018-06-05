@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>A Pen by  3A432018</title>
+  <title>Admin - Solar Monitoring System</title>
   
   
 <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
@@ -28,10 +28,10 @@
           <h2>Monitor System</h2>
         </div>
       </div>
-      <div id="date">
-        <!--<a href="#">Help</a>-->
-        <p id="pvm">下午9:15:43 | 2018/2/13</p>
-      </div>
+      {{--<div id="date">--}}
+        {{--<!--<a href="#">Help</a>-->--}}
+        {{--<p id="pvm">下午9:15:43 | 2018/2/13</p>--}}
+      {{--</div>--}}
     </div>
 
     <div class="col-md-12 row vertical-center">
@@ -56,7 +56,7 @@
             <div class="member-word">Member Manager</div>
           </div>
           <div class="col-md-5 first-line second-box"></div>
-          <div class="col-md-12 second-row-box website-box">
+          <div class="col-md-12 second-row-box website-box" onclick="location.href = ('{{route('SettingIndex')}}')">
             <div class="website-icon"></div>
             <div class="website-word">WebSite Setting</div>
           </div>

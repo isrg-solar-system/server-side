@@ -1,10 +1,4 @@
 {
-    "/js/front.js": "/js/front.js",
-    "/js/report.js": "/js/report.js",
-    "/js/download.js": "/js/download.js",
     "/js/back.js": "/js/back.js",
-    "/js/inverter.js": "/js/inverter.js",
-    "/css/app.css": "/css/app.css",
-    "/js/websetting.js": "/js/websetting.js",
     "/js/member.js": "/js/member.js"
 }
