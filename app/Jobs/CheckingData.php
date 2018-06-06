@@ -119,14 +119,14 @@ class CheckingData implements ShouldQueue
 
         $message = Websetting::where('key','line_format')->first()->value;
         if($status){
-            $status = '狀況正常';
+            $_status = '狀況正常';
         }else{
-            $status = '超出異常範圍';
+            $_status = '超出異常範圍';
         }
 
         $message = "\r\n" . $message;
         $message = str_replace('@dataname', $dataname, $message);
-        $message = str_replace('@status', $status, $message);
+        $message = str_replace('@status', $_status, $message);
         $message = str_replace('@value', $value, $message);
         event(new WarningBroadcast($dataname,$status,$value));
         if(isset($line_token)){
