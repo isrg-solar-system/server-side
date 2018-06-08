@@ -62,7 +62,10 @@ class FrontController extends Controller
                 $year += $point['mean'];
             }
         }
-        return view('front.index')->with('place',$place)->with('today',round($today,2))->with('week',round($week,0))->with('month',round($month,0))->with('year',round($year,0))->with('user',Auth::user());
+        $weather = Curl::to('https://works.ioa.tw/weather/api/weathers/120.json')->asJson()->get();
+
+//        dd($weather);
+        return view('front.index')->with('place',$place)->with('today',round($today,2))->with('week',round($week,0))->with('month',round($month,0))->with('year',round($year,0))->with('user',Auth::user())->with('weather',$weather);
     }
 
     public function inverter(){

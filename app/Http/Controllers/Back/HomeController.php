@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Back;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends BackController
 {
     //
     public function index(){
+        if(!Auth::user()->level){
+            return redirect(route('ReportIndex'));
+        }
         return view('back.index');
     }
 

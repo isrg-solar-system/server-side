@@ -101,8 +101,15 @@
                 <div class="third-line-block-content row">
                     <div class="col-md-4  col-4 sun-power-icon mt-3"></div>
                     <div class="col-8 third-line-words mt-3">
-                        @{{sun}} <span>W/m</span> <br>
-                        <span>Sun</span>
+                        {{--@{{sun}} --}}
+                            @if(strlen($weather->histories[count($weather->histories)-1]->desc)>3)
+                                <r style="font-size: 18px;">{{$weather->histories[count($weather->histories)-1]->desc}}</r>
+                            @else
+                                {{str_word_count($weather->histories[count($weather->histories)-1]->desc)}}
+                            @endif
+
+                        <span></span> <br>
+                        <span>Weather</span>
                     </div>
                 </div>
             </div>
@@ -110,7 +117,9 @@
                 <div class="third-line-block-content row">
                     <div class="col-md-4 col-4 temperature-icon mt-3"></div>
                     <div class="col-md-8 col-8 third-line-words mt-3">
-                        @{{temp}} <span>W/m</span> <br>
+                        {{--@{{temp}} --}}
+                        {{ $weather->histories[count($weather->histories)-1]->temperature }}
+                        <span>℃ </span> <br>
                         <span>Temp</span>
                     </div>
                 </div>
@@ -119,8 +128,9 @@
                 <div class="third-line-block-content row">
                     <div class="col-md-4 col-4 wind-power-icon mt-3"></div>
                     <div class="col-md-8 col-8 third-line-words mt-3">
-                    @{{wind}} <!--<span>(2級)</span>--> <br>
-                        <span>Max Wind</span>
+                    {{--@{{wind}} <!--<span>(2級)</span>--> <br>--}}
+                        {{ $weather->histories[count($weather->histories)-1]->rainfall }}<br>
+                        <span>Rainfall</span>
                     </div>
                 </div>
             </div>
@@ -128,8 +138,9 @@
                 <div class="third-line-block-content row">
                     <div class="col-md-4 col-4 wind-speed-icon mt-3"></div>
                     <div class="col-md-8 col-8 third-line-words mt-3">
-                    @{{windspeed}} <!--<span>(2級)</span>--> <br>
-                        <span>Wind speed</span>
+                    {{--@{{windspeed}} <!--<span>(2級)</span>--> <br>--}}
+                        {{ $weather->histories[count($weather->histories)-1]->humidity }}<br>
+                        <span>Humidity</span>
                     </div>
                 </div>
             </div>
