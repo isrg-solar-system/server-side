@@ -18,6 +18,14 @@ body {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
+
+@media (min-width: 1400px) {
+    body{
+        overflow-y:hidden ;
+    }
+
+}
+
 @media (min-width: 1200px) {
     .container {
         width: 1140px ;
@@ -34,10 +42,6 @@ body {
         -moz-box-shadow: 0 0px 6px 4px #222;
         box-shadow: 0 0px 6px 4px #222;
     }
-    body{
-        overflow-y:hidden ;
-    }
-
 }
 
 @media (min-width: 768px) {
