@@ -110,26 +110,26 @@ const app = new Vue({
             if(this.edit.model.password == this.edit.model.tmpass){
                 this.edit.model.password = null
             }
-            if(this.edit.model.name != null && this.edit.model.email != null && this.edit.model.password != null && this.edit.model.level != null){
-                this.loading = true
-                this.edit.status = false
-                axios.post(this.edit.url,
-                    this.edit.model
-                )
-                    .then(response => {
-                        if(response.data){
-                            this.$notify.success('Success!')
-                            this.init()
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                    });
-                this.loading = false
-                this.error = false
-            }else{
-                this.error = true
-            }
+            // if(this.edit.model.name != null && this.edit.model.email != null && this.edit.model.password != null && this.edit.model.level != null){
+            //     this.loading = true
+            //     this.edit.status = false
+            //     axios.post(this.edit.url,
+            //         this.edit.model
+            //     )
+            //         .then(response => {
+            //             if(response.data){
+            //                 this.$notify.success('Success!')
+            //                 this.init()
+            //             }
+            //         })
+            //         .catch(function (error) {
+            //             console.log(error)
+            //         });
+            //     this.loading = false
+            //     this.error = false
+            // }else{
+            //     this.error = true
+            // }
 
         },
         handleCancel(){
