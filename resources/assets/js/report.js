@@ -18,6 +18,7 @@ require('./bootstrap');
 // require('chart.js');
 // require('hchs-vue-charts');
 // Vue.use(VueCharts);
+
 import VueChartkick from 'vue-chartkick'
 import Chart from 'chart.js'
 Vue.use(VueChartkick, {adapter: Chart})

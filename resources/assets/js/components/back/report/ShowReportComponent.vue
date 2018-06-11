@@ -162,6 +162,8 @@
 <script>
     import VueDraggableResizable from 'vue-draggable-resizable'
     import datePicker from 'vuejs-datepicker';
+    import html2canvas from 'html2canvas';
+
     let moment = require('moment');
 
     Vue.component('vue-draggable-resizable', VueDraggableResizable)
@@ -402,7 +404,11 @@
                 this.addclick = false;
             },
             print(){
-                print()
+
+                html2canvas(document.getElementById('widgetbox')).then(function(canvas) {
+                    let image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                    window.location.href=image;
+                });
             },
         },
         components: {
