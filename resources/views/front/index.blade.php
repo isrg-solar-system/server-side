@@ -126,21 +126,21 @@
             </div>
             <div class="third-line-block wind-power col-md-3 col-6  pl-3 m-0 mt-3">
                 <div class="third-line-block-content row">
-                    <div class="col-md-4 col-4 wind-power-icon mt-3"></div>
+                    <div class="col-md-4 col-4 wind-speed-icon mt-3"></div>
                     <div class="col-md-8 col-8 third-line-words mt-3">
-                    {{--@{{wind}} <!--<span>(2級)</span>--> <br>--}}
-                        {{ $weather->histories[count($weather->histories)-1]->rainfall }}<br>
-                        <span>Rainfall</span>
+                        {{--@{{windspeed}} <!--<span>(2級)</span>--> <br>--}}
+                        {{ $weather->histories[count($weather->histories)-1]->humidity }}<br>
+                        <span>Humidity</span>
                     </div>
                 </div>
             </div>
             <div class="third-line-block wind-speed col-md-3 col-6 pl-3 m-0 mt-3">
                 <div class="third-line-block-content row">
-                    <div class="col-md-4 col-4 wind-speed-icon mt-3"></div>
+                    <div class="col-md-4 col-4 wind-power-icon mt-3"></div>
                     <div class="col-md-8 col-8 third-line-words mt-3">
                     {{--@{{windspeed}} <!--<span>(2級)</span>--> <br>--}}
-                        {{ $weather->histories[count($weather->histories)-1]->humidity }}<br>
-                        <span>Humidity</span>
+                        0<br>
+                            <span>Prediction</span>
                     </div>
                 </div>
             </div>
