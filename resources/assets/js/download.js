@@ -75,7 +75,7 @@ const app = new Vue({
                     //this.downloadstatus.timer = setInterval(this.checkdownload,500)
                     this.downloadstatus.progress = 0
                     this.downloadstatus.desc = ''
-                    location.href = '/back/download/get/'+data.downloadstatus.filename;
+                    location.href = '/back/download/'+data.downloadstatus.filename;
                 }
             })
     },
