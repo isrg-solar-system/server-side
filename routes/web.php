@@ -41,7 +41,7 @@ Route::post('/api/member/delete', 'Back\MemberController@delete')->name('MemberD
 
 
 Route::get('/back/download', 'Back\DownloadController@index')->name('DownloadIndex');
-Route::get('/back/download/get/', 'Back\DownloadController@getDownloadFile')->name('getDownloadFile');
+Route::get('/back/download/{filename}', 'Back\DownloadController@getDownloadFile')->name('getDownloadFile');
 //post to make download data
 Route::post('/api/download/file/', 'Back\DownloadController@makedownload')->name('DownloadmakeFile');
 Route::get('/api/download/status', 'Back\DownloadController@downloadstatus')->name('DownloStatus');

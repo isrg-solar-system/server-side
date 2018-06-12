@@ -71,11 +71,11 @@ const app = new Vue({
                 this.downloadstatus.desc = data.downloadstatus.status
                 if( this.downloadstatus.progress == 100){
                     // console.log(data.downloadstatus)
-                    this.downloadstatus.status = true
+                    this.downloadstatus.status = false
                     //this.downloadstatus.timer = setInterval(this.checkdownload,500)
                     this.downloadstatus.progress = 0
                     this.downloadstatus.desc = ''
-                    location.href = '/back/download/get/';
+                    location.href = '/back/download/get/'+data.downloadstatus.filename;
                 }
             })
     },
