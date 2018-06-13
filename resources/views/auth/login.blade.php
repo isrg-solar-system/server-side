@@ -142,6 +142,7 @@
             <div class="form-group row">
                 <div class="offset-sm-4 col-sm-8">
                     <button type="submit" class="btn btn-primary">Sign in</button>
+                    <button class="btn" onclick="location.href='{{route('FrontIndex')}}'">Back Home</button>
                 </div>
             </div>
         </form>

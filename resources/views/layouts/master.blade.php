@@ -19,7 +19,7 @@
 <div class="container">
 
     <div id="topbar" class="col-md-12">
-        <div id="topheader">
+        <div id="topheader" onclick="location.href='{{route('FrontIndex')}}'">
             <div id="top-pic">
                 <img src="https://www.dropbox.com/s/xg2xy54v8nqdqjm/CPUM-Logo.png?raw=1" alt="cpumeter-logo">
             </div>

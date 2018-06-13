@@ -95,7 +95,10 @@
          <div class="warm-icon"></div>
           <div class="warm-word">Warning Setting</div>
           </div>
-        <div class="col-md-12 second-line-third-box" style="background-image: linear-gradient(-225deg, #69EACB 0%, #EACCF8 48%, #6654F1 100%);">
+        <div class="col-md-12 second-line-third-box warm-box" onclick="location.href = ('{{route('FrontIndex')}}')">
+          <div class="home-icon"></div>
+          <div class="warm-word">Back Home</div>
+        </div>
         </div>
       </div>
    </div>
