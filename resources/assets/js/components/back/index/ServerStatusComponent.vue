@@ -3,7 +3,7 @@
     <div class="server-word">
         DataBase Status:{{db_status}}<br>
         Server Cpu:{{cpu_used}}%<br>
-        Server Memory:{{mem_used}}<br>
+        Server Memory:{{mem_used}}%<br>
         <!--Server Memory:{{mem_used}}/{{mem}}<br>-->
         Disk Used:{{disk_used}}G/{{disk}}G
     </div>

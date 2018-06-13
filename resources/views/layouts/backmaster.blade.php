@@ -51,7 +51,7 @@
 
         <div class="sidebar-wrapper">
             <div class="logo">
-                <a href="#" class="simple-text">
+                <a href="{{route('FrontIndex')}}" class="simple-text">
                     Solar System
                 </a>
             </div>
@@ -78,13 +78,13 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="{{route('FrontIndex')}}">
-                                <p>首頁</p>
+                            <a href="{{route('BackIndex')}}">
+                                <p>Back To Home</p>
                             </a>
                         </li>
                         <li>
                             <a href="{{route('UserLogout')}}">
-                                <p>登出</p>
+                                <p>Logout</p>
                             </a>
                         </li>
                     </ul>
