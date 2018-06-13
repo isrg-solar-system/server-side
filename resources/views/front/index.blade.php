@@ -102,10 +102,10 @@
                     <div class="col-md-4  col-4 sun-power-icon mt-3"></div>
                     <div class="col-8 third-line-words mt-3">
                         {{--@{{sun}} --}}
-                            @if(strlen($weather->histories[count($weather->histories)-1]->desc)>3)
+                            @if(mb_strlen($weather->histories[count($weather->histories)-1]->desc)>3)
                                 <r style="font-size: 18px;">{{$weather->histories[count($weather->histories)-1]->desc}}</r>
                             @else
-                                {{str_word_count($weather->histories[count($weather->histories)-1]->desc)}}
+                                {{($weather->histories[count($weather->histories)-1]->desc)}}
                             @endif
 
                         <span></span> <br>

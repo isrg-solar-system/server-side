@@ -53,10 +53,10 @@
                 </ul>
                 <span class="navbar-text">
                     @if(!isset($user->id))
-                        <a href="{{route('login')}}">登入</a>
+                        <a href="{{route('login')}}">Login</a>
                     @else
-                        <a href="{{route('BackIndex')}}">後台</a>
-                        <a href="{{route('UserLogout')}}">登出</a>
+                        <a href="{{route('BackIndex')}}">Admin</a>
+                        <a href="{{route('UserLogout')}}">Logout</a>
                     @endif
                 </span>
             </div>
