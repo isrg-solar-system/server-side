@@ -19,7 +19,7 @@
 <div class="container">
 
     <div id="topbar" class="col-md-12">
-        <div id="topheader">
+        <div id="topheader" onclick="location.href='{{route('FrontIndex')}}'">
             <div id="top-pic">
                 <img src="https://www.dropbox.com/s/xg2xy54v8nqdqjm/CPUM-Logo.png?raw=1" alt="cpumeter-logo">
             </div>
@@ -53,10 +53,10 @@
                 </ul>
                 <span class="navbar-text">
                     @if(!isset($user->id))
-                        <a href="{{route('login')}}">登入</a>
+                        <a href="{{route('login')}}">Login</a>
                     @else
-                        <a href="{{route('BackIndex')}}">後台</a>
-                        <a href="{{route('UserLogout')}}">登出</a>
+                        <a href="{{route('BackIndex')}}">Admin</a>
+                        <a href="{{route('UserLogout')}}">Logout</a>
                     @endif
                 </span>
             </div>

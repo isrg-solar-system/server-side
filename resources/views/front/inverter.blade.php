@@ -202,7 +202,7 @@
 
                             </a>
                         </div>
-                        <div class="col-md-6" style=" padding-left: 18px;" onclick="location.href = '{{route('FrontChart','grid_frequency')}}'">
+                        <div class="col-md-6" style=" padding-left: 18px;" onclick="location.href = '{{route('FrontChart','ac_output_frequency')}}'">
                             <a href="#" class="cubeblock ACcubecontent-block-top">
                                 <div class="blocktitle AC-blocktitle">AC output apparent power</div>
                                 <div class="AC-blocktitle">@{{realtime.ac_output_frequency}}</div>

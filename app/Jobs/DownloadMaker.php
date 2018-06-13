@@ -45,8 +45,8 @@ class DownloadMaker implements ShouldQueue
     {
         $request = $this->r;
         $bkey = $this->bkey;
-        ini_set('memory_limit', '4096M');
-        ini_set('max_execution_time', -1); //300 seconds = 5 minutes
+//        ini_set('memory_limit', '4096M');
+//        ini_set('max_execution_time', -1); //300 seconds = 5 minutes
         $total_datas = count($request['datas']);
         $colect_status = 0;
         $re = [];

@@ -19,7 +19,7 @@ body {
     box-sizing: border-box;
 }
 
-@media (min-width: 1400px) {
+@media (max-height: 1000px) {
     body{
         overflow-y:hidden ;
     }

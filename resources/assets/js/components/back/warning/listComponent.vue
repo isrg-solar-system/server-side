@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-12  text-center">
                             <p class="text-success" v-if="item.status">{{item.name}}</p>
-                            <p class="text-success" v-if="!item.status">{{item.name}}</p>
+                            <p class="text-danger" v-if="!item.status">{{item.name}}</p>
                         </div>
 
                     </div>

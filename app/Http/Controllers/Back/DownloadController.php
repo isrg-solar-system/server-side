@@ -31,15 +31,15 @@ class DownloadController extends BackController
 
 
 
-    public function getDownloadFile(){
-        $value = Session('downloadstatus');
+    public function getDownloadFile($filename){
+//        $value = $filename;
 //        dd($value);
-        if(isset($value['filename'])){
-            $path = storage_path('excel/exports' .'/'. $value['filename']);
-            session()->forget('downloadstatus');
+        if(isset($filename)){
+            $path = storage_path('excel/exports' .'/'. $filename);
+//            session()->forget('downloadstatus');
             return response()->download($path);
         }else{
-            abort(500);
+            print_r('not found');
         }
 
     }
@@ -55,6 +55,7 @@ class DownloadController extends BackController
 //            session(['downloadstatus' => [ 'status'=>'Finished','val'=> 100 ,'filename'=>$filename]]);
         }else{
             DownloadMaker::dispatch($bkey,$request->all())->onQueue('download');
+
         }
 
     }
