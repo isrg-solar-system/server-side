@@ -51,12 +51,12 @@
       </div>
       <div class="col-md-4">
         <div class="row ">
-          <div class="col-md-6 first-line member-box" onclick="location.href = ('{{route('MemberIndex')}}')">
+          <div class="col-md-6 first-line member-box" style="cursor: pointer;"  onclick="location.href = ('{{route('MemberIndex')}}')">
             <div class="member-icon"></div>
             <div class="member-word">Member Manager</div>
           </div>
           <div class="col-md-5 first-line second-box"></div>
-          <div class="col-md-12 second-row-box website-box" onclick="location.href = ('{{route('SettingIndex')}}')">
+          <div class="col-md-12 second-row-box website-box" style="cursor: pointer;"  onclick="location.href = ('{{route('SettingIndex')}}')">
             <div class="website-icon"></div>
             <div class="website-word">WebSite Setting</div>
           </div>
@@ -65,15 +65,15 @@
         </div>
       </div>
       <div class="col-md-4">
-        <div class="col-md-12 third-row-box table-box" onclick="location.href = ('{{route('ReportIndex')}}')">
+        <div class="col-md-12 third-row-box table-box" style="cursor: pointer;"  onclick="location.href = ('{{route('ReportIndex')}}')">
           <div class="table-icon"></div>
           <div class="table-word">Report View</div>
         </div>
-        <div class="col-md-12 third-row-box download-box" onclick="location.href = ('{{route('DownloadIndex')}}')">
+        <div class="col-md-12 third-row-box download-box" style="cursor: pointer;"  onclick="location.href = ('{{route('DownloadIndex')}}')">
            <div class="download-icon"></div>
           <div class="download-word">Data Download</div>
         </div>
-        <div class="col-md-12 third-row-box log-box" onclick="location.href = ('{{route('MemberIndex')}}')">
+        <div class="col-md-12 third-row-box log-box" style="cursor: pointer;"  onclick="location.href = ('{{route('MemberIndex')}}')">
           <div class="log-icon"></div>
           <div class="log-word">System Log</div>
         </div>
@@ -91,11 +91,11 @@
         </div>
       </div>
         <div class="col-md-4">
-        <div class="col-md-12 second-line-third-box warm-box" onclick="location.href = ('{{route('WarningIndex')}}')">
+        <div class="col-md-12 second-line-third-box warm-box" style="cursor: pointer;" onclick="location.href = ('{{route('WarningIndex')}}')">
          <div class="warm-icon"></div>
           <div class="warm-word">Warning Setting</div>
           </div>
-        <div class="col-md-12 second-line-third-box warm-box" onclick="location.href = ('{{route('FrontIndex')}}')">
+        <div class="col-md-12 second-line-third-box warm-box" style="cursor: pointer;"  onclick="location.href = ('{{route('FrontIndex')}}')">
           <div class="home-icon"></div>
           <div class="warm-word">Back Home</div>
         </div>

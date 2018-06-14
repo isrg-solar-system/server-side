@@ -71,7 +71,7 @@ class FrontController extends Controller
 
     public function inverter(){
         $place = 'inverter';
-        $log = Warning::take(10)->get();
+        $log = Warning::orderBy('created_at','desc')->take(10)->get();
         return view('front.inverter')->with('place',$place)->with('user',Auth::user())->with('warnings',$log);
     }
 
