@@ -219,7 +219,7 @@ class DataApiController extends Controller
         $measures = json_decode($this->getMeasurement());
         $arr = [];
         foreach ($measures as $measure ){
-            $lastcheck = Warning::where('dataname',$measure->name)->orderBy('id','desc')->first();
+            $lastcheck = Warning::where('dataname',$measure->name)->orderBy('created_at','desc')->first();
             if(is_null($lastcheck)){
                 $arr[$measure->name] = 1;
             }else{
