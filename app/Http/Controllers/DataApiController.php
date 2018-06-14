@@ -223,7 +223,7 @@ class DataApiController extends Controller
             if(is_null($lastcheck)){
                 $arr[$measure->name] = 1;
             }else{
-                $arr[$measure->name] = 0;
+                $arr[$measure->name] = $lastcheck->status;
             }
         }
         return json_encode($arr);
