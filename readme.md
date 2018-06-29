@@ -18,7 +18,8 @@ foo@bar:~$ sudo apt-get install -y --force-yes php7.1-fpm php7.1-cli php7.1-dev 
 ```
 
 ```console
-foo@bar:~$ sudo curl -sS https://getcomposer.org/installer | php foo@bar:~$ sudo mv composer.phar /usr/local/bin/composer 
+foo@bar:~$ sudo curl -sS https://getcomposer.org/installer | php 
+foo@bar:~$ sudo mv composer.phar /usr/local/bin/composer 
 foo@bar:~$ sudo printf "\nPATH=\"~/.composer/vendor/bin:\$PATH\"\n" | tee -a ~/.bashrc
 ```
 
@@ -49,7 +50,9 @@ foo@bar:~$ nano .env
 ```
 
 ## START DEPEND APPLICATION
+
 START UP NODE-MEDIA-SERVER FOR RTMP
+
 START UP LARAVEL-ECHO-SERVER TO HELP REALTIME DATA
 
 ## SYSTEM START
