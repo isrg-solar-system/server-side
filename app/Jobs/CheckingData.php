@@ -44,7 +44,7 @@ class CheckingData implements ShouldQueue
         // bug > < 必須一起測試
         foreach (json_decode($this->data) as $key => $data){
             $settings = SettingWarning::where('name',$key)->get();
-            print_r("正在處理".$key."的資料->".$data."\n");
+
 
             $lastcheck = Warning::where('dataname',$key)->orderBy('id','desc')->first();
             $status = true;  // true 無狀況 false有狀況
@@ -72,9 +72,9 @@ class CheckingData implements ShouldQueue
                 // status=true 安好 = false有狀況
                 if(!is_null($lastcheck)){
                     if($lastcheck->status == false && $status == false){ //資料庫:有狀況 實際:有狀況 , 部任何動作
-                        print_r("資料庫:有狀況 實際:有狀況 , 部任何動作\n");
+//                        print_r("資料庫:有狀況 實際:有狀況 , 部任何動作\n");
                     }elseif ($lastcheck->status == false && $status == true){ //資料庫:有狀況 實際:無狀況 , 新增至資料庫"無狀況"
-                        print_r("資料庫:有狀況 實際:無狀況 , 新增至資料庫無狀況\n");
+//                        print_r("資料庫:有狀況 實際:無狀況 , 新增至資料庫無狀況\n");
                         $this->alert($key,1,$data);
 
                         $warning = new Warning();
@@ -82,7 +82,7 @@ class CheckingData implements ShouldQueue
                         $warning->status = true;
                         $warning->save();
                     }elseif ($lastcheck->status == true && $status == false) { //資料庫:沒狀況 實際:有狀況 , 新增至資料庫"有狀況"
-                        print_r("資料庫:沒狀況 實際:有狀況 , 新增至資料庫\"有狀況\"\n");
+//                        print_r("資料庫:沒狀況 實際:有狀況 , 新增至資料庫\"有狀況\"\n");
                         $this->alert($key,0,$data);
 
                         $warning = new Warning();
@@ -90,11 +90,11 @@ class CheckingData implements ShouldQueue
                         $warning->status = false;
                         $warning->save();
                     }elseif ($lastcheck->status == true && $status == true) { //資料庫:沒狀況 實際:沒狀況 , 部動作
-                        print_r("資料庫:沒狀況 實際:沒狀況 , 部動作\n");
+//                        print_r("資料庫:沒狀況 實際:沒狀況 , 部動作\n");
                     }
                 }else{
                     if($status==false){
-                        print_r("資料庫:未寫入 實際:有狀況 , 新增至資料庫\"有狀況\"\n");
+//                        print_r("資料庫:未寫入 實際:有狀況 , 新增至資料庫\"有狀況\"\n");
                         $this->alert($key,0,$data);
 
                         $warning = new Warning();
@@ -102,7 +102,7 @@ class CheckingData implements ShouldQueue
                         $warning->status = false;
                         $warning->save();
                     }else{
-                        print_r("資料庫:未寫入 實際:無狀況 \n");
+//                        print_r("資料庫:未寫入 實際:無狀況 \n");
                     }
                 }
 
@@ -123,7 +123,7 @@ class CheckingData implements ShouldQueue
         }else{
             $_status = '超出異常範圍';
         }
-
+        print_r($dataname."的資料->".$_status."\n");
         $message = "\r\n" . $message;
         $message = str_replace('@dataname', $dataname, $message);
         $message = str_replace('@status', $_status, $message);

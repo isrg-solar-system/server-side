@@ -17,7 +17,7 @@
             var videoElement = document.getElementById('videoElement');
             var flvPlayer = flvjs.createPlayer({
                 type: 'flv',
-                url: 'http://60.249.6.104:8781/live/{{$token}}.flv',
+                url: 'http://140.128.80.113:8001/live/{{$token}}.flv',
             });
             flvPlayer.attachMediaElement(videoElement);
             flvPlayer.load();

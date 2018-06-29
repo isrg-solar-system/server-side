@@ -55,7 +55,7 @@ import Echo from 'laravel-echo'
 window.io = require('socket.io-client');
 window.Echo = new Echo({
     broadcaster: 'socket.io',
-    host: '60.249.6.104:6001'
+    host: '140.128.80.113:6001'
 });
 
 

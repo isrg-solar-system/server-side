@@ -30,7 +30,9 @@ class DataApiController extends Controller
 //        // 資料EXAMPLE : {"battery_charging_current":21,"grid_voltage":110}
         event(new Realtime(json_decode($data)));
         $this->dispatch(new SaveDataToInflux($data));
-        $this->dispatch(new CheckingData($data));
+        SaveDataToInflux::dispatch($data)->onQueue('save');
+        CheckingData::dispatch($data)->onQueue('check');
+
         return 1;
     }
 
