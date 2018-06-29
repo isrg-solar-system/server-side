@@ -1,58 +1,61 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+## DEPEND TOOLS
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+```console
+foo@bar:~$ sudo apt-get update && apt-get upgrade -y
+```
 
-## About Laravel
+```console
+foo@bar:~$ sudo apt-get install -y software-properties-common curl build-essential dos2unix gcc git libmcrypt4 libpcre3-dev memcached make python2.7-dev python-pip re2c unattended-upgrades whois vim libnotify-bin nano wget debconf-utils python-software-properties git
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+```console
+foo@bar:~$ sudo add-apt-repository ppa:ondrej/php
+foo@bar:~$ sudo apt-get update
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```console
+foo@bar:~$ sudo apt-get install -y --force-yes php7.1-fpm php7.1-cli php7.1-dev php7.1-pgsql php7.1-sqlite3 php7.1-gd php-apcu php7.1-curl php7.1-mcrypt php7.1-imap php7.1-mysql php7.1-readline php-xdebug php-common php7.1-mbstring php7.1-xml php7.1-zip
+```
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+```console
+foo@bar:~$ sudo curl -sS https://getcomposer.org/installer | php foo@bar:~$ sudo mv composer.phar /usr/local/bin/composer 
+foo@bar:~$ sudo printf "\nPATH=\"~/.composer/vendor/bin:\$PATH\"\n" | tee -a ~/.bashrc
+```
 
-## Learning Laravel
+```console
+foo@bar:~$ sudo apt-get install -y nodejs
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+## DEPEND APPLICATION
+| SYSTEM NAME  | URL  | 
+| :------------ |:---------------:|
+|MYSQL|[https://hub.docker.com/_/mysql/](https://hub.docker.com/_/mysql/)|
+|INFLUXDB|[https://hub.docker.com/_/influxdb/](https://hub.docker.com/_/influxdb/)|
+|REDIS|[https://hub.docker.com/_/redis/](https://hub.docker.com/_/redis/)|
+|NODE-MEDIA-SERVER|[https://www.npmjs.com/package/node-media-server](https://www.npmjs.com/package/node-media-server)|
+|LARAVEL-ECHO-SERVER|[https://www.npmjs.com/package/laravel-echo-server](https://www.npmjs.com/package/laravel-echo-server)|
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+## APPLICATION INSTALL
 
-## Laravel Sponsors
+```console
+foo@bar:~$ git clone https://github.com/isrg-solar-system/server-side.git
+```
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+```console
+foo@bar:~$ cd server-side
+foo@bar:~$ composer install
+foo@bar:~$ cp .env.example .env
+foo@bar:~$ nano .env
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Pulse Storm](http://www.pulsestorm.net/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
+## START DEPEND APPLICATION
+START UP NODE-MEDIA-SERVER FOR RTMP
+START UP LARAVEL-ECHO-SERVER TO HELP REALTIME DATA
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## SYSTEM START
+```console
+foo@bar:~$ php artisan serve
+foo@bar:~$ php artisan queue:listen --queue=save --tries=1
+foo@bar:~$ php artisan queue:listen --queue=check --tries=1
+foo@bar:~$ php artisan queue:listen
+```
