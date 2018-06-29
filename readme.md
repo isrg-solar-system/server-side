@@ -40,9 +40,6 @@ foo@bar:~$ sudo apt-get install -y nodejs
 
 ```console
 foo@bar:~$ git clone https://github.com/isrg-solar-system/server-side.git
-```
-
-```console
 foo@bar:~$ cd server-side
 foo@bar:~$ composer install
 foo@bar:~$ cp .env.example .env
