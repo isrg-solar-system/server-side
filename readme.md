@@ -44,6 +44,8 @@ foo@bar:~$ cd server-side
 foo@bar:~$ composer install
 foo@bar:~$ cp .env.example .env
 foo@bar:~$ nano .env
+foo@bar:~$ php artisan migrate
+foo@bar:~$ php artisan db:seed
 ```
 
 ## START DEPEND APPLICATION
@@ -55,7 +57,20 @@ START UP LARAVEL-ECHO-SERVER TO HELP REALTIME DATA
 ## SYSTEM START
 ```console
 foo@bar:~$ php artisan serve
+```
+
+```console
 foo@bar:~$ php artisan queue:listen --queue=save --tries=1
+```
+
+```console
 foo@bar:~$ php artisan queue:listen --queue=check --tries=1
+```
+
+```console
 foo@bar:~$ php artisan queue:listen
 ```
+
+
+
+
