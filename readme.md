@@ -59,6 +59,9 @@ START UP LARAVEL-ECHO-SERVER TO HELP REALTIME DATA
 ```console
 foo@bar:~$ php artisan serve
 ```
+```console
+foo@bar:~$ php artisan queue:listen --queue=realtime --tries=1
+```
 
 ```console
 foo@bar:~$ php artisan queue:listen --queue=save --tries=1
