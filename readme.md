@@ -46,6 +46,7 @@ foo@bar:~$ cp .env.example .env
 foo@bar:~$ nano .env
 foo@bar:~$ php artisan migrate
 foo@bar:~$ php artisan db:seed
+foo@bar:~$ php artisan key:generate
 ```
 
 ## START DEPEND APPLICATION
